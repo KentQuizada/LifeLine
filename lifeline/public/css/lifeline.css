@@ -61,3 +61,17 @@ body {
 
 .ll-bottom-nav .nav-link .bi { font-size: 1.35rem; }
 .ll-bottom-nav .nav-link.active { color: var(--ll-red); font-weight: 600; }
+
+/* Initials avatar on My profile (E1). */
+.ll-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--ll-red);
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+}

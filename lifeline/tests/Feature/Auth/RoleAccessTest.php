@@ -21,6 +21,9 @@ class RoleAccessTest extends TestCase
             'donor blocked from admin area' => ['donor', '/admin/donors/pending', 403],
             'requester blocked from admin area' => ['requester', '/admin/donors/pending', 403],
             'admin opens admin area' => ['admin', '/admin/donors/pending', 200],
+            'donor opens profile' => ['donor', '/profile', 200],
+            'requester opens profile' => ['requester', '/profile', 200],
+            'admin has no profile page' => ['admin', '/profile', 403],
         ];
     }
 
@@ -37,6 +40,7 @@ class RoleAccessTest extends TestCase
         return [
             'home' => ['/home'],
             'admin area' => ['/admin/donors/pending'],
+            'profile' => ['/profile'],
         ];
     }
 
