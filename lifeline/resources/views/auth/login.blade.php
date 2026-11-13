@@ -30,4 +30,6 @@
 
         <button type="submit" class="btn btn-primary w-100">Log in</button>
     </form>
+
+    <p class="text-center mt-3">New to LifeLine? <a href="{{ route('register.step1') }}">Create an account</a></p>
 @endsection

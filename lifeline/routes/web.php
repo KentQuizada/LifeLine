@@ -2,14 +2,20 @@
 
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware('guest')->group(function () {
+    Route::view('/', 'onboarding')->name('onboarding');
+
+    Route::get('/register', [RegisterController::class, 'showStep1'])->name('register.step1');
+    Route::post('/register', [RegisterController::class, 'storeStep1']);
+    Route::get('/register/medical', [RegisterController::class, 'showStep2'])->name('register.step2');
+    Route::post('/register/medical', [RegisterController::class, 'storeStep2']);
+    Route::get('/register/account', [RegisterController::class, 'showStep3'])->name('register.step3');
+    Route::post('/register/account', [RegisterController::class, 'store']);
+
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store']);
 });
