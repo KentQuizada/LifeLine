@@ -3,37 +3,68 @@
 @section('title', 'My profile')
 
 @section('content')
-    <div class="text-center mb-3">
+    <section class="ll-hero text-center">
         <div class="ll-avatar mx-auto mb-2" aria-hidden="true">
             {{ mb_strtoupper(mb_substr($user->first_name, 0, 1).mb_substr($user->last_name, 0, 1)) }}
         </div>
         <h1 class="h4 fw-bold mb-0">{{ $user->first_name }} {{ $user->last_name }}</h1>
-        <p class="text-secondary mb-0">{{ ucfirst($user->role) }}</p>
+        <p class="ll-hero-muted mb-0">{{ ucfirst($user->role) }}@if ($donor) · {{ $donor->city }}@endif</p>
         @if ($donor)
-            <span class="badge text-bg-danger fs-6 mt-2" title="Blood type">{{ $donor->blood_type }}</span>
+            <span class="badge bg-white text-brand fs-6 mt-2" title="Blood type">{{ $donor->blood_type }}</span>
+
+            <div class="row g-2 mt-3">
+                <div class="col-6">
+                    <div class="ll-hero-stat">
+                        <div class="h4 fw-bold mb-0">{{ $donationCount }}</div>
+                        <div class="small">Completed donations</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="ll-hero-stat">
+                        <div class="fw-bold mb-0">{{ $lastDonation?->format('M j, Y') ?? 'None yet' }}</div>
+                        <div class="small">Last donation</div>
+                    </div>
+                </div>
+            </div>
         @endif
-    </div>
+    </section>
 
     @if ($donor)
         @include('partials.availability-card')
         @include('partials.donor-status')
-
-        <div class="row g-2 mb-3 text-center">
-            <div class="col-6">
-                <div class="card shadow-sm h-100"><div class="card-body">
-                    <div class="h4 fw-bold text-brand mb-0">{{ $donationCount }}</div>
-                    <div class="small text-secondary">Completed donations</div>
-                </div></div>
-            </div>
-            <div class="col-6">
-                <div class="card shadow-sm h-100"><div class="card-body">
-                    <div class="fw-bold mb-0">{{ $lastDonation?->format('M j, Y') ?? 'None yet' }}</div>
-                    <div class="small text-secondary">Last donation</div>
-                </div></div>
-            </div>
-        </div>
     @endif
 
+    <h2 class="ll-section-label">Account</h2>
+    <div class="list-group shadow-sm mb-3">
+        <a href="{{ route('profile.edit') }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
+            <span class="ll-menu-icon"><i class="bi bi-pencil" aria-hidden="true"></i></span>
+            <span class="flex-grow-1">
+                <span class="d-block fw-semibold">Edit profile</span>
+                <span class="small text-secondary">Name and mobile number</span>
+            </span>
+            <i class="bi bi-chevron-right text-secondary" aria-hidden="true"></i>
+        </a>
+        @if ($donor)
+            <a href="{{ route('profile.edit') }}#medical" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
+                <span class="ll-menu-icon"><i class="bi bi-droplet" aria-hidden="true"></i></span>
+                <span class="flex-grow-1">
+                    <span class="d-block fw-semibold">Medical info</span>
+                    <span class="small text-secondary">Blood type, birthdate, weight, city</span>
+                </span>
+                <i class="bi bi-chevron-right text-secondary" aria-hidden="true"></i>
+            </a>
+            <a href="{{ route('donations.index') }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
+                <span class="ll-menu-icon"><i class="bi bi-clock-history" aria-hidden="true"></i></span>
+                <span class="flex-grow-1">
+                    <span class="d-block fw-semibold">Donation history</span>
+                    <span class="small text-secondary">{{ $donationCount }} recorded</span>
+                </span>
+                <i class="bi bi-chevron-right text-secondary" aria-hidden="true"></i>
+            </a>
+        @endif
+    </div>
+
+    <h2 class="ll-section-label">Details</h2>
     <div class="card shadow-sm mb-3">
         <ul class="list-group list-group-flush">
             <li class="list-group-item d-flex justify-content-between gap-3">
@@ -69,12 +100,11 @@
             LifeLine only suggests potential donors. Final compatibility and eligibility are confirmed by healthcare professionals.
         </p>
     @endif
-    <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary w-100 mb-2">
-        <i class="bi bi-pencil" aria-hidden="true"></i> Edit profile
-    </a>
-    @if ($donor)
-        <a href="{{ route('donations.index') }}" class="btn btn-outline-secondary w-100 mb-2">
-            <i class="bi bi-clock-history" aria-hidden="true"></i> Donation history
-        </a>
-    @endif
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="btn btn-outline-primary w-100 mb-2">
+            <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Log out
+        </button>
+    </form>
 @endsection

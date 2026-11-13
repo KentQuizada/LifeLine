@@ -41,7 +41,7 @@
         </div>
 
         @if ($donor)
-            <h2 class="h6 fw-bold mt-2">Medical information</h2>
+            <h2 id="medical" class="h6 fw-bold mt-2">Medical information</h2>
 
             <div class="mb-3">
                 <label for="blood_type" class="form-label">Blood type</label>

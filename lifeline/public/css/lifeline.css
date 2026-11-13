@@ -75,3 +75,75 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
 }
+
+/* Red header band (design C1 home, E1 profile). */
+.ll-hero {
+    background: linear-gradient(160deg, var(--ll-red) 0%, var(--ll-red-dark) 100%);
+    color: #fff;
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+}
+.ll-hero-muted { color: rgba(255, 255, 255, 0.85); }
+.ll-hero .ll-avatar { background: rgba(255, 255, 255, 0.2); }
+
+/* Stat tile inside the red header. */
+.ll-hero-stat {
+    height: 100%;
+    padding: 0.5rem 0.25rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.15);
+    text-align: center;
+}
+.ll-hero-stat .small { color: rgba(255, 255, 255, 0.85); }
+
+/* "Available to donate" card: green when on, white when off. */
+.ll-availability { border: 0; border-radius: 1rem; }
+.ll-availability.is-on { background: #2e7d32; color: #fff; }
+
+/* Switch look for the availability submit button (a real button, so no JavaScript). */
+.ll-switch {
+    position: relative;
+    flex-shrink: 0;
+    width: 52px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #ced4da;
+}
+.ll-switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+}
+.ll-switch.is-on { background: rgba(255, 255, 255, 0.45); }
+.ll-switch.is-on::after { left: 25px; }
+.ll-switch:focus-visible { outline: 3px solid var(--ll-red); outline-offset: 2px; }
+.ll-availability.is-on .ll-switch:focus-visible { outline-color: #fff; }
+
+/* Profile menu (design E1 "Account"). */
+.ll-section-label {
+    margin: 1.25rem 0 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #6c757d;
+}
+.ll-menu-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 0.6rem;
+    background: #fdecea;
+    color: var(--ll-red);
+}

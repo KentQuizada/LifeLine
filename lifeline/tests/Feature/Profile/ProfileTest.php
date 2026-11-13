@@ -70,4 +70,26 @@ class ProfileTest extends TestCase
     {
         $this->actingAs(User::factory()->create(['role' => 'admin']))->get('/profile')->assertForbidden();
     }
+
+    public function test_donor_profile_has_account_menu_and_log_out(): void
+    {
+        $donor = Donor::factory()->create();
+
+        $this->actingAs($donor->user)
+            ->get('/profile')
+            ->assertOk()
+            ->assertSee('Account')
+            ->assertSee('Medical info')
+            ->assertSee(route('profile.edit').'#medical', false)
+            ->assertSee('action="'.route('logout').'"', false);
+    }
+
+    public function test_requester_profile_has_no_medical_menu_item(): void
+    {
+        $this->actingAs(User::factory()->create(['role' => 'requester']))
+            ->get('/profile')
+            ->assertOk()
+            ->assertDontSee('Medical info')
+            ->assertSee('action="'.route('logout').'"', false);
+    }
 }
