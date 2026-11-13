@@ -125,6 +125,9 @@ class RegisterController extends Controller
                 'password' => $account['password'],
             ]);
             $user->role = $registration['role']; // set explicitly: role is not fillable
+            // Step 3 validated both checkboxes as `accepted`; keep the time as evidence.
+            $user->privacy_consent_at = now();
+            $user->terms_accepted_at = now();
             $user->save();
 
             if ($user->role === 'donor') {

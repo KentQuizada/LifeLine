@@ -21,10 +21,10 @@ current_scene: null
 
 # System file basenames under brain/systems/ (without .md) to load on BOOT
 # Example: [Input, Movement]
-systems_in_scope: [Donors, Authentication, FrontendUI]
+systems_in_scope: [Donors, Authentication, FrontendUI, Database]
 
 # Sole in-progress list (do not duplicate into Backlog)
-working_on: []
+working_on: ["M2.1 via docs/superpowers/plans/2026-11-14-m2.1-donors.md on feat/m2.1-donors"]
 
 # Known bugs or risks
 known_issues:

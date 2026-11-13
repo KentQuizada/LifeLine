@@ -105,7 +105,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 - **Status:** active
 - **Objective:** Donors maintain their profile, medical info, location, and availability.
-- **Deliverables:** Home dashboard; availability toggle; my profile; edit profile and medical info; donation history; location sharing toggle.
+- **Deliverables:** Home dashboard; availability toggle; my profile; edit profile and medical info; donation history; location sharing toggle; consent timestamps (carried over from M1.3). Plan: `docs/superpowers/plans/2026-11-14-m2.1-donors.md`.
 - **Completion criteria:** Donor CRUD validated on frontend and backend; availability changes affect matching and map visibility.
 - **Dependencies:** M1.3
 - **Systems:** Donors

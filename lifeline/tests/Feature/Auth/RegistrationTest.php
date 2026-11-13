@@ -223,4 +223,16 @@ class RegistrationTest extends TestCase
             ->assertStatus(302)
             ->assertSessionHasErrors(['email', 'mobile_number']);
     }
+
+    public function test_registration_records_when_consent_was_given(): void
+    {
+        Notification::fake();
+
+        $this->post('/register', $this->step1(['role' => 'requester']))->assertRedirect(route('register.step3'));
+        $this->post('/register/account', $this->step3())->assertRedirect(route('verification.notice'));
+
+        $user = User::where('email', 'maria@example.test')->firstOrFail();
+        $this->assertNotNull($user->privacy_consent_at);
+        $this->assertNotNull($user->terms_accepted_at);
+    }
 }
