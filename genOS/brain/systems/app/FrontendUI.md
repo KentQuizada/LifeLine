@@ -4,7 +4,7 @@
 Mobile-first, installable user interface implementing the team's LifeLine design.
 
 ## Status
-`unstarted`
+`active` — M1.3 done 2026-11-14: app shell (guest and signed-in layouts, bottom nav), A1–A4 onboarding, B1–B3 registration, B4 login, verify-email, forgot/reset password, a minimal home (C1 placeholder content for M2.1) and the admin verification queue. Checked in the browser at 375 px and laptop width.
 
 ## Responsibilities
 - Screens from the design: A1 splash; A2-A4 onboarding; B1-B3 registration; B4 login; C1 home dashboard; C2 live donor map; C3 notifications; D1 SOS request form; D2 request sent; D3 donor profile; E1 my profile
@@ -17,7 +17,9 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 - [[Authentication]]
 
 ## Runtime References
-- _TBD_ (no source yet — set when implemented)
+- Layouts and shared parts: `lifeline/resources/views/layouts/`, `lifeline/resources/views/partials/` (bottom nav: `partials/bottom-nav.blade.php`)
+- Screens: `lifeline/resources/views/` (`onboarding`, `auth/`, `home`, `admin/`)
+- Brand CSS: `lifeline/public/css/lifeline.css`; vendored Bootstrap 5.3.3 and Bootstrap Icons 1.11.3: `lifeline/public/vendor/`
 
 ## Invariants
 - Every button and link works; no placeholder screens
@@ -29,5 +31,8 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 - Front-end assets come from the app itself, not a CDN (see [[30_DECISIONS]] DEC-013).
 - Bottom-nav contract: each tab appears only once its route exists (`Route::has`), so there are no placeholder tabs. Route names M2 must use: `home`, `map` (M2.4), `requests.create` (SOS, M2.2), `alerts.index` (M2.5), `profile.show` (M2.1). Admins get no bottom nav.
 
+- Layout sections: `title`, `content`, and in the signed-in layout `container_class` (default `ll-narrow`, empty for full width). Flash messages: `session('status')` (success) and `session('error')` (danger); field errors inline with `@error`.
+
 ## Future Changes
-- _TBD_
+- Add bottom-nav tests (tab visibility, admin exclusion) with the first real tab (M2.1 `profile.show`, M2.2 `requests.create` or M2.4 `map`).
+- PWA manifest is not done yet.

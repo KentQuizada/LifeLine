@@ -22,12 +22,12 @@ Do not copy milestone criteria into Progress or Backlog. Progress stores only `c
 
 | ID | Parent | Status | Title |
 |----|--------|--------|-------|
-| M1 | — | active | Foundation |
+| M1 | — | done | Foundation |
 | M1.1 | M1 | done | Requirements analysis & stack sign-off |
 | M1.2 | M1 | done | Architecture, ERD & SQL database |
-| M1.3 | M1 | active | Authentication, roles & app shell |
-| M2 | — | planned | Core features |
-| M2.1 | M2 | planned | Donor management & availability |
+| M1.3 | M1 | done | Authentication, roles & app shell |
+| M2 | — | active | Core features |
+| M2.1 | M2 | active | Donor management & availability |
 | M2.2 | M2 | planned | Blood requests, reference numbers & tracking |
 | M2.3 | M2 | planned | Donor matching |
 | M2.4 | M2 | planned | Donor map & geolocation |
@@ -53,7 +53,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M1 — Foundation
 
-- **Status:** active
+- **Status:** done
 - **Objective:** Agree on requirements and stack, design the database, and stand up an authenticated application skeleton.
 - **Success criteria:**
   - Stack and design decisions accepted by the team
@@ -82,7 +82,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M1.3 — Authentication, roles & app shell
 
-- **Status:** active
+- **Status:** done
 - **Objective:** The design's app shell and secure role-based authentication on the Laravel project created in M1.2.
 - **Deliverables:** Mobile-first layout with bottom navigation; splash/onboarding; 3-step registration (donor or requester; no ID upload per DEC-009); login by email or mobile; password hashing; email verification; password reset (added at kickoff 2026-11-14); admin verification of donors; role-gated routes; admin login. Plan: `docs/superpowers/plans/2026-11-14-m1.3-auth.md`.
 - **Completion criteria:** Feature tests pass for register, login, logout, wrong password, duplicate email/mobile, unverified access blocked, role access control.
@@ -93,7 +93,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M2 — Core features
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Deliver every required feature end-to-end with database-backed CRUD, validation, and no placeholder functionality.
 - **Success criteria:**
   - All eight brief features work in the browser on phone and laptop sizes
@@ -103,7 +103,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M2.1 — Donor management & availability
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Donors maintain their profile, medical info, location, and availability.
 - **Deliverables:** Home dashboard; availability toggle; my profile; edit profile and medical info; donation history; location sharing toggle.
 - **Completion criteria:** Donor CRUD validated on frontend and backend; availability changes affect matching and map visibility.
