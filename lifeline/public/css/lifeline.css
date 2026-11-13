@@ -1,0 +1,63 @@
+/* LifeLine brand on top of Bootstrap 5. Plain CSS, no build step (DEC-001). */
+:root {
+    --ll-red: #d32f2f;
+    --ll-red-dark: #b71c1c;
+    --bs-link-color: #d32f2f;
+    --bs-link-color-rgb: 211, 47, 47;
+    --bs-link-hover-color: #b71c1c;
+    --bs-link-hover-color-rgb: 183, 28, 28;
+    --bs-focus-ring-color: rgba(211, 47, 47, 0.25);
+}
+
+body {
+    background: #f6f6f8;
+}
+
+.text-brand { color: var(--ll-red) !important; }
+.bg-brand { background-color: var(--ll-red) !important; }
+
+.btn-primary {
+    --bs-btn-bg: var(--ll-red);
+    --bs-btn-border-color: var(--ll-red);
+    --bs-btn-hover-bg: var(--ll-red-dark);
+    --bs-btn-hover-border-color: var(--ll-red-dark);
+    --bs-btn-active-bg: var(--ll-red-dark);
+    --bs-btn-active-border-color: var(--ll-red-dark);
+    --bs-btn-disabled-bg: var(--ll-red);
+    --bs-btn-disabled-border-color: var(--ll-red);
+    --bs-btn-focus-shadow-rgb: 211, 47, 47;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--ll-red);
+    --bs-btn-border-color: var(--ll-red);
+    --bs-btn-hover-bg: var(--ll-red);
+    --bs-btn-hover-border-color: var(--ll-red);
+    --bs-btn-active-bg: var(--ll-red-dark);
+    --bs-btn-active-border-color: var(--ll-red-dark);
+    --bs-btn-focus-shadow-rgb: 211, 47, 47;
+}
+
+.form-check-input:checked {
+    background-color: var(--ll-red);
+    border-color: var(--ll-red);
+}
+
+/* Phone-width column, centred on laptops. */
+.ll-narrow { max-width: 560px; }
+
+/* Room for the fixed bottom navigation. */
+.ll-has-bottom-nav { padding-bottom: 5rem; }
+
+.ll-bottom-nav .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.ll-bottom-nav .nav-link .bi { font-size: 1.35rem; }
+.ll-bottom-nav .nav-link.active { color: var(--ll-red); font-weight: 600; }
