@@ -17,6 +17,7 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-013 | accepted | 2026-11-14 | Bootstrap and Bootstrap Icons served from the app, not a CDN |
 | DEC-012 | accepted | 2026-11-14 | App and database run in Philippine time |
 | DEC-011 | accepted | 2026-11-14 | In-app alerts use LifeLine's own notifications table; Laravel notifications for mail only |
 | DEC-010 | accepted | 2026-11-13 | Sample hospitals fake until team supplies real ones; max 10 units |
@@ -46,6 +47,13 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 ---
 
 ## Decisions
+
+### DEC-013: Bootstrap and Bootstrap Icons served from the app, not a CDN
+- **Status:** accepted
+- **Date:** 2026-11-14
+- **Reason:** The demo environment is still undecided, and the defense venue may have no reliable internet. DEC-001 rules out an npm build step. Team approved the default at the M1.3 kickoff.
+- **Impact:** Bootstrap 5.3.3 and Bootstrap Icons 1.11.3 dist files are committed under `lifeline/public/vendor/`, and the brand lives in plain `lifeline/public/css/lifeline.css`. Views do not use `@vite`. Upgrading means replacing those files. See `[[FrontendUI]]`.
+- **Supersedes:** none
 
 ### DEC-012: App and database run in Philippine time
 - **Status:** accepted

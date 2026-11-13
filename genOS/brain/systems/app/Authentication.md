@@ -29,6 +29,8 @@ Identity, registration, login, verification, and role-based access for donors, r
 - Design B4 shows "Continue with Google": optional stretch (free OAuth), not core.
 - Design B3 government ID upload was dropped (see [[30_DECISIONS]] DEC-009); donors are verified manually by admins.
 - M1.3: normalize mobile numbers to one format (e.g. `09XXXXXXXXX`) before validation on both registration and login; the UNIQUE index only catches exact matches. Email uniqueness is already case-insensitive (utf8mb4_unicode_ci).
+- M1.3 design (plan `docs/superpowers/plans/2026-11-14-m1.3-auth.md`): one login form for every role (admins are sent to their area); the same error for an unknown account and a wrong password; lock for 60 s after 5 failed attempts per login + IP; email verification is required for every app page; donor admin verification affects matching and the map, not login. `donors.verified_by` / `verified_at` record the reviewing admin and time for both verify and reject.
+- Eligibility thresholds (age, weight, donation interval) are not checked at registration. They need a cited source ([[30_DECISIONS]] DEC-008) and belong to [[Matching]].
 - M1.3: `users.role` is not fillable. Registration sets it explicitly from a whitelist (`donor`, `requester`, never `admin`) and creates the user and donor profile in one `DB::transaction()`.
 
 ## Future Changes

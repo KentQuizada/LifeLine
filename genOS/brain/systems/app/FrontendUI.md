@@ -25,7 +25,9 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 
 ## Notes
 - Brand: red primary, white cards, green for available/success.
-- The design image should be saved in the repo for reference (location _TBD_).
+- The design image should be saved in the repo for reference, in `docs/design/` (still missing as of 2026-11-14).
+- Front-end assets come from the app itself, not a CDN (see [[30_DECISIONS]] DEC-013).
+- Bottom-nav contract: each tab appears only once its route exists (`Route::has`), so there are no placeholder tabs. Route names M2 must use: `home`, `map` (M2.4), `requests.create` (SOS, M2.2), `alerts.index` (M2.5), `profile.show` (M2.1). Admins get no bottom nav.
 
 ## Future Changes
 - _TBD_

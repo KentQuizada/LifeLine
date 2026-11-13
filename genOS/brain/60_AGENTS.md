@@ -14,12 +14,12 @@ This file tracks which specialist agents (e.g., Agency Agents) are active, defer
 
 ## Milestone Agents
 - **Database Optimizer** (`engineering/engineering-database-optimizer.md`) — M1.2: normalization, keys, UNIQUE/CHECK constraints, indexes, sample data. Files: `.agents/skills/engineering-database-optimizer/SKILL.md`, `.cursor/rules/engineering-database-optimizer.mdc`.
+- **AppSec Engineer** (`security/security-appsec-engineer.md`) — M1.3: authentication, authorization, mass assignment, enumeration and throttling review; later donor-privacy review (M2.4). Files: `.agents/skills/security-appsec-engineer/SKILL.md`, `.cursor/rules/security-appsec-engineer.mdc`.
 
 ## Optional Specialists
 - None installed.
 
 ## Deferred Agents
-- **AppSec Engineer** (`security/security-appsec-engineer.md`) — M1.3 authentication and donor-privacy review.
 - **API Tester** (`testing/testing-api-tester.md`) — M3.1 API test collection.
 - **UX Researcher** (`design/design-ux-researcher.md`) — M3.1 usability testing (SUS questionnaire).
 - **Research Synthesist** (`research/research-synthesist.md`) — M4.2 literature review and research gap.
@@ -33,3 +33,4 @@ Small workforce on purpose, matching the team's simplicity constraint: three cor
 
 ## Last Workforce Review
 2026-11-13 — Day 0 setup, active milestone M1.2. Installed by `guides/scripts/install_agent.py` with team approval.
+2026-11-14 — M1.3 kickoff: AppSec Engineer installed with team approval.

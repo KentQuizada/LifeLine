@@ -84,7 +84,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 - **Status:** active
 - **Objective:** The design's app shell and secure role-based authentication on the Laravel project created in M1.2.
-- **Deliverables:** Mobile-first layout with bottom navigation; splash/onboarding; 3-step registration (donor or requester; no ID upload per DEC-009); login by email or mobile; password hashing; email verification; admin verification of donors; role-gated routes; admin login.
+- **Deliverables:** Mobile-first layout with bottom navigation; splash/onboarding; 3-step registration (donor or requester; no ID upload per DEC-009); login by email or mobile; password hashing; email verification; password reset (added at kickoff 2026-11-14); admin verification of donors; role-gated routes; admin login. Plan: `docs/superpowers/plans/2026-11-14-m1.3-auth.md`.
 - **Completion criteria:** Feature tests pass for register, login, logout, wrong password, duplicate email/mobile, unverified access blocked, role access control.
 - **Dependencies:** M1.2
 - **Systems:** Authentication, FrontendUI
