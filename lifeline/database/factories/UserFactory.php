@@ -12,34 +12,35 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
+    public const FIRST_NAMES = [
+        'Juan', 'Maria', 'Jose', 'Ana', 'Mark', 'Grace', 'John Paul', 'Kristine',
+        'Carlo', 'Angelica', 'Miguel', 'Joy', 'Rafael', 'Jasmine', 'Paolo', 'Liza',
+    ];
+
+    public const LAST_NAMES = [
+        'dela Cruz', 'Santos', 'Reyes', 'Garcia', 'Mendoza', 'Bautista', 'Villanueva',
+        'Ramos', 'Castillo', 'Torres', 'Flores', 'Aquino', 'Navarro', 'Gonzales',
+    ];
+
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'role' => 'requester',
+            'first_name' => fake()->randomElement(self::FIRST_NAMES),
+            'last_name' => fake()->randomElement(self::LAST_NAMES),
             'email' => fake()->unique()->safeEmail(),
+            'mobile_number' => fake()->unique()->numerify('09#########'),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'notifications_enabled' => true,
             'remember_token' => Str::random(10),
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(fn () => ['email_verified_at' => null]);
     }
 }
