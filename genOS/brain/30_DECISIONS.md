@@ -17,6 +17,8 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-012 | accepted | 2026-11-14 | App and database run in Philippine time |
+| DEC-011 | accepted | 2026-11-14 | In-app alerts use LifeLine's own notifications table; Laravel notifications for mail only |
 | DEC-010 | accepted | 2026-11-13 | Sample hospitals fake until team supplies real ones; max 10 units |
 | DEC-009 | accepted | 2026-11-13 | No government ID upload |
 | DEC-008 | accepted | 2026-11-13 | Mini Thesis uses only verified sources |
@@ -44,6 +46,20 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 ---
 
 ## Decisions
+
+### DEC-012: App and database run in Philippine time
+- **Status:** accepted
+- **Date:** 2026-11-14
+- **Reason:** M1.2 final review found Laravel in UTC while MariaDB used the host zone (UTC+8): reference numbers got yesterday's date between 00:00 and 07:59, and Eloquent and MariaDB timestamps disagreed by 8 hours. LifeLine serves Butuan City only.
+- **Impact:** `config/app.php` timezone `Asia/Manila`; the `mariadb` connection sets session time zone `+08:00`, independent of the host OS. Tested in `DatabaseSetupTest`. See `[[Database]]`.
+- **Supersedes:** none
+
+### DEC-011: In-app alerts use LifeLine's own notifications table; Laravel notifications for mail only
+- **Status:** accepted
+- **Date:** 2026-11-14
+- **Reason:** The approved M1.2 plan created a simple custom `notifications` table (user_id, blood_request_id, title, message, read_at) instead of Laravel's polymorphic UUID table, which is easier for the team to explain. Laravel's `database` channel cannot write to it.
+- **Impact:** Clarifies DEC-005: in-app alerts are created with `App\Models\Notification::create()`; email uses Laravel notifications (mail channel) through the `RoutesNotifications` trait on `User`. Do not add `Notifiable` or the `database` channel. See `[[Notifications]]`.
+- **Supersedes:** none
 
 ### DEC-010: Sample hospitals fake until team supplies real ones; max 10 units
 - **Status:** accepted

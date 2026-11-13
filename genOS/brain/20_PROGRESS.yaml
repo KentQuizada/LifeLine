@@ -5,7 +5,7 @@
 schema_version: 2
 
 # ISO date of last SHUTDOWN update (YYYY-MM-DD)
-last_updated: "2026-11-13"
+last_updated: "2026-11-14"
 
 # Who last wrote this file (e.g. cursor-agent, agy-agent, agency:unity-specialist)
 last_agent: claude-code
@@ -14,24 +14,25 @@ last_agent: claude-code
 last_ide: claude-desktop
 
 # ID only — resolve objective/criteria in 50_ROADMAP.md
-current_milestone: M1.2
+current_milestone: M1.3
 
 # Active scene or primary file in focus, if any
 current_scene: null
 
 # System file basenames under brain/systems/ (without .md) to load on BOOT
 # Example: [Input, Movement]
-systems_in_scope: [Database]
+systems_in_scope: [Authentication, FrontendUI]
 
 # Sole in-progress list (do not duplicate into Backlog)
-working_on:
-  - "M1.2: approved plan docs/superpowers/plans/2026-11-13-m1.2-database.md ready to execute in a new session"
+working_on: []
 
 # Known bugs or risks
 known_issues:
+  - "M1.2 work is on branch feat/m1.2-database (not yet merged into main or pushed); merge before starting M1.3"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
-  - "No source code in the repo yet; an earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
+  - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image was shared in chat only; it is not saved in the repo"
+  - "XAMPP MariaDB must be running for artisan and tests (start MySQL in the XAMPP Control Panel)"
 
 # Blockers requiring human decision or external input
 blocked:
@@ -40,10 +41,14 @@ blocked:
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
 session_summary: >-
-  2026-11-13: Day 0 setup complete. genOS v3.2 installed in genOS/ (root CLAUDE.md, .agents/,
-  .cursor/). Brain filled from the team's ITE-18 brief, UI design (screens A1-E1) and the
-  "keep the code simple" constraint; DEC-001..DEC-008 accepted; roadmap M1-M4 approved; M1.1
-  done. Workforce installed: Backend Architect, Frontend Developer, Code Reviewer, Database
-  Optimizer (see 60_AGENTS). Profiles pruned to web-fullstack + academic-research. No app code
-  yet. Next: new session, `kickoff` M1.2 (architecture, ERD, SQL database) - start XAMPP MySQL
-  first; team still owes the answers listed under blocked.
+  2026-11-14: M1.2 done (subagent-driven execution of
+  docs/superpowers/plans/2026-11-13-m1.2-database.md, each task reviewed, plus a final
+  whole-branch review). Laravel 12 app in lifeline/ on MariaDB (DB user lifeline, password only
+  in lifeline/.env; tests use lifeline_test). 10 tables via migrations with UNIQUE/FK/CHECK/ENUM
+  rules, models, factories and a Butuan sample-data seeder (admin@lifeline.test / password,
+  local only). Docs: docs/architecture.md, docs/database/erd.md (ERD + data dictionary, guarded
+  by ErdMatchesSchemaTest), crud_queries.sql, lifeline_schema.sql. 41 tests pass. Final review
+  fixes: app and DB in Philippine time (DEC-012); custom notifications table recorded as
+  DEC-011. M1.3/M2 carry-forward notes are in the Authentication, BloodRequests, DonorMap and
+  Notifications system files. Next: merge feat/m1.2-database into main, then a new session
+  `kickoff` M1.3 (authentication, roles, app shell).

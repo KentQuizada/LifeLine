@@ -24,8 +24,8 @@ Do not copy milestone criteria into Progress or Backlog. Progress stores only `c
 |----|--------|--------|-------|
 | M1 | — | active | Foundation |
 | M1.1 | M1 | done | Requirements analysis & stack sign-off |
-| M1.2 | M1 | active | Architecture, ERD & SQL database |
-| M1.3 | M1 | planned | Authentication, roles & app shell |
+| M1.2 | M1 | done | Architecture, ERD & SQL database |
+| M1.3 | M1 | active | Authentication, roles & app shell |
 | M2 | — | planned | Core features |
 | M2.1 | M2 | planned | Donor management & availability |
 | M2.2 | M2 | planned | Blood requests, reference numbers & tracking |
@@ -73,7 +73,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M1.2 — Architecture, ERD & SQL database
 
-- **Status:** active
+- **Status:** done
 - **Objective:** Design the system architecture and a normalized relational database that meets every instructor database requirement.
 - **Deliverables:** Laravel 12 project in `lifeline/` (needed to host migrations); architecture diagram; ERD; data dictionary; migrations for users, donors, administrators, hospitals, blood_requests, donor_matches, notifications, request_history (plus supporting tables as needed); PK/FK, UNIQUE, CHECK constraints; seeders with sample records; documented SQL CRUD queries.
 - **Completion criteria:** Migrations run cleanly on MariaDB; seeders load sample data; inserting a duplicate reference number fails at the database level; the ERD matches the migrated schema.
@@ -82,7 +82,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M1.3 — Authentication, roles & app shell
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** The design's app shell and secure role-based authentication on the Laravel project created in M1.2.
 - **Deliverables:** Mobile-first layout with bottom navigation; splash/onboarding; 3-step registration (donor or requester; no ID upload per DEC-009); login by email or mobile; password hashing; email verification; admin verification of donors; role-gated routes; admin login.
 - **Completion criteria:** Feature tests pass for register, login, logout, wrong password, duplicate email/mobile, unverified access blocked, role access control.
