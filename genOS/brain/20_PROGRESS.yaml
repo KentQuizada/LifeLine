@@ -28,8 +28,7 @@ working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M1.3 is complete on branch feat/m1.3-auth (head 5945919, 117 tests pass) but NOT merged into main yet - merge it before starting M2.1"
-  - "main has not been pushed to any remote yet"
+  - "M1.3 is merged into main locally (2026-11-14, merge 91c27f4, 117 tests pass on main); main has not been pushed to any remote yet"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image is not saved in the repo yet (team to put it in docs/design/)"
@@ -55,7 +54,6 @@ session_summary: >-
   login-before-verification-mail. 117 tests pass; static checks (no unescaped output, @csrf on every
   POST form, role not fillable, route middleware) and a 7-scenario browser check at 375 px and
   laptop width all passed. Deferred carry-forwards are in the Authentication and FrontendUI system
-  files (Future Changes). M1 is done; M2 and M2.1 are active. Next: merge feat/m1.3-auth into main
-  (if not already done), then a new session `kickoff` M2.1 (donor management and availability) with
+  files (Future Changes). M1 is done; M2 and M2.1 are active. Merged into main locally (not pushed). Next: a new session `kickoff` M2.1 (donor management and availability) with
   XAMPP MySQL running. Untracked .claude/launch.json (php artisan serve on port 8000) was added for
   the browser preview.
