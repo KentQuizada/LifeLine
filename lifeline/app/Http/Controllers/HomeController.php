@@ -17,6 +17,13 @@ class HomeController extends Controller
             return redirect()->route('admin.donors.pending');
         }
 
-        return view('home', ['user' => $user, 'donor' => $user->donor]);
+        $donor = $user->donor;
+
+        return view('home', [
+            'user' => $user,
+            'donor' => $donor,
+            'donationCount' => $donor?->donations()->count() ?? 0,
+            'lastDonation' => $donor?->lastDonationOn(),
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DonorVerificationController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -55,6 +56,7 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
+    Route::patch('/availability', AvailabilityController::class)->name('availability.update');
     Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
     Route::delete('/donations/{donation}', [DonationController::class, 'destroy'])

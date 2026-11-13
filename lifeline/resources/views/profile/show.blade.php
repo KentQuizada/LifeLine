@@ -15,6 +15,7 @@
     </div>
 
     @if ($donor)
+        @include('partials.availability-card')
         @include('partials.donor-status')
 
         <div class="row g-2 mb-3 text-center">
