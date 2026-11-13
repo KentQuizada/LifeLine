@@ -14,26 +14,27 @@ last_agent: claude-code
 last_ide: claude-desktop
 
 # ID only — resolve objective/criteria in 50_ROADMAP.md
-current_milestone: M1.3
+current_milestone: M2.1
 
 # Active scene or primary file in focus, if any
 current_scene: null
 
 # System file basenames under brain/systems/ (without .md) to load on BOOT
 # Example: [Input, Movement]
-systems_in_scope: [Authentication, FrontendUI]
+systems_in_scope: [Donors, Authentication, FrontendUI]
 
 # Sole in-progress list (do not duplicate into Backlog)
-working_on:
-  - "M1.3 plan approved 2026-11-14, not started - execute docs/superpowers/plans/2026-11-14-m1.3-auth.md on branch feat/m1.3-auth (Task 1 creates it)"
+working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M1.2 is merged into main locally (2026-11-14); main has not been pushed to any remote yet"
+  - "M1.3 is complete on branch feat/m1.3-auth (head 5945919, 117 tests pass) but NOT merged into main yet - merge it before starting M2.1"
+  - "main has not been pushed to any remote yet"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
-  - "UI design image is not saved in the repo yet (team to put it in docs/design/); M1.3 screens follow the FrontendUI screen list until then"
+  - "UI design image is not saved in the repo yet (team to put it in docs/design/)"
   - "XAMPP MariaDB must be running for artisan and tests (start MySQL in the XAMPP Control Panel)"
+  - "Pre-production auth hardening is deferred (Authentication system file, Future Changes) - must be done before any public deployment"
 
 # Blockers requiring human decision or external input
 blocked:
@@ -42,19 +43,19 @@ blocked:
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
 session_summary: >-
-  2026-11-14 (M1.3 kickoff): team approved the M1.3 plan with defaults - AppSec Engineer installed
-  (60_AGENTS), Bootstrap 5.3.3 + Bootstrap Icons 1.11.3 vendored in lifeline/public/vendor (DEC-013,
-  download approved), password reset added to M1.3 deliverables. Detailed TDD plan (7 tasks) is
-  docs/superpowers/plans/2026-11-14-m1.3-auth.md; no code written yet. Next: a new session
-  `kickoff execute the approved plan: docs/superpowers/plans/2026-11-14-m1.3-auth.md using
-  subagent-driven-development`, with XAMPP MySQL running. Earlier the same day: M1.2 done (subagent-driven execution of
-  docs/superpowers/plans/2026-11-13-m1.2-database.md, each task reviewed, plus a final
-  whole-branch review). Laravel 12 app in lifeline/ on MariaDB (DB user lifeline, password only
-  in lifeline/.env; tests use lifeline_test). 10 tables via migrations with UNIQUE/FK/CHECK/ENUM
-  rules, models, factories and a Butuan sample-data seeder (admin@lifeline.test / password,
-  local only). Docs: docs/architecture.md, docs/database/erd.md (ERD + data dictionary, guarded
-  by ErdMatchesSchemaTest), crud_queries.sql, lifeline_schema.sql. 41 tests pass. Final review
-  fixes: app and DB in Philippine time (DEC-012); custom notifications table recorded as
-  DEC-011. M1.3/M2 carry-forward notes are in the Authentication, BloodRequests, DonorMap and
-  Notifications system files. Merged into main locally (not pushed). Next: a new session
-  `kickoff` M1.3 (authentication, roles, app shell).
+  2026-11-14 (M1.3 execution): M1.3 done via subagent-driven execution of
+  docs/superpowers/plans/2026-11-14-m1.3-auth.md on branch feat/m1.3-auth (7 tasks, each with a
+  spec + quality review, then an Opus whole-branch review). Built: PH mobile normalizer; app shell
+  with vendored Bootstrap 5.3.3 / Icons 1.11.3 (DEC-013) and Route::has-gated bottom nav; login by
+  email or mobile (same error for unknown account and wrong password, 5-attempt lockout per login +
+  IP); email verification on every app page; onboarding + 3-step registration (requesters skip the
+  medical step); password reset; role middleware; admin donor verification queue; role-aware home.
+  The final review's one Important finding (unthrottled registration POSTs allowed account
+  enumeration) was fixed in 5945919 with a named `registration` limiter, plus array-input 500s and
+  login-before-verification-mail. 117 tests pass; static checks (no unescaped output, @csrf on every
+  POST form, role not fillable, route middleware) and a 7-scenario browser check at 375 px and
+  laptop width all passed. Deferred carry-forwards are in the Authentication and FrontendUI system
+  files (Future Changes). M1 is done; M2 and M2.1 are active. Next: merge feat/m1.3-auth into main
+  (if not already done), then a new session `kickoff` M2.1 (donor management and availability) with
+  XAMPP MySQL running. Untracked .claude/launch.json (php artisan serve on port 8000) was added for
+  the browser preview.
