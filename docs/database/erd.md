@@ -8,14 +8,14 @@ erDiagram
     users ||--o| administrators : "has admin profile"
     users ||--o{ blood_requests : "submits"
     users ||--o{ notifications : "receives"
-    users ||--o{ request_history : "changes status"
-    users ||--o{ donors : "verifies"
+    users |o--o{ request_history : "changes status"
+    users |o--o{ donors : "verifies"
     hospitals ||--o{ blood_requests : "receives"
-    hospitals ||--o{ donations : "collects"
+    hospitals |o--o{ donations : "collects"
     blood_requests ||--o{ request_history : "has"
     blood_requests ||--o{ donor_matches : "has"
-    blood_requests ||--o{ donations : "fulfilled by"
-    blood_requests ||--o{ notifications : "about"
+    blood_requests |o--o{ donations : "fulfilled by"
+    blood_requests |o--o{ notifications : "about"
     donors ||--o{ donor_matches : "matched in"
     donors ||--o{ donations : "gives"
 
@@ -133,7 +133,7 @@ erDiagram
 The schema is in Third Normal Form (3NF):
 
 - **1NF:** every column holds one value; no repeating groups (donation dates live in `donations`, not in a list on `donors`).
-- **2NF:** every table has a single-column surrogate key (`id`), so no partial dependencies exist.
+- **2NF:** every table has a single-column primary key (`id`, or `email` for `password_reset_tokens`), so no partial dependencies exist.
 - **3NF:** no non-key column depends on another non-key column. Credentials exist only in `users`; donor and admin details live in 1:1 profile tables. A donor's last donation date is not stored — it is computed as `MAX(donations.donated_on)`.
 
 ## Data dictionary

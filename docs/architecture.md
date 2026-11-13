@@ -2,6 +2,8 @@
 
 LifeLine is a single Laravel 12 application (a monolith) backed by one MariaDB/MySQL database. Phones and laptops use it through the browser; on a phone it can be installed to the home screen.
 
+This is the target architecture. As of M1.2 only the database layer (migrations, models, seeders) exists; the web routes, `/api/v1`, map and mail parts are built in M1.3–M2.6.
+
 ```mermaid
 flowchart LR
     subgraph Client["User's phone or laptop browser"]

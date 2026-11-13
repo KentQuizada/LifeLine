@@ -1,6 +1,7 @@
 -- LifeLine: documented SQL CRUD queries
 -- Run against the seeded `lifeline` database:
 --   C:/xampp/mysql/bin/mysql.exe -u lifeline -p lifeline < docs/database/crud_queries.sql
+--   Reset first (run in lifeline/): php artisan migrate:fresh --seed. This file inserts a demo request and changes sample rows, so a second run fails with duplicate entry 1062.
 -- Statements marked "EXPECTED ERROR" are demonstrations of database validation;
 -- run them one at a time in a MySQL client to see the error message.
 
@@ -12,7 +13,7 @@
 INSERT INTO blood_requests
     (reference_number, requester_id, hospital_id, patient_name, blood_type, units, urgency, status, created_at, updated_at)
 VALUES
-    ('LL-261113-DEMO01',
+    ('LL-261113-DEMAA2',
      (SELECT id FROM users WHERE role = 'requester' ORDER BY id LIMIT 1),
      (SELECT id FROM hospitals ORDER BY id LIMIT 1),
      'Demo Patient', 'O+', 2, 'critical', 'open', NOW(), NOW());
@@ -21,13 +22,13 @@ VALUES
 INSERT INTO request_history (blood_request_id, changed_by, old_status, new_status, remarks)
 SELECT id, requester_id, NULL, 'open', 'Request submitted'
 FROM blood_requests
-WHERE reference_number = 'LL-261113-DEMO01';
+WHERE reference_number = 'LL-261113-DEMAA2';
 
 -- 3. EXPECTED ERROR 1062 (Duplicate entry): the same reference number cannot be saved twice.
 -- INSERT INTO blood_requests
 --     (reference_number, requester_id, hospital_id, patient_name, blood_type, units, urgency, created_at, updated_at)
 -- VALUES
---     ('LL-261113-DEMO01',
+--     ('LL-261113-DEMAA2',
 --      (SELECT id FROM users WHERE role = 'requester' ORDER BY id LIMIT 1),
 --      (SELECT id FROM hospitals ORDER BY id LIMIT 1),
 --      'Duplicate Patient', 'O+', 1, 'urgent', NOW(), NOW());
@@ -36,7 +37,7 @@ WHERE reference_number = 'LL-261113-DEMO01';
 -- INSERT INTO blood_requests
 --     (reference_number, requester_id, hospital_id, patient_name, blood_type, units, urgency, created_at, updated_at)
 -- VALUES
---     ('LL-261113-DEMO02',
+--     ('LL-261113-DEMAA3',
 --      (SELECT id FROM users WHERE role = 'requester' ORDER BY id LIMIT 1),
 --      (SELECT id FROM hospitals ORDER BY id LIMIT 1),
 --      'Demo Patient', 'O+', 0, 'urgent', NOW(), NOW());
@@ -49,7 +50,7 @@ WHERE reference_number = 'LL-261113-DEMO01';
 SELECT br.reference_number, br.blood_type, br.units, br.urgency, br.status, h.name AS hospital, br.created_at
 FROM blood_requests br
 JOIN hospitals h ON h.id = br.hospital_id
-WHERE br.reference_number = 'LL-261113-DEMO01';
+WHERE br.reference_number = 'LL-261113-DEMAA2';
 
 -- 6. Available, verified O+ donors with their last donation date.
 SELECT d.id, u.first_name, u.last_name, d.blood_type, d.city, MAX(dn.donated_on) AS last_donation
@@ -67,7 +68,7 @@ SELECT rh.old_status, rh.new_status, rh.remarks, rh.created_at, u.first_name AS 
 FROM request_history rh
 JOIN blood_requests br ON br.id = rh.blood_request_id
 LEFT JOIN users u ON u.id = rh.changed_by
-WHERE br.reference_number = 'LL-261113-DEMO01'
+WHERE br.reference_number = 'LL-261113-DEMAA2'
 ORDER BY rh.created_at, rh.id;
 
 -- 8. Admin statistics: requests per status.
@@ -83,7 +84,7 @@ WHERE is_available = 1 AND verification_status = 'verified'
 GROUP BY blood_type
 ORDER BY blood_type;
 
--- 10. A user's unread notification count.
+-- 10. Unread notification counts for the first 5 donors (most unread first).
 SELECT u.email, COUNT(n.id) AS unread
 FROM users u
 LEFT JOIN notifications n ON n.user_id = u.id AND n.read_at IS NULL
@@ -105,11 +106,11 @@ WHERE id = (SELECT id FROM (SELECT id FROM donors ORDER BY id LIMIT 1) AS first_
 START TRANSACTION;
 UPDATE blood_requests
 SET status = 'donor_found', updated_at = NOW()
-WHERE reference_number = 'LL-261113-DEMO01';
+WHERE reference_number = 'LL-261113-DEMAA2';
 INSERT INTO request_history (blood_request_id, changed_by, old_status, new_status, remarks)
 SELECT id, NULL, 'open', 'donor_found', 'A donor accepted the request'
 FROM blood_requests
-WHERE reference_number = 'LL-261113-DEMO01';
+WHERE reference_number = 'LL-261113-DEMAA2';
 COMMIT;
 
 -- 13. Mark all of a user's notifications as read.
@@ -129,4 +130,4 @@ WHERE read_at IS NOT NULL
 
 -- 15. EXPECTED ERROR 1451 (foreign key constraint fails): a request with history cannot be deleted,
 --     so no record of an emergency is ever lost.
--- DELETE FROM blood_requests WHERE reference_number = 'LL-261113-DEMO01';
+-- DELETE FROM blood_requests WHERE reference_number = 'LL-261113-DEMAA2';
