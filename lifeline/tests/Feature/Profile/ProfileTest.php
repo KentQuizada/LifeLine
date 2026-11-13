@@ -42,7 +42,8 @@ class ProfileTest extends TestCase
             ->assertSee('Verified donor')
             ->assertSee('Completed donations')
             ->assertSee('Jun 15, 2026')
-            ->assertSee('Final compatibility and eligibility are confirmed by healthcare professionals.');
+            ->assertSee('Final compatibility and eligibility are confirmed by healthcare professionals.')
+            ->assertSee(route('donations.index'));
     }
 
     public function test_donor_without_donations_sees_none_yet(): void
@@ -61,7 +62,8 @@ class ProfileTest extends TestCase
             ->assertOk()
             ->assertSee('Jose')
             ->assertDontSee('Blood type')
-            ->assertDontSee('Completed donations');
+            ->assertDontSee('Completed donations')
+            ->assertDontSee(route('donations.index'));
     }
 
     public function test_admin_has_no_profile_page(): void

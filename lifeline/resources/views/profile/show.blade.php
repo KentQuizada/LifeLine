@@ -71,4 +71,9 @@
     <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary w-100 mb-2">
         <i class="bi bi-pencil" aria-hidden="true"></i> Edit profile
     </a>
+    @if ($donor)
+        <a href="{{ route('donations.index') }}" class="btn btn-outline-secondary w-100 mb-2">
+            <i class="bi bi-clock-history" aria-hidden="true"></i> Donation history
+        </a>
+    @endif
 @endsection

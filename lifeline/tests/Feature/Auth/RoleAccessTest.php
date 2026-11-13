@@ -24,6 +24,8 @@ class RoleAccessTest extends TestCase
             'donor opens profile' => ['donor', '/profile', 200],
             'requester opens profile' => ['requester', '/profile', 200],
             'admin has no profile page' => ['admin', '/profile', 403],
+            'requester has no donation history' => ['requester', '/donations', 403],
+            'admin has no donation history' => ['admin', '/donations', 403],
         ];
     }
 
@@ -41,6 +43,7 @@ class RoleAccessTest extends TestCase
             'home' => ['/home'],
             'admin area' => ['/admin/donors/pending'],
             'profile' => ['/profile'],
+            'donation history' => ['/donations'],
         ];
     }
 
