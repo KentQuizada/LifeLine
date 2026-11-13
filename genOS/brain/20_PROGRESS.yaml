@@ -1,0 +1,48 @@
+# Authoritative session RAM / cold-start handoff. AI-owned. See AGENTS.md → Ownership.
+# Execution state only. Milestone definitions live in 50_ROADMAP.md — do not duplicate them here.
+# Do not mirror working_on into the Backlog.
+
+schema_version: 2
+
+# ISO date of last SHUTDOWN update (YYYY-MM-DD)
+last_updated: "2026-11-13"
+
+# Who last wrote this file (e.g. cursor-agent, agy-agent, agency:unity-specialist)
+last_agent: claude-code
+
+# Host that last wrote this file (e.g. cursor, antigravity, other)
+last_ide: claude-desktop
+
+# ID only — resolve objective/criteria in 50_ROADMAP.md
+current_milestone: M1.2
+
+# Active scene or primary file in focus, if any
+current_scene: null
+
+# System file basenames under brain/systems/ (without .md) to load on BOOT
+# Example: [Input, Movement]
+systems_in_scope: [Database]
+
+# Sole in-progress list (do not duplicate into Backlog)
+working_on: []
+
+# Known bugs or risks
+known_issues:
+  - "No source code in the repo yet; an earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
+  - "UI design image was shared in chat only; it is not saved in the repo"
+
+# Blockers requiring human decision or external input
+blocked:
+  - "Team to provide: course deadline, team size and roles, demo environment (localhost or hosted), citation style"
+  - "Team to decide: keep government ID upload in registration (Data Privacy Act risk) or drop it"
+
+# Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
+# null = unset (Empty Brain / no session yet) — do not invent
+session_summary: >-
+  2026-11-13: Day 0 setup complete. genOS v3.2 installed in genOS/ (root CLAUDE.md, .agents/,
+  .cursor/). Brain filled from the team's ITE-18 brief, UI design (screens A1-E1) and the
+  "keep the code simple" constraint; DEC-001..DEC-008 accepted; roadmap M1-M4 approved; M1.1
+  done. Workforce installed: Backend Architect, Frontend Developer, Code Reviewer, Database
+  Optimizer (see 60_AGENTS). Profiles pruned to web-fullstack + academic-research. No app code
+  yet. Next: new session, `kickoff` M1.2 (architecture, ERD, SQL database) - start XAMPP MySQL
+  first; team still owes the answers listed under blocked.
