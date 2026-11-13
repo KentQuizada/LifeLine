@@ -68,4 +68,7 @@
             LifeLine only suggests potential donors. Final compatibility and eligibility are confirmed by healthcare professionals.
         </p>
     @endif
+    <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary w-100 mb-2">
+        <i class="bi bi-pencil" aria-hidden="true"></i> Edit profile
+    </a>
 @endsection
