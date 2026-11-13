@@ -17,6 +17,8 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-010 | accepted | 2026-11-13 | Sample hospitals fake until team supplies real ones; max 10 units |
+| DEC-009 | accepted | 2026-11-13 | No government ID upload |
 | DEC-008 | accepted | 2026-11-13 | Mini Thesis uses only verified sources |
 | DEC-007 | accepted | 2026-11-13 | Matching suggests potential donors only (medical disclaimer) |
 | DEC-006 | accepted | 2026-11-13 | Reference numbers: random format + UNIQUE index + retry |
@@ -42,6 +44,20 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 ---
 
 ## Decisions
+
+### DEC-010: Sample hospitals fake until team supplies real ones; max 10 units
+- **Status:** accepted
+- **Date:** 2026-11-13
+- **Reason:** Team approved the M1.2 plan defaults. Real hospital names and coordinates in Butuan City must not be guessed; the "CARAGA Regional Hospital" in the design may not be in Butuan. A request needs a sane upper bound for units.
+- **Impact:** Seeder uses clearly fake "Sample …" hospitals until the team provides verified names. `blood_requests.units` CHECK is 1–10. See `[[BloodRequests]]`, `[[Database]]`.
+- **Supersedes:** none
+
+### DEC-009: No government ID upload
+- **Status:** accepted
+- **Date:** 2026-11-13
+- **Reason:** A government ID photo is sensitive personal information under the Data Privacy Act (RA 10173), and storing it adds code and risk. Team approved the default to drop it.
+- **Impact:** Registration step B3 keeps password, consent, and terms but no ID upload; no ID column or file storage in the schema. Donors are verified manually by admins. See `[[Authentication]]`.
+- **Supersedes:** none
 
 ### DEC-008: Mini Thesis uses only verified sources
 - **Status:** accepted

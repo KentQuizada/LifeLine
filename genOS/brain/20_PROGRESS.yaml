@@ -24,17 +24,18 @@ current_scene: null
 systems_in_scope: [Database]
 
 # Sole in-progress list (do not duplicate into Backlog)
-working_on: []
+working_on:
+  - "M1.2: approved plan docs/superpowers/plans/2026-11-13-m1.2-database.md ready to execute in a new session"
 
 # Known bugs or risks
 known_issues:
+  - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "No source code in the repo yet; an earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image was shared in chat only; it is not saved in the repo"
 
 # Blockers requiring human decision or external input
 blocked:
   - "Team to provide: course deadline, team size and roles, demo environment (localhost or hosted), citation style"
-  - "Team to decide: keep government ID upload in registration (Data Privacy Act risk) or drop it"
 
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
