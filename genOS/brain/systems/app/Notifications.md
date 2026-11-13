@@ -25,6 +25,7 @@ Notify donors and requesters about emergency requests, matches, and status chang
 - Users who disabled notifications receive in-app only
 
 ## Notes
+- In-app alerts are rows in LifeLine's own `notifications` table, created with `App\Models\Notification::create()`; Laravel notifications are used for the mail channel only (see [[30_DECISIONS]] DEC-011). Do not add the `Notifiable` trait or the `database` channel.
 - Email is sent directly with no queue worker, to keep setup simple; failures are caught and logged. Revisit only if sending makes request submission noticeably slow.
 
 ## Future Changes

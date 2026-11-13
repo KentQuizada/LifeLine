@@ -28,7 +28,8 @@ Emergency blood requests: creation, unique reference numbers, status lifecycle, 
 - Units must be a positive integer within a sane maximum
 
 ## Notes
-- Proposed statuses: pending -> matching -> donor_found -> fulfilled; plus cancelled and expired. Final list confirmed in M1.2.
+- Statuses (final, M1.2): open, donor_found, fulfilled, cancelled, expired. Units 1–10 enforced by CHECK. Generator: `BloodRequest::generateReferenceNumber()`; collision retry on save is built in M2.2.
+- M2.2: `status`, `reference_number` and `requester_id` are fillable on the model, so create requests via `$request->user()->bloodRequests()->create($validated)` and set reference and status explicitly; never pass raw request input.
 
 ## Future Changes
 - _TBD_
