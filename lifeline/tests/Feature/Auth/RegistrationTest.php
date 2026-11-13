@@ -207,4 +207,20 @@ class RegistrationTest extends TestCase
 
         $this->assertDatabaseCount('users', 0);
     }
+
+    public function test_registration_posts_are_rate_limited(): void
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $this->post('/register', $this->step1())->assertStatus(302);
+        }
+
+        $this->post('/register', $this->step1())->assertStatus(429);
+    }
+
+    public function test_array_input_is_rejected_without_a_server_error(): void
+    {
+        $this->post('/register', $this->step1(['email' => ['x'], 'mobile_number' => ['x']]))
+            ->assertStatus(302)
+            ->assertSessionHasErrors(['email', 'mobile_number']);
+    }
 }

@@ -12,11 +12,11 @@ Route::middleware('guest')->group(function () {
     Route::view('/', 'onboarding')->name('onboarding');
 
     Route::get('/register', [RegisterController::class, 'showStep1'])->name('register.step1');
-    Route::post('/register', [RegisterController::class, 'storeStep1']);
+    Route::post('/register', [RegisterController::class, 'storeStep1'])->middleware('throttle:registration');
     Route::get('/register/medical', [RegisterController::class, 'showStep2'])->name('register.step2');
-    Route::post('/register/medical', [RegisterController::class, 'storeStep2']);
+    Route::post('/register/medical', [RegisterController::class, 'storeStep2'])->middleware('throttle:registration');
     Route::get('/register/account', [RegisterController::class, 'showStep3'])->name('register.step3');
-    Route::post('/register/account', [RegisterController::class, 'store']);
+    Route::post('/register/account', [RegisterController::class, 'store'])->middleware('throttle:registration');
 
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store']);
@@ -25,7 +25,9 @@ Route::middleware('guest')->group(function () {
         ->middleware('throttle:6,1')
         ->name('password.email');
     Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])->name('password.reset');
-    Route::post('/reset-password', [PasswordResetController::class, 'update'])->name('password.update');
+    Route::post('/reset-password', [PasswordResetController::class, 'update'])
+        ->middleware('throttle:6,1')
+        ->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {

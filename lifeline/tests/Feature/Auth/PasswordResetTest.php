@@ -89,4 +89,18 @@ class PasswordResetTest extends TestCase
             'password_confirmation' => 'weak',
         ])->assertSessionHasErrors('password');
     }
+
+    public function test_reset_password_post_is_rate_limited(): void
+    {
+        for ($i = 0; $i < 6; $i++) {
+            $this->post('/reset-password', [])->assertStatus(302);
+        }
+
+        $this->post('/reset-password', [])->assertStatus(429);
+    }
+
+    public function test_reset_form_ignores_array_email_query(): void
+    {
+        $this->get('/reset-password/sometoken?email[]=x')->assertOk();
+    }
 }

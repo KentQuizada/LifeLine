@@ -38,10 +38,13 @@ class RegisterController extends Controller
 
     public function storeStep1(Request $request): RedirectResponse
     {
-        $request->merge([
-            'email' => Str::lower(trim((string) $request->input('email'))),
-            'mobile_number' => MobileNumber::normalize($request->input('mobile_number')) ?? $request->input('mobile_number'),
-        ]);
+        // Only strings are normalized; anything else (e.g. email[]=x) is left for validation to reject.
+        if (is_string($request->input('email'))) {
+            $request->merge(['email' => Str::lower(trim($request->input('email')))]);
+        }
+        if (is_string($request->input('mobile_number'))) {
+            $request->merge(['mobile_number' => MobileNumber::normalize($request->input('mobile_number')) ?? $request->input('mobile_number')]);
+        }
 
         $data = $request->validate($this->step1Rules(), self::MESSAGES);
 
@@ -139,9 +142,9 @@ class RegisterController extends Controller
         });
 
         $request->session()->forget('registration');
-        event(new Registered($user)); // sends the verification email
         Auth::login($user);
         $request->session()->regenerate();
+        event(new Registered($user)); // sends the verification email
 
         return redirect()->route('verification.notice');
     }
