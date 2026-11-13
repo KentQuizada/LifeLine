@@ -28,6 +28,8 @@
             @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
 
+        <p class="text-end small mb-3"><a href="{{ route('password.request') }}">Forgot password?</a></p>
+
         <button type="submit" class="btn btn-primary w-100">Log in</button>
     </form>
 
