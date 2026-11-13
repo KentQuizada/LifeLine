@@ -134,7 +134,7 @@ The schema is in Third Normal Form (3NF):
 
 - **1NF:** every column holds one value; no repeating groups (donation dates live in `donations`, not in a list on `donors`).
 - **2NF:** every table has a single-column primary key (`id`, or `email` for `password_reset_tokens`), so no partial dependencies exist.
-- **3NF:** no non-key column depends on another non-key column. Credentials exist only in `users`; donor and admin details live in 1:1 profile tables. A donor's last donation date is not stored — it is computed as `MAX(donations.donated_on)`.
+- **3NF:** no non-key column depends on another non-key column. Credentials exist only in `users`; donor and admin details live in 1:1 profile tables. A donor's last donation date is not stored — it is computed as `MAX(donations.donated_on)`. `donations.hospital_id` is not derived from `blood_requests.hospital_id`: blood can be collected at a different site (often a blood bank) than the hospital that requested it.
 
 ## Data dictionary
 
@@ -226,6 +226,8 @@ Index: status.
 | new_status | VARCHAR(20) | NOT NULL |
 | remarks | VARCHAR(255) | NULL |
 | created_at | TIMESTAMP | NOT NULL, default CURRENT_TIMESTAMP |
+
+old_status / new_status are VARCHAR rather than ENUM so the log keeps old values readable even if the status list changes later; the application writes only values from `BloodRequest::STATUSES`.
 
 ### donations — donation history (source of "last donation")
 | Column | Type | Rules |

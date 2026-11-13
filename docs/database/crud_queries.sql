@@ -5,6 +5,10 @@
 -- Statements marked "EXPECTED ERROR" are demonstrations of database validation;
 -- run them one at a time in a MySQL client to see the error message.
 
+-- Laravel's connection runs in strict mode; XAMPP's default mode is not strict, so an invalid
+-- ENUM value would be saved as '' with only a warning. Match the app's behaviour:
+SET SESSION sql_mode = 'STRICT_ALL_TABLES';
+
 -- =========================================================
 -- CREATE (INSERT)
 -- =========================================================
@@ -84,7 +88,7 @@ WHERE is_available = 1 AND verification_status = 'verified'
 GROUP BY blood_type
 ORDER BY blood_type;
 
--- 10. Unread notification counts for the first 5 donors (most unread first).
+-- 10. The 5 donors with the most unread notifications.
 SELECT u.email, COUNT(n.id) AS unread
 FROM users u
 LEFT JOIN notifications n ON n.user_id = u.id AND n.read_at IS NULL

@@ -26,4 +26,10 @@ class DatabaseSetupTest extends TestCase
             $this->assertFalse(Schema::hasTable($table), "{$table} should not exist");
         }
     }
+
+    public function test_app_and_database_use_philippine_time(): void
+    {
+        $this->assertSame('Asia/Manila', config('app.timezone'));
+        $this->assertSame('+08:00', DB::selectOne('SELECT @@session.time_zone AS tz')->tz);
+    }
 }
