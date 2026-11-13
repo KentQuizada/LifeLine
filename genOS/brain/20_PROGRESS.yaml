@@ -28,7 +28,7 @@ working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M1.2 work is on branch feat/m1.2-database (not yet merged into main or pushed); merge before starting M1.3"
+  - "M1.2 is merged into main locally (2026-11-14); main has not been pushed to any remote yet"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image was shared in chat only; it is not saved in the repo"
@@ -50,5 +50,5 @@ session_summary: >-
   by ErdMatchesSchemaTest), crud_queries.sql, lifeline_schema.sql. 41 tests pass. Final review
   fixes: app and DB in Philippine time (DEC-012); custom notifications table recorded as
   DEC-011. M1.3/M2 carry-forward notes are in the Authentication, BloodRequests, DonorMap and
-  Notifications system files. Next: merge feat/m1.2-database into main, then a new session
+  Notifications system files. Merged into main locally (not pushed). Next: a new session
   `kickoff` M1.3 (authentication, roles, app shell).
