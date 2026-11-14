@@ -33,7 +33,7 @@
 
         <div class="mb-3">
             <label for="weight_kg" class="form-label">Weight (kg)</label>
-            <input id="weight_kg" name="weight_kg" type="number" step="0.1" min="1" max="300" required inputmode="decimal"
+            <input id="weight_kg" name="weight_kg" type="number" step="0.01" min="1" max="300" required inputmode="decimal"
                    value="{{ old('weight_kg', $data['weight_kg'] ?? '') }}"
                    class="form-control @error('weight_kg') is-invalid @enderror">
             @error('weight_kg')<div class="invalid-feedback">{{ $message }}</div>@enderror

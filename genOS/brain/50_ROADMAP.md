@@ -27,8 +27,8 @@ Do not copy milestone criteria into Progress or Backlog. Progress stores only `c
 | M1.2 | M1 | done | Architecture, ERD & SQL database |
 | M1.3 | M1 | done | Authentication, roles & app shell |
 | M2 | — | active | Core features |
-| M2.1 | M2 | active | Donor management & availability |
-| M2.2 | M2 | planned | Blood requests, reference numbers & tracking |
+| M2.1 | M2 | done | Donor management & availability |
+| M2.2 | M2 | active | Blood requests, reference numbers & tracking |
 | M2.3 | M2 | planned | Donor matching |
 | M2.4 | M2 | planned | Donor map & geolocation |
 | M2.5 | M2 | planned | Emergency notifications |
@@ -103,16 +103,16 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M2.1 — Donor management & availability
 
-- **Status:** active
+- **Status:** done
 - **Objective:** Donors maintain their profile, medical info, location, and availability.
-- **Deliverables:** Home dashboard; availability toggle; my profile; edit profile and medical info; donation history; location sharing toggle.
+- **Deliverables:** Home dashboard; availability toggle; my profile; edit profile and medical info; donation history; location sharing toggle; consent timestamps (carried over from M1.3). Plan: `docs/superpowers/plans/2026-11-14-m2.1-donors.md`.
 - **Completion criteria:** Donor CRUD validated on frontend and backend; availability changes affect matching and map visibility.
 - **Dependencies:** M1.3
 - **Systems:** Donors
 
 ## M2.2 — Blood requests, reference numbers & tracking
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Requesters submit emergency requests with unique reference numbers and track their status.
 - **Deliverables:** SOS request form (blood type, units, urgency, hospital, location); request sent screen showing the reference number; status lifecycle with history; track-by-reference page; request list and cancel.
 - **Completion criteria:** Duplicate reference numbers are impossible (tested); every status change writes request_history; tracking works for valid, invalid, and malformed references.

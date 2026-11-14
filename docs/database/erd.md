@@ -29,6 +29,8 @@ erDiagram
         timestamp email_verified_at
         varchar password
         boolean notifications_enabled
+        timestamp privacy_consent_at
+        timestamp terms_accepted_at
         varchar remember_token
         timestamp created_at
         timestamp updated_at
@@ -150,6 +152,8 @@ The schema is in Third Normal Form (3NF):
 | email_verified_at | TIMESTAMP | NULL until the email link is clicked |
 | password | VARCHAR(255) | NOT NULL, bcrypt hash only |
 | notifications_enabled | BOOLEAN | NOT NULL, default 1 |
+| privacy_consent_at | TIMESTAMP | NULL; set when the Data Privacy Act consent box is accepted at registration |
+| terms_accepted_at | TIMESTAMP | NULL; set when the terms of use are accepted at registration |
 | remember_token | VARCHAR(100) | NULL |
 | created_at / updated_at | TIMESTAMP | NULL |
 

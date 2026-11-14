@@ -5,7 +5,10 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -44,6 +47,21 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', HomeController::class)->name('home');
+});
+
+Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->middleware('throttle:10,1')->name('profile.update');
+});
+
+Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
+    Route::patch('/availability', AvailabilityController::class)->name('availability.update');
+    Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
+    Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
+    Route::delete('/donations/{donation}', [DonationController::class, 'destroy'])
+        ->where('donation', '[0-9]{1,18}')
+        ->name('donations.destroy');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {

@@ -77,7 +77,7 @@ class RegisterController extends Controller
             'blood_type' => ['required', Rule::in(Donor::BLOOD_TYPES)],
             // Sanity checks only. Eligibility rules (age, weight) need a cited source (DEC-008) and belong to matching (M2.3).
             'birthdate' => ['required', 'date', 'before:today', 'after:1900-01-01'],
-            'weight_kg' => ['required', 'numeric', 'min:1', 'max:300'],
+            'weight_kg' => ['required', 'numeric', 'decimal:0,2', 'min:1', 'max:300'],
             'city' => ['required', 'string', 'max:100'],
         ]);
 
@@ -125,6 +125,9 @@ class RegisterController extends Controller
                 'password' => $account['password'],
             ]);
             $user->role = $registration['role']; // set explicitly: role is not fillable
+            // Step 3 validated both checkboxes as `accepted`; keep the time as evidence.
+            $user->privacy_consent_at = now();
+            $user->terms_accepted_at = now();
             $user->save();
 
             if ($user->role === 'donor') {

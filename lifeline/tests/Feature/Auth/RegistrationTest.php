@@ -184,6 +184,14 @@ class RegistrationTest extends TestCase
         ]))->assertSessionHasErrors(['blood_type', 'birthdate', 'weight_kg', 'city']);
     }
 
+    public function test_weight_with_more_than_two_decimals_is_rejected(): void
+    {
+        $this->post('/register', $this->step1());
+
+        $this->post('/register/medical', $this->step2(['weight_kg' => '58.555']))
+            ->assertSessionHasErrors('weight_kg');
+    }
+
     public function test_password_must_be_confirmed_and_strong(): void
     {
         $this->post('/register', $this->step1(['role' => 'requester']));
@@ -222,5 +230,17 @@ class RegistrationTest extends TestCase
         $this->post('/register', $this->step1(['email' => ['x'], 'mobile_number' => ['x']]))
             ->assertStatus(302)
             ->assertSessionHasErrors(['email', 'mobile_number']);
+    }
+
+    public function test_registration_records_when_consent_was_given(): void
+    {
+        Notification::fake();
+
+        $this->post('/register', $this->step1(['role' => 'requester']))->assertRedirect(route('register.step3'));
+        $this->post('/register/account', $this->step3())->assertRedirect(route('verification.notice'));
+
+        $user = User::where('email', 'maria@example.test')->firstOrFail();
+        $this->assertNotNull($user->privacy_consent_at);
+        $this->assertNotNull($user->terms_accepted_at);
     }
 }

@@ -35,6 +35,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'notifications_enabled' => true,
+            'privacy_consent_at' => now(),
+            'terms_accepted_at' => now(),
             'remember_token' => Str::random(10),
         ];
     }

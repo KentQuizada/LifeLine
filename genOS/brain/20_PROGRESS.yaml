@@ -14,26 +14,27 @@ last_agent: claude-code
 last_ide: claude-desktop
 
 # ID only — resolve objective/criteria in 50_ROADMAP.md
-current_milestone: M2.1
+current_milestone: M2.2
 
 # Active scene or primary file in focus, if any
 current_scene: null
 
 # System file basenames under brain/systems/ (without .md) to load on BOOT
 # Example: [Input, Movement]
-systems_in_scope: [Donors, Authentication, FrontendUI]
+systems_in_scope: [BloodRequests, RestApi, FrontendUI]
 
 # Sole in-progress list (do not duplicate into Backlog)
 working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M1.3 is merged into main locally (2026-11-14, merge 91c27f4, 117 tests pass on main); main has not been pushed to any remote yet"
+  - "M2.1 is complete on branch feat/m2.1-donors (173 tests pass) but NOT merged into main yet - waiting for the team's decision; main has not been pushed to any remote (no GitHub repo exists yet)"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
-  - "UI design image is not saved in the repo yet (team to put it in docs/design/)"
+  - "UI design image is not saved in the repo yet (team to save it as docs/design/lifeline-design.png)"
   - "XAMPP MariaDB must be running for artisan and tests (start MySQL in the XAMPP Control Panel)"
   - "Pre-production auth hardening is deferred (Authentication system file, Future Changes) - must be done before any public deployment"
+  - "Browser pane screenshots crop on this display (DPR 1.25) and stall when the Claude window is behind another window; verify layout with DOM measurements"
 
 # Blockers requiring human decision or external input
 blocked:
@@ -42,18 +43,18 @@ blocked:
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
 session_summary: >-
-  2026-11-14 (M1.3 execution): M1.3 done via subagent-driven execution of
-  docs/superpowers/plans/2026-11-14-m1.3-auth.md on branch feat/m1.3-auth (7 tasks, each with a
-  spec + quality review, then an Opus whole-branch review). Built: PH mobile normalizer; app shell
-  with vendored Bootstrap 5.3.3 / Icons 1.11.3 (DEC-013) and Route::has-gated bottom nav; login by
-  email or mobile (same error for unknown account and wrong password, 5-attempt lockout per login +
-  IP); email verification on every app page; onboarding + 3-step registration (requesters skip the
-  medical step); password reset; role middleware; admin donor verification queue; role-aware home.
-  The final review's one Important finding (unthrottled registration POSTs allowed account
-  enumeration) was fixed in 5945919 with a named `registration` limiter, plus array-input 500s and
-  login-before-verification-mail. 117 tests pass; static checks (no unescaped output, @csrf on every
-  POST form, role not fillable, route middleware) and a 7-scenario browser check at 375 px and
-  laptop width all passed. Deferred carry-forwards are in the Authentication and FrontendUI system
-  files (Future Changes). M1 is done; M2 and M2.1 are active. Merged into main locally (not pushed). Next: a new session `kickoff` M2.1 (donor management and availability) with
-  XAMPP MySQL running. Untracked .claude/launch.json (php artisan serve on port 8000) was added for
-  the browser preview.
+  2026-11-14 (M2.1 execution): M2.1 done via subagent-driven execution of
+  docs/superpowers/plans/2026-11-14-m2.1-donors.md on branch feat/m2.1-donors (Tasks 1-5 and 7, each
+  with a spec + quality review, then an Opus whole-branch review). Built: consent timestamps on users
+  set at registration; My profile (E1) and the Profile tab; edit profile and medical info (email
+  read-only, mobile normalized and unique, changed blood type sends a verified/rejected donor back to
+  pending, location sharing off clears approximate coordinates); donation history (donors add/remove
+  only their own self-reported donations); availability toggle and home dashboard (C1);
+  Donor::searchable() (verified + available + sharing location), which M2.3 matching and M2.4 map must
+  start from. Task 7 was added after the team shared its design: home and profile restyled (red
+  header, green availability switch, Account menu). Final review fixes in 3a837cf: location opt-out no
+  longer reverts after a validation error, weight precision matches decimal(5,2), donation id route
+  bounded, profile update throttled 10/min. 173 tests pass; static checks and a browser check at 360 px
+  and 1280 px passed. Deferred items are in the Donors and FrontendUI system files (Future Changes). Next:
+  the team decides whether to merge feat/m2.1-donors into main; then a new session `kickoff` M2.2
+  (blood requests, reference numbers and tracking) with XAMPP MySQL running.
