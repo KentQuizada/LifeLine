@@ -117,19 +117,18 @@ class BloodRequest extends Model
 
     /**
      * The only way to change a status: checks TRANSITIONS and writes request_history
-     * in the same transaction.
+     * in the same transaction. Nothing on this model changes unless the change is allowed.
      */
     public function changeStatus(string $status, ?User $changedBy, ?string $remarks = null): void
     {
         DB::transaction(function () use ($status, $changedBy, $remarks) {
-            // Re-read the status under a row lock, so two changes at the same moment cannot both pass.
-            $this->status = self::whereKey($this->id)->lockForUpdate()->value('status');
+            // Read the saved status under a row lock, so two changes at the same moment cannot both pass.
+            $oldStatus = self::whereKey($this->id)->lockForUpdate()->value('status');
 
-            if (! $this->canChangeTo($status)) {
-                throw new InvalidArgumentException("A {$this->status} request cannot become {$status}.");
+            if (! in_array($status, self::TRANSITIONS[$oldStatus] ?? [], true)) {
+                throw new InvalidArgumentException("A {$oldStatus} request cannot become {$status}.");
             }
 
-            $oldStatus = $this->status;
             $this->status = $status;
             $this->save();
 
