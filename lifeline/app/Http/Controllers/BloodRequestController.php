@@ -36,7 +36,12 @@ class BloodRequestController extends Controller
         $bloodRequest = BloodRequest::submit($request->user(), $details);
 
         // Rule-based matching right away (DEC-016). M2.5 notifies the matched donors.
-        $bloodRequest->matchDonors();
+        // The request is already saved: if matching fails, log it and let the requester use "Find more donors".
+        try {
+            $bloodRequest->matchDonors();
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
 
         return redirect()->route('requests.show', $bloodRequest->id)->with('submitted', true);
     }

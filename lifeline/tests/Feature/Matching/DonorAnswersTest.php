@@ -110,6 +110,19 @@ class DonorAnswersTest extends TestCase
         $this->assertSame(1, $this->bloodRequest->history()->where('new_status', 'donor_found')->count());
     }
 
+    public function test_declining_while_donor_found_keeps_donor_found(): void
+    {
+        $this->answer('accepted');
+        $secondDonor = Donor::factory()->create();
+        $secondMatch = $this->bloodRequest->matches()->create(['donor_id' => $secondDonor->id, 'distance_km' => 4]);
+
+        $this->actingAs($secondDonor->user)->patch(route('matches.update', $secondMatch->id), ['answer' => 'declined']);
+
+        $this->assertSame('declined', $secondMatch->fresh()->status);
+        $this->assertSame('donor_found', $this->bloodRequest->fresh()->status);
+        $this->assertSame(1, $this->bloodRequest->history()->where('new_status', 'donor_found')->count());
+    }
+
     public function test_declining_leaves_the_request_open(): void
     {
         $this->answer('declined')->assertRedirect(route('matches.index'));
@@ -136,8 +149,11 @@ class DonorAnswersTest extends TestCase
         $this->answer('accepted')->assertSessionHas('error', 'This request is no longer looking for donors.');
 
         $this->assertSame('notified', $this->match->fresh()->status);
+        $this->assertNull($this->match->fresh()->responded_at);
         $this->actingAs($this->donor->user)->get(route('matches.index'))
             ->assertSee('This request is closed')
+            ->assertSee('Closed')
+            ->assertDontSee('Waiting for your answer')
             ->assertDontSee('I can donate');
     }
 
@@ -146,6 +162,7 @@ class DonorAnswersTest extends TestCase
         $this->answer('maybe')->assertSessionHasErrors('answer');
 
         $this->assertSame('notified', $this->match->fresh()->status);
+        $this->assertNull($this->match->fresh()->responded_at);
     }
 
     public function test_another_donors_match_gives_404(): void

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Support\Distance;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Support\Distance;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -175,6 +175,7 @@ class BloodRequest extends Model
 
         // Only the columns ranking needs (DEC-004).
         $nearest = Donor::eligibleFor($this)
+            ->orderBy('id')
             ->get(['id', 'approx_latitude', 'approx_longitude'])
             ->map(fn (Donor $donor) => [
                 'donor_id' => $donor->id,

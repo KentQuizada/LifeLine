@@ -4,9 +4,11 @@ namespace Tests\Feature\Matching;
 
 use App\Models\BloodRequest;
 use App\Models\Donor;
+use App\Models\DonorMatch;
 use App\Models\Hospital;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
@@ -61,6 +63,27 @@ class RequestMatchesTest extends TestCase
         ])->assertRedirect();
 
         $this->assertDatabaseHas('donor_matches', ['donor_id' => $donor->id, 'status' => 'notified']);
+    }
+
+    public function test_a_matching_failure_does_not_break_submitting_a_request(): void
+    {
+        Exceptions::fake();
+        $this->donor();
+        DonorMatch::creating(fn () => throw new \RuntimeException('matching failed'));
+
+        $response = $this->actingAs($this->requester)->post(route('requests.store'), [
+            'patient_name' => 'Juan Dela Cruz',
+            'blood_type' => 'O-',
+            'units' => 1,
+            'urgency' => 'urgent',
+            'hospital_id' => $this->hospital->id,
+        ]);
+
+        $bloodRequest = BloodRequest::latest('id')->first();
+        $response->assertRedirect(route('requests.show', $bloodRequest->id));
+        $this->assertSame('open', $bloodRequest->status);
+        Exceptions::assertReported(\RuntimeException::class);
+        $this->assertDatabaseCount('donor_matches', 0);
     }
 
     public function test_the_api_lists_matches_nearest_first_and_shares_contacts_only_after_acceptance(): void

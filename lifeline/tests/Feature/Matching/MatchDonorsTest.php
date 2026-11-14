@@ -6,7 +6,6 @@ use App\Models\BloodRequest;
 use App\Models\Donation;
 use App\Models\Donor;
 use App\Models\Hospital;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -142,6 +141,30 @@ class MatchDonorsTest extends TestCase
         $this->assertSame(1, $bloodRequest->matchDonors());
         $this->assertSame(0, $bloodRequest->matchDonors());
         $this->assertSame([$first->id, $newcomer->id], $this->matchedDonorIds($bloodRequest));
+    }
+
+    public function test_donors_at_the_same_distance_are_matched_lowest_id_first(): void
+    {
+        config(['lifeline.match_limit' => 1]);
+        $lower = $this->donor('O+', 125.55);
+        $this->donor('O+', 125.55);
+        $bloodRequest = $this->request('O+');
+
+        $bloodRequest->matchDonors();
+
+        $this->assertSame([$lower->id], $this->matchedDonorIds($bloodRequest));
+    }
+
+    public function test_already_matched_is_per_request(): void
+    {
+        $donor = $this->donor('O+');
+        $requestA = $this->request('O+');
+        $requestB = $this->request('O+');
+
+        $requestA->matchDonors();
+
+        $this->assertSame(1, $requestB->matchDonors());
+        $this->assertSame([$donor->id], $this->matchedDonorIds($requestB));
     }
 
     public function test_closed_requests_are_not_matched(): void

@@ -26,7 +26,8 @@
                             {{ ucfirst($bloodRequest->urgency) }} · about {{ max(1, (int) round((float) $match->distance_km)) }} km away
                         </div>
                     </div>
-                    <span class="badge {{ $badges[$match->status][0] }}">{{ $badges[$match->status][1] }}</span>
+                    @php($badge = ($match->status === 'notified' && ! $stillLooking) ? ['text-bg-secondary', 'Closed'] : $badges[$match->status])
+                    <span class="badge {{ $badge[0] }}">{{ $badge[1] }}</span>
                 </div>
 
                 <dl class="row small mb-2">
