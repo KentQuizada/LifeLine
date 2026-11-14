@@ -1,5 +1,5 @@
 // Track page: looks up a request with GET /api/v1/requests/track/{reference} and shows the result.
-// Text from the API is set with textContent, never innerHTML.
+// Text from the API is set with textContent only.
 (function () {
     const form = document.getElementById('track-form');
     const input = document.getElementById('reference');

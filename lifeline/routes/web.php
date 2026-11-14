@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
     Route::put('/profile', [ProfileController::class, 'update'])->middleware('throttle:10,1')->name('profile.update');
 
     Route::get('/requests', [BloodRequestController::class, 'index'])->name('requests.index');
-    Route::get('/requests/new',[BloodRequestController::class, 'create'])->name('requests.create');
+    Route::get('/requests/new', [BloodRequestController::class, 'create'])->name('requests.create');
     // The third throttle argument gives this limit its own counter. Without it, Laravel counts every
     // throttle:x,y route for the same user (or guest IP) together.
     Route::post('/requests', [BloodRequestController::class, 'store'])

@@ -81,6 +81,7 @@ class TrackRequestTest extends TestCase
             'ambiguous letter O' => ['LL-261114-ABCO23'],
             'quote injection' => ["LL-261114' OR '1'='1"],
             'very long' => [str_repeat('A', 300)],
+            'only whitespace' => [' '],
         ];
     }
 
@@ -105,7 +106,8 @@ class TrackRequestTest extends TestCase
             $this->getJson('/api/v1/requests/track/LL-261114-ZZZZZZ')->assertNotFound();
         }
 
-        $this->getJson('/api/v1/requests/track/LL-261114-ZZZZZZ')->assertTooManyRequests();
+        $this->getJson('/api/v1/requests/track/LL-261114-ZZZZZZ')->assertTooManyRequests()
+            ->assertJsonPath('message', 'Too Many Attempts.');
     }
 
     public function test_track_page_is_open_to_guests(): void

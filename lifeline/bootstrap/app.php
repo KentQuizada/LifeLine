@@ -18,5 +18,6 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Every /api/v1 error is JSON: {"message": "..."}, plus "errors" for validation (422).
-        $exceptions->shouldRenderJsonWhen(fn (Request $request) => $request->is('api/*'));
+        // Web routes keep Laravel's default: JSON only when the client asks for it.
+        $exceptions->shouldRenderJsonWhen(fn (Request $request) => $request->is('api/*') || $request->expectsJson());
     })->create();

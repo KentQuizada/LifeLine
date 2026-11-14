@@ -19,7 +19,7 @@ class TrackRequestController extends Controller
 
         Validator::make(
             ['reference' => $reference],
-            ['reference' => ['regex:/^LL-\d{6}-[A-HJ-NP-Z2-9]{6}$/']],
+            ['reference' => ['required', 'string', 'regex:/^LL-\d{6}-[A-HJ-NP-Z2-9]{6}$/']],
             ['reference.regex' => 'The reference number must look like LL-261114-ABC234.']
         )->validate();
 
