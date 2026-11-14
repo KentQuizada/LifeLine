@@ -131,6 +131,17 @@ class RequestMatchesTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_an_unverified_email_gets_json_403_even_without_an_accept_header(): void
+    {
+        $bloodRequest = $this->request();
+
+        // Plain get(), no Accept header: every /api/v1 answer is still JSON.
+        $this->actingAs(User::factory()->unverified()->create(['role' => 'requester']))
+            ->get(route('api.requests.matches', $bloodRequest->id))
+            ->assertForbidden()
+            ->assertJsonPath('message', 'Your email address is not verified.');
+    }
+
     public function test_signed_in_api_routes_use_the_login_session_and_tracking_stays_stateless(): void
     {
         // DEC-015: actingAs() skips the session, so check the route middleware directly.

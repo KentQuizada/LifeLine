@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias(['role' => \App\Http\Middleware\EnsureUserHasRole::class]);
+        // /api/v1 always answers in JSON, also from middleware that would otherwise redirect (DEC-015).
+        $middleware->api(prepend: [\App\Http\Middleware\ForceJsonResponse::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Every /api/v1 error is JSON: {"message": "..."}, plus "errors" for validation (422).
