@@ -58,6 +58,35 @@
         @endforeach
     </ol>
 
+    @if ($bloodRequest->canChangeTo('fulfilled') || $bloodRequest->canChangeTo('cancelled'))
+        <div class="d-grid gap-2 mb-3">
+            @if ($bloodRequest->canChangeTo('fulfilled'))
+                <form method="POST" action="{{ route('requests.status', $bloodRequest->id) }}"
+                      onsubmit="return confirm('Mark this request as fulfilled? This cannot be undone.')">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="fulfilled">
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-check2-circle" aria-hidden="true"></i> Mark fulfilled
+                    </button>
+                </form>
+            @endif
+            @if ($bloodRequest->canChangeTo('cancelled'))
+                <form method="POST" action="{{ route('requests.status', $bloodRequest->id) }}"
+                      onsubmit="return confirm('Cancel this request? This cannot be undone.')">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="cancelled">
+                    <button type="submit" class="btn btn-outline-danger w-100">
+                        <i class="bi bi-x-circle" aria-hidden="true"></i> Cancel request
+                    </button>
+                </form>
+            @endif
+        </div>
+    @endif
+
+    <p class="text-center"><a href="{{ route('requests.index') }}">All my requests</a></p>
+
     <p class="small text-secondary">
         <i class="bi bi-info-circle" aria-hidden="true"></i>
         LifeLine only suggests potential donors. Final compatibility and eligibility are confirmed by healthcare professionals.

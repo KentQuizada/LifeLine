@@ -50,6 +50,9 @@
         @endunless
 
         <div class="d-grid gap-2">
+            <a href="{{ route('requests.index') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-list-check" aria-hidden="true"></i> My requests
+            </a>
             <a href="{{ route('donations.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-clock-history" aria-hidden="true"></i> Donation history
             </a>
@@ -58,8 +61,13 @@
             </a>
         </div>
     @else
-        <a href="{{ route('profile.show') }}" class="btn btn-outline-secondary w-100">
-            <i class="bi bi-person" aria-hidden="true"></i> My profile
-        </a>
+        <div class="d-grid gap-2">
+            <a href="{{ route('requests.index') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-list-check" aria-hidden="true"></i> My requests
+            </a>
+            <a href="{{ route('profile.show') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-person" aria-hidden="true"></i> My profile
+            </a>
+        </div>
     @endif
 @endsection
