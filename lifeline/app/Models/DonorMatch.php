@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DonorMatch extends Model
 {
-    protected $fillable = ['blood_request_id', 'donor_id', 'distance_km', 'status', 'responded_at'];
+    // status and responded_at change only through respond() (Task 3).
+    protected $fillable = ['blood_request_id', 'donor_id', 'distance_km'];
 
     protected function casts(): array
     {

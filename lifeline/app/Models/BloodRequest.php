@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Support\Distance;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -35,6 +36,24 @@ class BloodRequest extends Model
         'fulfilled' => [],
         'cancelled' => [],
         'expired' => [],
+    ];
+
+    /** Statuses in which a request still looks for donors: matching runs and donors may answer. */
+    public const LOOKING_FOR_DONORS = ['open', 'donor_found'];
+
+    /**
+     * Red-cell (whole blood) ABO/Rh compatibility: recipient type => donor types it may receive.
+     * LifeLine only suggests potential donors; professionals confirm compatibility (DEC-007).
+     */
+    public const COMPATIBLE_DONORS = [
+        'O-' => ['O-'],
+        'O+' => ['O+', 'O-'],
+        'A-' => ['A-', 'O-'],
+        'A+' => ['A+', 'A-', 'O+', 'O-'],
+        'B-' => ['B-', 'O-'],
+        'B+' => ['B+', 'B-', 'O+', 'O-'],
+        'AB-' => ['AB-', 'A-', 'B-', 'O-'],
+        'AB+' => ['AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-'],
     ];
 
     private const REFERENCE_ATTEMPTS = 5;
@@ -139,6 +158,48 @@ class BloodRequest extends Model
                 'remarks' => $remarks,
             ]);
         });
+    }
+
+    /**
+     * Rule-based matching (DEC-016): adds a "notified" match for each of the nearest eligible donors
+     * this request has not matched yet, ranked by distance from the hospital (DEC-014).
+     * Returns how many matches were added. Closed requests are never matched.
+     */
+    public function matchDonors(): int
+    {
+        if (! in_array($this->status, self::LOOKING_FOR_DONORS, true)) {
+            return 0;
+        }
+
+        $hospital = $this->hospital;
+
+        // Only the columns ranking needs (DEC-004).
+        $nearest = Donor::eligibleFor($this)
+            ->get(['id', 'approx_latitude', 'approx_longitude'])
+            ->map(fn (Donor $donor) => [
+                'donor_id' => $donor->id,
+                'distance_km' => round(Distance::km(
+                    (float) $hospital->latitude,
+                    (float) $hospital->longitude,
+                    (float) $donor->approx_latitude,
+                    (float) $donor->approx_longitude,
+                ), 2),
+            ])
+            ->sortBy('distance_km')
+            ->take(config('lifeline.match_limit'));
+
+        $added = 0;
+
+        foreach ($nearest as $candidate) {
+            // The UNIQUE (request, donor) index is the final guard if two runs overlap.
+            $match = $this->matches()->firstOrCreate(
+                ['donor_id' => $candidate['donor_id']],
+                ['distance_km' => $candidate['distance_km']]
+            );
+            $added += $match->wasRecentlyCreated ? 1 : 0;
+        }
+
+        return $added;
     }
 
     public function requester(): BelongsTo

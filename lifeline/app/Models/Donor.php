@@ -70,6 +70,25 @@ class Donor extends Model
             ->where('location_sharing', true);
     }
 
+    /**
+     * Potential donors for one request (DEC-016): searchable, compatible blood type, approximate
+     * coordinates set, no donation within the configured interval, not the requester, not matched yet.
+     */
+    public function scopeEligibleFor(Builder $query, BloodRequest $bloodRequest): void
+    {
+        $lastAllowedDonation = now()
+            ->subMonthsNoOverflow(config('lifeline.donation_interval_months'))
+            ->toDateString();
+
+        $query->searchable()
+            ->whereIn('blood_type', BloodRequest::COMPATIBLE_DONORS[$bloodRequest->blood_type])
+            ->whereNotNull('approx_latitude')
+            ->whereNotNull('approx_longitude')
+            ->where('user_id', '!=', $bloodRequest->requester_id)
+            ->whereDoesntHave('donations', fn (Builder $donations) => $donations->where('donated_on', '>', $lastAllowedDonation))
+            ->whereDoesntHave('matches', fn (Builder $matches) => $matches->where('blood_request_id', $bloodRequest->id));
+    }
+
     public function matches(): HasMany
     {
         return $this->hasMany(DonorMatch::class);

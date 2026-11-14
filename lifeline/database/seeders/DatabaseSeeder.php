@@ -6,7 +6,6 @@ use App\Models\Administrator;
 use App\Models\BloodRequest;
 use App\Models\Donation;
 use App\Models\Donor;
-use App\Models\DonorMatch;
 use App\Models\Hospital;
 use App\Models\Notification;
 use App\Models\RequestHistory;
@@ -67,19 +66,12 @@ class DatabaseSeeder extends Seeder
                 'remarks' => 'Request submitted',
             ]);
 
-            $sameTypeDonors = $donors
-                ->where('blood_type', $request->blood_type)
-                ->where('verification_status', 'verified')
-                ->take(2);
+            // Sample matches come from the real matching rules (M2.3).
+            $request->matchDonors();
 
-            foreach ($sameTypeDonors as $donor) {
-                DonorMatch::create([
-                    'blood_request_id' => $request->id,
-                    'donor_id' => $donor->id,
-                    'distance_km' => fake()->randomFloat(2, 0.5, 8),
-                ]);
+            foreach ($request->matches()->with('donor')->get() as $match) {
                 Notification::create([
-                    'user_id' => $donor->user_id,
+                    'user_id' => $match->donor->user_id,
                     'blood_request_id' => $request->id,
                     'title' => "Urgent: {$request->blood_type} blood needed",
                     'message' => "{$hospital->name} needs {$request->units} unit(s) of {$request->blood_type} blood.",
