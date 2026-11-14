@@ -28,7 +28,7 @@ working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M2.2 is complete on branch feat/m2.2-requests (247 tests pass) and NOT merged into main yet - team decides the merge; main has not been pushed to any remote (no GitHub repo exists yet)"
+  - "M2.2 is merged into main locally (2026-11-14, merge 0129e37, 247 tests pass on main); main has not been pushed to any remote (no GitHub repo exists yet)"
   - "M2.3 must decide how authenticated /api/v1 routes get the user: the api route group has no session (RestApi system file)"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
@@ -56,7 +56,7 @@ session_summary: >-
   the public /track page (public/js/track.js, textContent only). 247 tests pass; static checks pass; browser
   check at 375 px and 1280 px passed (donor-role SOS covered by tests only). Deferred items are in the
   BloodRequests and RestApi system files (Future Changes); fix changeStatus() in-memory status mutation
-  before M2.3 uses it. Next: the team decides whether to merge feat/m2.2-requests into main; then a new
+  before M2.3 uses it. Merged into main 2026-11-14 (merge 0129e37, 247 tests pass on main). Next: a new
   session `kickoff` M2.3 (donor matching) with XAMPP MySQL running.
   Previous, 2026-11-14 (M2.1 execution): M2.1 done via subagent-driven execution of
   docs/superpowers/plans/2026-11-14-m2.1-donors.md on branch feat/m2.1-donors (Tasks 1-5 and 7, each
