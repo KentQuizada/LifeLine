@@ -17,6 +17,7 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-014 | accepted | 2026-11-14 | M2.2 blood request rules: who requests, location, statuses, tracking fields, limits |
 | DEC-013 | accepted | 2026-11-14 | Bootstrap and Bootstrap Icons served from the app, not a CDN |
 | DEC-012 | accepted | 2026-11-14 | App and database run in Philippine time |
 | DEC-011 | accepted | 2026-11-14 | In-app alerts use LifeLine's own notifications table; Laravel notifications for mail only |
@@ -47,6 +48,13 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 ---
 
 ## Decisions
+
+### DEC-014: M2.2 blood request rules: who requests, location, statuses, tracking fields, limits
+- **Status:** accepted
+- **Date:** 2026-11-14
+- **Reason:** Team approved the M2.2 kickoff defaults.
+- **Impact:** Donors and requesters with a verified email may submit requests (not admins; donors need no admin verification to ask). The request location is the selected hospital's coordinates (no new column). Requesters may cancel or mark fulfilled; `donor_found` is set by M2.3; no automatic expiry, `expired` comes from the M2.6 admin override. Public tracking (`/api/v1`, used by the `/track` page) shows reference, status, urgency, blood type, hospital, times and status history only. Limits: 5 submissions per 10 minutes per user, 30 lookups per minute per IP, each with its own throttle prefix. Plan: `docs/superpowers/plans/2026-11-14-m2.2-requests.md`. See `[[BloodRequests]]`, `[[RestApi]]`.
+- **Supersedes:** none
 
 ### DEC-013: Bootstrap and Bootstrap Icons served from the app, not a CDN
 - **Status:** accepted

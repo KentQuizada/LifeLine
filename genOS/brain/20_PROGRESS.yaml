@@ -24,7 +24,8 @@ current_scene: null
 systems_in_scope: [BloodRequests, RestApi, FrontendUI]
 
 # Sole in-progress list (do not duplicate into Backlog)
-working_on: []
+working_on:
+  - "M2.2 plan approved 2026-11-14 (DEC-014), not started: docs/superpowers/plans/2026-11-14-m2.2-requests.md"
 
 # Known bugs or risks
 known_issues:
@@ -43,7 +44,13 @@ blocked:
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
 session_summary: >-
-  2026-11-14 (M2.1 execution): M2.1 done via subagent-driven execution of
+  2026-11-14 (M2.2 kickoff): team approved the M2.2 defaults (DEC-014) and the plan
+  docs/superpowers/plans/2026-11-14-m2.2-requests.md (5 TDD tasks: lifecycle core, SOS form and request
+  sent, my requests with cancel/fulfil, /api/v1 tracking and /track page, security pass and shutdown).
+  No code written yet. Backlog TASK-001 records that the existing throttle routes share counters. Next: new
+  session `kickoff execute the approved plan: docs/superpowers/plans/2026-11-14-m2.2-requests.md using
+  subagent-driven-development` with XAMPP MySQL running.
+  Previous, 2026-11-14 (M2.1 execution): M2.1 done via subagent-driven execution of
   docs/superpowers/plans/2026-11-14-m2.1-donors.md on branch feat/m2.1-donors (Tasks 1-5 and 7, each
   with a spec + quality review, then an Opus whole-branch review). Built: consent timestamps on users
   set at registration; My profile (E1) and the Profile tab; edit profile and medical info (email

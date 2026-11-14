@@ -114,7 +114,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 - **Status:** active
 - **Objective:** Requesters submit emergency requests with unique reference numbers and track their status.
-- **Deliverables:** SOS request form (blood type, units, urgency, hospital, location); request sent screen showing the reference number; status lifecycle with history; track-by-reference page; request list and cancel.
+- **Deliverables:** SOS request form (blood type, units, urgency, hospital, location); request sent screen showing the reference number; status lifecycle with history; track-by-reference page; request list and cancel. Rules: `[[30_DECISIONS]]` DEC-014. Plan: `docs/superpowers/plans/2026-11-14-m2.2-requests.md`.
 - **Completion criteria:** Duplicate reference numbers are impossible (tested); every status change writes request_history; tracking works for valid, invalid, and malformed references.
 - **Dependencies:** M1.3
 - **Systems:** BloodRequests, RestApi
@@ -150,7 +150,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 - **Status:** planned
 - **Objective:** Administrators manage accounts and requests and see system statistics.
-- **Deliverables:** Admin dashboard (desktop layout); donor verification queue; user and donor management; request management with status override; hospital management; statistics and charts; exportable reports.
+- **Deliverables:** Admin dashboard (desktop layout); donor verification queue; user and donor management; request management with status override (including marking stale requests `expired`, DEC-014); hospital management; statistics and charts; exportable reports.
 - **Completion criteria:** Every admin action is role-protected and audited in request_history where relevant; statistics match database counts.
 - **Dependencies:** M2.2
 - **Systems:** AdminDashboard
