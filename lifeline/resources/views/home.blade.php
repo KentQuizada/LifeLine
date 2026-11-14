@@ -33,6 +33,10 @@
         @endif
     </section>
 
+    <a href="{{ route('requests.create') }}" class="btn btn-primary btn-lg w-100 mb-3">
+        <i class="bi bi-plus-circle-fill" aria-hidden="true"></i> Emergency request
+    </a>
+
     @if ($donor)
         @include('partials.availability-card')
 

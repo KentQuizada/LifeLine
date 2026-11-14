@@ -4,7 +4,7 @@
     $tabs = [
         ['route' => 'home', 'label' => 'Home', 'icon' => 'bi-house-door'],
         ['route' => 'map', 'label' => 'Map', 'icon' => 'bi-geo-alt'],
-        ['route' => 'requests.create', 'label' => 'SOS', 'icon' => 'bi-plus-circle'],
+        ['route' => 'requests.create', 'label' => 'SOS', 'icon' => 'bi-plus-lg', 'class' => 'll-sos'],
         ['route' => 'alerts.index', 'label' => 'Alerts', 'icon' => 'bi-bell'],
         ['route' => 'profile.show', 'label' => 'Profile', 'icon' => 'bi-person'],
     ];
@@ -15,7 +15,7 @@
             @if (Route::has($tab['route']))
                 @php($isActive = request()->routeIs($tab['route']))
                 <li class="nav-item">
-                    <a href="{{ route($tab['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}"
+                    <a href="{{ route($tab['route']) }}" class="nav-link {{ $tab['class'] ?? '' }} {{ $isActive ? 'active' : '' }}"
                        @if ($isActive) aria-current="page" @endif>
                         <i class="bi {{ $tab['icon'] }}" aria-hidden="true"></i>
                         {{ $tab['label'] }}
