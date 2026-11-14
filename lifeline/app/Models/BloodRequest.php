@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Distance;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,6 +36,24 @@ class BloodRequest extends Model
         'fulfilled' => [],
         'cancelled' => [],
         'expired' => [],
+    ];
+
+    /** Statuses in which a request still looks for donors: matching runs and donors may answer. */
+    public const LOOKING_FOR_DONORS = ['open', 'donor_found'];
+
+    /**
+     * Red-cell (whole blood) ABO/Rh compatibility: recipient type => donor types it may receive.
+     * LifeLine only suggests potential donors; professionals confirm compatibility (DEC-007).
+     */
+    public const COMPATIBLE_DONORS = [
+        'O-' => ['O-'],
+        'O+' => ['O+', 'O-'],
+        'A-' => ['A-', 'O-'],
+        'A+' => ['A+', 'A-', 'O+', 'O-'],
+        'B-' => ['B-', 'O-'],
+        'B+' => ['B+', 'B-', 'O+', 'O-'],
+        'AB-' => ['AB-', 'A-', 'B-', 'O-'],
+        'AB+' => ['AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-'],
     ];
 
     private const REFERENCE_ATTEMPTS = 5;
@@ -117,19 +136,18 @@ class BloodRequest extends Model
 
     /**
      * The only way to change a status: checks TRANSITIONS and writes request_history
-     * in the same transaction.
+     * in the same transaction. Nothing on this model changes unless the change is allowed.
      */
     public function changeStatus(string $status, ?User $changedBy, ?string $remarks = null): void
     {
         DB::transaction(function () use ($status, $changedBy, $remarks) {
-            // Re-read the status under a row lock, so two changes at the same moment cannot both pass.
-            $this->status = self::whereKey($this->id)->lockForUpdate()->value('status');
+            // Read the saved status under a row lock, so two changes at the same moment cannot both pass.
+            $oldStatus = self::whereKey($this->id)->lockForUpdate()->value('status');
 
-            if (! $this->canChangeTo($status)) {
-                throw new InvalidArgumentException("A {$this->status} request cannot become {$status}.");
+            if (! in_array($status, self::TRANSITIONS[$oldStatus] ?? [], true)) {
+                throw new InvalidArgumentException("A {$oldStatus} request cannot become {$status}.");
             }
 
-            $oldStatus = $this->status;
             $this->status = $status;
             $this->save();
 
@@ -140,6 +158,49 @@ class BloodRequest extends Model
                 'remarks' => $remarks,
             ]);
         });
+    }
+
+    /**
+     * Rule-based matching (DEC-016): adds a "notified" match for each of the nearest eligible donors
+     * this request has not matched yet, ranked by distance from the hospital (DEC-014).
+     * Returns how many matches were added. Closed requests are never matched.
+     */
+    public function matchDonors(): int
+    {
+        if (! in_array($this->status, self::LOOKING_FOR_DONORS, true)) {
+            return 0;
+        }
+
+        $hospital = $this->hospital;
+
+        // Only the columns ranking needs (DEC-004).
+        $nearest = Donor::eligibleFor($this)
+            ->orderBy('id')
+            ->get(['id', 'approx_latitude', 'approx_longitude'])
+            ->map(fn (Donor $donor) => [
+                'donor_id' => $donor->id,
+                'distance_km' => round(Distance::km(
+                    (float) $hospital->latitude,
+                    (float) $hospital->longitude,
+                    (float) $donor->approx_latitude,
+                    (float) $donor->approx_longitude,
+                ), 2),
+            ])
+            ->sortBy('distance_km')
+            ->take(config('lifeline.match_limit'));
+
+        $added = 0;
+
+        foreach ($nearest as $candidate) {
+            // The UNIQUE (request, donor) index is the final guard if two runs overlap.
+            $match = $this->matches()->firstOrCreate(
+                ['donor_id' => $candidate['donor_id']],
+                ['distance_km' => $candidate['distance_km']]
+            );
+            $added += $match->wasRecentlyCreated ? 1 : 0;
+        }
+
+        return $added;
     }
 
     public function requester(): BelongsTo

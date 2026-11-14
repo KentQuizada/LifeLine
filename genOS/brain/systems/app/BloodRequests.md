@@ -35,10 +35,10 @@ Emergency blood requests: creation, unique reference numbers, status lifecycle, 
 
 ## Notes
 - Statuses (final, M1.2): open, donor_found, fulfilled, cancelled, expired. Units 1–10 enforced by CHECK. Generator: `BloodRequest::generateReferenceNumber()`; collision retry on save is built in M2.2.
+- `donor_found` comes only from the first donor acceptance (`DonorMatch::respond()`, see [[Matching]]). `BloodRequest::LOOKING_FOR_DONORS` (`open`, `donor_found`) are the statuses in which matching runs and donors may answer. Since M2.3, a refused `changeStatus()` leaves the model in memory untouched.
 - Since M2.2, `status`, `reference_number` and `requester_id` are not fillable; factories run unguarded so tests and seeders may still set them. Request rules: [[30_DECISIONS]] DEC-014.
 
 ## Future Changes
-- Before M2.3 calls it: `changeStatus()` assigns the locked status to the in-memory model before validating, so a refused change leaves the instance's `status` altered; read into a local and assign only on success.
 - A double click on "Send emergency request" can create two requests (the 5 per 10 min throttle allows it); add disable-on-submit later.
 - The track input's browser pattern rejects a pasted reference with surrounding spaces, although the server trims.
 - Not yet tested: donor-role cancel, cancel from `donor_found`. `submit()` throws a `RuntimeException` (500) after 5 reference collisions (negligible).

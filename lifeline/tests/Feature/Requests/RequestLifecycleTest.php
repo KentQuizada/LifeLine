@@ -142,6 +142,33 @@ class RequestLifecycleTest extends TestCase
         $staleCopy->changeStatus('fulfilled', null);
     }
 
+    public function test_a_refused_change_leaves_the_model_in_memory_untouched(): void
+    {
+        $bloodRequest = BloodRequest::factory()->create(['status' => 'open']);
+        // Someone else cancels the request after this copy was loaded.
+        BloodRequest::whereKey($bloodRequest->id)->update(['status' => 'cancelled']);
+
+        try {
+            $bloodRequest->changeStatus('donor_found', null);
+            $this->fail('A cancelled request cannot become donor_found.');
+        } catch (InvalidArgumentException $exception) {
+            $this->assertSame('A cancelled request cannot become donor_found.', $exception->getMessage());
+        }
+
+        $this->assertSame('open', $bloodRequest->status);
+        $this->assertFalse($bloodRequest->isDirty());
+    }
+
+    public function test_an_allowed_change_updates_the_model_in_memory(): void
+    {
+        $bloodRequest = BloodRequest::factory()->create(['status' => 'open']);
+
+        $bloodRequest->changeStatus('donor_found', null);
+
+        $this->assertSame('donor_found', $bloodRequest->status);
+        $this->assertFalse($bloodRequest->isDirty());
+    }
+
     public function test_status_reference_and_requester_are_not_mass_assignable(): void
     {
         $bloodRequest = new BloodRequest([

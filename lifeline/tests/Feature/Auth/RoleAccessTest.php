@@ -32,6 +32,8 @@ class RoleAccessTest extends TestCase
             'admin has no my requests' => ['admin', '/requests', 403],
             'requester has no donation history' => ['requester', '/donations', 403],
             'admin has no donation history' => ['admin', '/donations', 403],
+            'requester has no requests for you' => ['requester', '/matches', 403],
+            'admin has no requests for you' => ['admin', '/matches', 403],
         ];
     }
 

@@ -58,6 +58,23 @@
         @endforeach
     </ol>
 
+    <h2 class="ll-section-label">Potential donors</h2>
+    <div id="matches" class="mb-2" aria-live="polite" data-api="{{ route('api.requests.matches', $bloodRequest->id) }}">
+        <p class="small text-secondary">Loading potential donors…</p>
+    </div>
+    <noscript>
+        <div class="alert alert-secondary small">Turn on JavaScript to see potential donors.</div>
+    </noscript>
+
+    @if (in_array($bloodRequest->status, \App\Models\BloodRequest::LOOKING_FOR_DONORS, true))
+        <form method="POST" action="{{ route('requests.matches.store', $bloodRequest->id) }}" class="mb-3">
+            @csrf
+            <button type="submit" class="btn btn-outline-primary w-100">
+                <i class="bi bi-search" aria-hidden="true"></i> Find more donors
+            </button>
+        </form>
+    @endif
+
     @if ($bloodRequest->canChangeTo('fulfilled') || $bloodRequest->canChangeTo('cancelled'))
         <div class="d-grid gap-2 mb-3">
             @if ($bloodRequest->canChangeTo('fulfilled'))
@@ -94,4 +111,6 @@
         <i class="bi bi-info-circle" aria-hidden="true"></i>
         LifeLine only suggests potential donors. Final compatibility and eligibility are confirmed by healthcare professionals.
     </p>
+
+    <script src="{{ asset('js/matches.js') }}" defer></script>
 @endsection
