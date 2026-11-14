@@ -132,4 +132,25 @@ class DonationHistoryTest extends TestCase
         $this->actingAs($user)->get('/donations')->assertForbidden();
         $this->actingAs($user)->post('/donations', ['donated_on' => '2026-01-01'])->assertForbidden();
     }
+
+    public function test_huge_donation_id_returns_404(): void
+    {
+        $donor = Donor::factory()->create();
+
+        $this->actingAs($donor->user)->delete('/donations/99999999999999999999')->assertNotFound();
+    }
+
+    public function test_another_donors_donation_date_does_not_block_mine(): void
+    {
+        $donor = Donor::factory()->create();
+        $other = Donor::factory()->create();
+        $date = now()->subMonths(2)->toDateString();
+        $this->donation($other, $date);
+
+        $this->actingAs($donor->user)
+            ->post('/donations', ['donated_on' => $date])
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('donations', ['donor_id' => $donor->id, 'donated_on' => $date]);
+    }
 }

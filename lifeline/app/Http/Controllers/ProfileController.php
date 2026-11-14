@@ -62,7 +62,7 @@ class ProfileController extends Controller
                 'blood_type' => ['required', Rule::in(Donor::BLOOD_TYPES)],
                 // Sanity checks only, as at registration. Eligibility rules belong to matching (M2.3, DEC-008).
                 'birthdate' => ['required', 'date', 'before:today', 'after:1900-01-01'],
-                'weight_kg' => ['required', 'numeric', 'min:1', 'max:300'],
+                'weight_kg' => ['required', 'numeric', 'decimal:0,2', 'min:1', 'max:300'],
                 'city' => ['required', 'string', 'max:100'],
                 'location_sharing' => ['nullable', 'boolean'],
             ];

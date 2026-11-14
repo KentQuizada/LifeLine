@@ -184,6 +184,14 @@ class RegistrationTest extends TestCase
         ]))->assertSessionHasErrors(['blood_type', 'birthdate', 'weight_kg', 'city']);
     }
 
+    public function test_weight_with_more_than_two_decimals_is_rejected(): void
+    {
+        $this->post('/register', $this->step1());
+
+        $this->post('/register/medical', $this->step2(['weight_kg' => '58.555']))
+            ->assertSessionHasErrors('weight_kg');
+    }
+
     public function test_password_must_be_confirmed_and_strong(): void
     {
         $this->post('/register', $this->step1(['role' => 'requester']));

@@ -65,7 +65,7 @@
 
             <div class="mb-3">
                 <label for="weight_kg" class="form-label">Weight (kg)</label>
-                <input id="weight_kg" name="weight_kg" type="number" step="0.1" min="1" max="300" required inputmode="decimal"
+                <input id="weight_kg" name="weight_kg" type="number" step="0.01" min="1" max="300" required inputmode="decimal"
                        value="{{ old('weight_kg', (float) $donor->weight_kg) }}"
                        class="form-control @error('weight_kg') is-invalid @enderror">
                 @error('weight_kg')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -81,7 +81,7 @@
 
             <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" role="switch" name="location_sharing" id="location_sharing" value="1"
-                       @checked(old('location_sharing', $donor->location_sharing))>
+                       @checked($errors->any() ? old('location_sharing') : $donor->location_sharing)>
                 <label class="form-check-label" for="location_sharing">
                     Show my approximate location (about 1 km) on the donor map. When this is off, you do not appear in donor searches.
                 </label>

@@ -92,4 +92,13 @@ class ProfileTest extends TestCase
             ->assertDontSee('Medical info')
             ->assertSee('action="'.route('logout').'"', false);
     }
+
+    public function test_profile_shows_location_sharing_state(): void
+    {
+        $on = Donor::factory()->create(['location_sharing' => true]);
+        $off = Donor::factory()->create(['location_sharing' => false]);
+
+        $this->actingAs($on->user)->get('/profile')->assertSee('On (about 1 km)');
+        $this->actingAs($off->user)->get('/profile')->assertDontSee('On (about 1 km)')->assertSee('Off');
+    }
 }

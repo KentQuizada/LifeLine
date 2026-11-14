@@ -97,7 +97,8 @@ class AvailabilityTest extends TestCase
             ->get('/home')
             ->assertOk()
             ->assertSee('Hello, Jose!')
-            ->assertDontSee('Availability')
+            ->assertDontSee('Available to donate')
+            ->assertDontSee('Set available')
             ->assertDontSee('Completed donations');
     }
 }

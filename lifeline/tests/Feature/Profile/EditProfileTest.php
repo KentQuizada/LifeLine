@@ -175,4 +175,72 @@ class EditProfileTest extends TestCase
             ->put('/profile', $this->payload($donor, ['first_name' => ['x'], 'mobile_number' => ['x'], 'weight_kg' => ['x']]))
             ->assertSessionHasErrors(['first_name', 'mobile_number', 'weight_kg']);
     }
+
+    public function test_location_opt_out_survives_a_validation_error(): void
+    {
+        User::factory()->create(['mobile_number' => '09998887777']);
+        $donor = $this->verifiedDonor();
+
+        $payload = $this->payload($donor, ['mobile_number' => '09998887777']);
+        unset($payload['location_sharing']); // an unticked checkbox sends nothing
+
+        $response = $this->actingAs($donor->user)
+            ->from('/profile/edit')
+            ->followingRedirects()
+            ->put('/profile', $payload)
+            ->assertOk();
+
+        $this->assertDoesNotMatchRegularExpression('/id="location_sharing"[^>]*checked/s', $response->getContent());
+    }
+
+    public function test_weight_accepts_two_decimals_and_rejects_three(): void
+    {
+        $donor = $this->verifiedDonor();
+
+        $this->actingAs($donor->user)
+            ->put('/profile', $this->payload($donor, ['weight_kg' => '61.37']))
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('donors', ['id' => $donor->id, 'weight_kg' => 61.37]);
+
+        $this->actingAs($donor->user)
+            ->put('/profile', $this->payload($donor, ['weight_kg' => '61.375']))
+            ->assertSessionHasErrors('weight_kg');
+    }
+
+    public function test_changing_blood_type_sends_a_rejected_donor_back_to_review(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $donor = $this->verifiedDonor(['verification_status' => 'rejected', 'verified_by' => $admin->id, 'verified_at' => now()]);
+
+        $this->actingAs($donor->user)->put('/profile', $this->payload($donor, ['blood_type' => 'A-']));
+
+        $donor->refresh();
+        $this->assertSame('pending', $donor->verification_status);
+        $this->assertNull($donor->verified_by);
+        $this->assertNull($donor->verified_at);
+    }
+
+    public function test_changing_blood_type_on_a_pending_donor_keeps_it_pending(): void
+    {
+        $donor = $this->verifiedDonor(['verification_status' => 'pending', 'verified_by' => null, 'verified_at' => null]);
+
+        $this->actingAs($donor->user)
+            ->put('/profile', $this->payload($donor, ['blood_type' => 'A-']))
+            ->assertSessionHas('status', 'Your profile was updated.');
+
+        $donor->refresh();
+        $this->assertSame('A-', $donor->blood_type);
+        $this->assertSame('pending', $donor->verification_status);
+    }
+
+    public function test_profile_updates_are_rate_limited(): void
+    {
+        $donor = $this->verifiedDonor();
+
+        for ($i = 0; $i < 10; $i++) {
+            $this->actingAs($donor->user)->put('/profile', $this->payload($donor))->assertStatus(302);
+        }
+
+        $this->actingAs($donor->user)->put('/profile', $this->payload($donor))->assertStatus(429);
+    }
 }
