@@ -24,7 +24,16 @@ class BottomNavTest extends TestCase
             ->assertOk()
             ->assertSee('aria-label="Main"', false)
             ->assertSee('href="'.route('home').'"', false)
-            ->assertSee('href="'.route('profile.show').'"', false);
+            ->assertSee('href="'.route('profile.show').'"', false)
+            ->assertSee('href="'.route('requests.create').'"', false);
+    }
+
+    public function test_sos_tab_is_marked_current_on_the_sos_form(): void
+    {
+        $this->actingAs(User::factory()->create(['role' => 'requester']))
+            ->get('/requests/new')
+            ->assertOk()
+            ->assertSeeInOrder(['href="'.route('requests.create').'"', 'aria-current="page"'], false);
     }
 
     public function test_profile_tab_is_marked_current_on_the_profile_page(): void

@@ -147,3 +147,26 @@ body {
     background: #fdecea;
     color: var(--ll-red);
 }
+
+/* SOS: the raised red centre tab from the design. */
+.ll-bottom-nav .ll-sos .bi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-top: -1.25rem;
+    border-radius: 50%;
+    background: var(--ll-red);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Reference number on the request sent screen (D2). */
+.ll-reference {
+    font-family: var(--bs-font-monospace);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    user-select: all;
+}

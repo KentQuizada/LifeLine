@@ -6,10 +6,13 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+Route::view('/track', 'requests.track')->name('track');
 
 Route::middleware('guest')->group(function () {
     Route::view('/', 'onboarding')->name('onboarding');
@@ -53,6 +56,20 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->middleware('throttle:10,1')->name('profile.update');
+
+    Route::get('/requests', [BloodRequestController::class, 'index'])->name('requests.index');
+    Route::get('/requests/new', [BloodRequestController::class, 'create'])->name('requests.create');
+    // The third throttle argument gives this limit its own counter. Without it, Laravel counts every
+    // throttle:x,y route for the same user (or guest IP) together.
+    Route::post('/requests', [BloodRequestController::class, 'store'])
+        ->middleware('throttle:5,10,requests')
+        ->name('requests.store');
+    Route::get('/requests/{bloodRequest}', [BloodRequestController::class, 'show'])
+        ->where('bloodRequest', '[0-9]{1,18}')
+        ->name('requests.show');
+    Route::patch('/requests/{bloodRequest}/status', [BloodRequestController::class, 'updateStatus'])
+        ->where('bloodRequest', '[0-9]{1,18}')
+        ->name('requests.status');
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {

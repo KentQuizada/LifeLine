@@ -28,8 +28,8 @@ Do not copy milestone criteria into Progress or Backlog. Progress stores only `c
 | M1.3 | M1 | done | Authentication, roles & app shell |
 | M2 | — | active | Core features |
 | M2.1 | M2 | done | Donor management & availability |
-| M2.2 | M2 | active | Blood requests, reference numbers & tracking |
-| M2.3 | M2 | planned | Donor matching |
+| M2.2 | M2 | done | Blood requests, reference numbers & tracking |
+| M2.3 | M2 | active | Donor matching |
 | M2.4 | M2 | planned | Donor map & geolocation |
 | M2.5 | M2 | planned | Emergency notifications |
 | M2.6 | M2 | planned | Admin dashboard & reports |
@@ -112,7 +112,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M2.2 — Blood requests, reference numbers & tracking
 
-- **Status:** active
+- **Status:** done
 - **Objective:** Requesters submit emergency requests with unique reference numbers and track their status.
 - **Deliverables:** SOS request form (blood type, units, urgency, hospital, location); request sent screen showing the reference number; status lifecycle with history; track-by-reference page; request list and cancel. Rules: `[[30_DECISIONS]]` DEC-014. Plan: `docs/superpowers/plans/2026-11-14-m2.2-requests.md`.
 - **Completion criteria:** Duplicate reference numbers are impossible (tested); every status change writes request_history; tracking works for valid, invalid, and malformed references.
@@ -121,7 +121,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M2.3 — Donor matching
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Find compatible, available, nearby potential donors for a request.
 - **Deliverables:** Red-cell ABO/Rh compatibility rules; distance ranking; eligibility filter (availability, verification, configurable donation interval); donor accept/decline; contact reveal on acceptance; medical disclaimer.
 - **Completion criteria:** Unit tests cover all 8×8 blood type pairs; matches exclude unavailable, unverified, and recently donated donors.
