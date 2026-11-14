@@ -71,6 +71,10 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
     Route::patch('/requests/{bloodRequest}/status', [BloodRequestController::class, 'updateStatus'])
         ->where('bloodRequest', '[0-9]{1,18}')
         ->name('requests.status');
+    Route::post('/requests/{bloodRequest}/matches', [BloodRequestController::class, 'findDonors'])
+        ->where('bloodRequest', '[0-9]{1,18}')
+        ->middleware('throttle:5,10,find-donors')
+        ->name('requests.matches.store');
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {

@@ -35,6 +35,9 @@ class BloodRequestController extends Controller
 
         $bloodRequest = BloodRequest::submit($request->user(), $details);
 
+        // Rule-based matching right away (DEC-016). M2.5 notifies the matched donors.
+        $bloodRequest->matchDonors();
+
         return redirect()->route('requests.show', $bloodRequest->id)->with('submitted', true);
     }
 
@@ -78,5 +81,21 @@ class BloodRequestController extends Controller
         return redirect()->route('requests.show', $record->id)->with('status', $status === 'cancelled'
             ? 'Your request was cancelled.'
             : 'Your request was marked fulfilled.');
+    }
+
+    /** "Find more donors": runs matching again for donors who became eligible since (DEC-016). */
+    public function findDonors(Request $request, int $bloodRequest): RedirectResponse
+    {
+        $record = $request->user()->bloodRequests()->findOrFail($bloodRequest);
+
+        if (! in_array($record->status, BloodRequest::LOOKING_FOR_DONORS, true)) {
+            return back()->with('error', 'This request is no longer looking for donors.');
+        }
+
+        $added = $record->matchDonors();
+
+        return redirect()->route('requests.show', $record->id)->with('status', $added > 0
+            ? "Found {$added} more potential donor(s)."
+            : 'No new potential donors right now. Try again later.');
     }
 }
