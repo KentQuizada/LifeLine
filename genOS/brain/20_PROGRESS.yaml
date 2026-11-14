@@ -28,7 +28,7 @@ working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M2.3 is done on branch feat/m2.3-matching (353 tests pass) and NOT yet merged into main - waiting for the team; main has not been pushed to any remote (no GitHub repo exists yet)"
+  - "M2.3 is merged into main locally (2026-11-14, merge cb01d68, 353 tests pass on main); main has not been pushed to any remote (no GitHub repo exists yet)"
   - "Signed-in /api/v1 routes use the web session (DEC-015); the first API write (M2.5) must send the CSRF token (RestApi system file)"
   - "Until M2.4 captures donor coordinates, only seeded sample donors can be matched (DEC-016)"
   - "Donation interval (3 months, design B2) still needs a cited source before the defense (DEC-008, TODO in lifeline/config/lifeline.php)"
@@ -59,8 +59,8 @@ session_summary: >-
   acceptance; GET /api/v1/requests/{id}/matches with the web session (DEC-015) used by public/js/matches.js;
   ForceJsonResponse makes every /api/v1 answer JSON. Decisions DEC-015 and DEC-016 recorded. 353 tests
   pass; browser check at 375 px and 1280 px passed (real Tab presses not verified, pane hidden). Deferred
-  items are in the Matching, RestApi and Donors system files (Future Changes). Next: the team decides
-  whether to merge feat/m2.3-matching into main; then a new session `kickoff` M2.4 (donor map and
+  items are in the Matching, RestApi and Donors system files (Future Changes). Merged into main
+  2026-11-14 (merge cb01d68, 353 tests pass on main). Next: a new session `kickoff` M2.4 (donor map and
   geolocation) with XAMPP MySQL running.
   Previous, 2026-11-14 (M2.2 execution): M2.2 blood requests done on feat/m2.2-requests (submit() with
   unique LL-YYMMDD-XXXXXX references, changeStatus() with history, SOS form, request sent, my requests,
