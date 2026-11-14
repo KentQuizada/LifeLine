@@ -42,7 +42,7 @@ Identity, registration, login, verification, and role-based access for donors, r
 
 ## Future Changes
 Carry-forwards from the M1.3 final review (deferred, not blocking):
-- Before production: end other sessions on password reset (`auth.session` middleware); `SESSION_SECURE_COOKIE=true`, `APP_DEBUG=false`; record consent (`privacy_consent_at` / `terms_accepted_at`, Data Privacy Act evidence; best done with the profile in M2.1).
+- Before production: end other sessions on password reset (`auth.session` middleware); `SESSION_SECURE_COOKIE=true`, `APP_DEBUG=false`. (Consent recording was done in M2.1: `users.privacy_consent_at` / `terms_accepted_at` are set at registration.)
 - M2.5: queue verification/reset mail (also removes a small timing difference on forgot-password).
 - M2.6: verify/reject should only act on `pending` donors (today an admin can flip a verified donor to rejected).
 - M3.1: unique-check/insert race returns 500 (catch the unique violation → back to step 1); lowercase email at login/reset (case-insensitivity currently relies on the collation); per-IP ceiling on `POST /login`; step-1 resubmit clears step-2 answers even if the role is unchanged; extra tests (admin end-to-end login, token reuse, location_sharing default, session regeneration, rejected-donor home).

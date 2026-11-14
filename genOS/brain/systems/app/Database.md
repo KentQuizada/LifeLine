@@ -27,6 +27,7 @@ Normalized relational schema in MariaDB/MySQL with integrity constraints and sam
 ## Notes
 - Local target: XAMPP MariaDB 10.4 (supports enforced CHECK constraints).
 - "Last donation" is MAX(donations.donated_on); it is not stored on donors (3NF).
+- M2.1 added `users.privacy_consent_at` and `users.terms_accepted_at` (nullable; set at registration as Data Privacy Act evidence). When regenerating `lifeline_schema.sql` with mysqldump, strip the `AUTO_INCREMENT=` table options (dev-data noise).
 - App and DB both run in Philippine time (see [[30_DECISIONS]] DEC-012).
 - Never run `php artisan config:cache` in development: cached config ignores phpunit.xml, so RefreshDatabase would wipe the `lifeline` dev database instead of `lifeline_test`.
 - Seeded admin `admin@lifeline.test` / `password` is local sample data only; guard or change it before any hosted deployment.
