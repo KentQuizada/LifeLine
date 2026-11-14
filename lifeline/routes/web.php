@@ -12,6 +12,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+Route::view('/track', 'requests.track')->name('track');
+
 Route::middleware('guest')->group(function () {
     Route::view('/', 'onboarding')->name('onboarding');
 

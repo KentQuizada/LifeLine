@@ -85,7 +85,10 @@
         </div>
     @endif
 
-    <p class="text-center"><a href="{{ route('requests.index') }}">All my requests</a></p>
+    <p class="text-center">
+        <a href="{{ route('track', ['reference' => $bloodRequest->reference_number]) }}">Public tracking page</a>
+        · <a href="{{ route('requests.index') }}">All my requests</a>
+    </p>
 
     <p class="small text-secondary">
         <i class="bi bi-info-circle" aria-hidden="true"></i>

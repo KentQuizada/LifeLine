@@ -34,4 +34,5 @@
     </form>
 
     <p class="text-center mt-3">New to LifeLine? <a href="{{ route('register.step1') }}">Create an account</a></p>
+    <p class="text-center"><a href="{{ route('track') }}"><i class="bi bi-search" aria-hidden="true"></i> Track a blood request</a></p>
 @endsection
