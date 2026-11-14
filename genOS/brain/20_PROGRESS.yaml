@@ -28,7 +28,7 @@ working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M2.1 is complete on branch feat/m2.1-donors (173 tests pass) but NOT merged into main yet - waiting for the team's decision; main has not been pushed to any remote (no GitHub repo exists yet)"
+  - "M2.1 is merged into main locally (2026-11-14, merge de67cef, 173 tests pass on main); main has not been pushed to any remote (no GitHub repo exists yet)"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image is not saved in the repo yet (team to save it as docs/design/lifeline-design.png)"
