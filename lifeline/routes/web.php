@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\DonorMatchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,10 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
+    Route::get('/matches', [DonorMatchController::class, 'index'])->name('matches.index');
+    Route::patch('/matches/{donorMatch}', [DonorMatchController::class, 'update'])
+        ->where('donorMatch', '[0-9]{1,18}')
+        ->name('matches.update');
     Route::patch('/availability', AvailabilityController::class)->name('availability.update');
     Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');

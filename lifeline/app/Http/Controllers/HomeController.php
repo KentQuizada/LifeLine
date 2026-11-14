@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BloodRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -24,6 +25,10 @@ class HomeController extends Controller
             'donor' => $donor,
             'donationCount' => $donor?->donations()->count() ?? 0,
             'lastDonation' => $donor?->lastDonationOn(),
+            'waitingMatches' => $donor?->matches()
+                ->where('status', 'notified')
+                ->whereHas('bloodRequest', fn ($query) => $query->whereIn('status', BloodRequest::LOOKING_FOR_DONORS))
+                ->count() ?? 0,
         ]);
     }
 }

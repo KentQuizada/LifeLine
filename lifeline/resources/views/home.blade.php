@@ -50,6 +50,12 @@
         @endunless
 
         <div class="d-grid gap-2">
+            <a href="{{ route('matches.index') }}" class="btn btn-outline-danger d-flex justify-content-center align-items-center gap-2">
+                <i class="bi bi-heart-pulse" aria-hidden="true"></i> Requests for you
+                @if ($waitingMatches > 0)
+                    <span class="badge text-bg-danger">{{ $waitingMatches }} waiting</span>
+                @endif
+            </a>
             <a href="{{ route('requests.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-list-check" aria-hidden="true"></i> My requests
             </a>
