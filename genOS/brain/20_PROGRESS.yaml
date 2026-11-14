@@ -14,22 +14,22 @@ last_agent: claude-code
 last_ide: claude-desktop
 
 # ID only — resolve objective/criteria in 50_ROADMAP.md
-current_milestone: M2.2
+current_milestone: M2.3
 
 # Active scene or primary file in focus, if any
 current_scene: null
 
 # System file basenames under brain/systems/ (without .md) to load on BOOT
 # Example: [Input, Movement]
-systems_in_scope: [BloodRequests, RestApi, FrontendUI]
+systems_in_scope: [Matching, Donors, BloodRequests]
 
 # Sole in-progress list (do not duplicate into Backlog)
-working_on:
-  - "M2.2 plan approved 2026-11-14 (DEC-014), not started: docs/superpowers/plans/2026-11-14-m2.2-requests.md"
+working_on: []
 
 # Known bugs or risks
 known_issues:
-  - "M2.1 is merged into main locally (2026-11-14, merge de67cef, 173 tests pass on main); main has not been pushed to any remote (no GitHub repo exists yet)"
+  - "M2.2 is complete on branch feat/m2.2-requests (247 tests pass) and NOT merged into main yet - team decides the merge; main has not been pushed to any remote (no GitHub repo exists yet)"
+  - "M2.3 must decide how authenticated /api/v1 routes get the user: the api route group has no session (RestApi system file)"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image is not saved in the repo yet (team to save it as docs/design/lifeline-design.png)"
@@ -44,12 +44,20 @@ blocked:
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
 session_summary: >-
-  2026-11-14 (M2.2 kickoff): team approved the M2.2 defaults (DEC-014) and the plan
-  docs/superpowers/plans/2026-11-14-m2.2-requests.md (5 TDD tasks: lifecycle core, SOS form and request
-  sent, my requests with cancel/fulfil, /api/v1 tracking and /track page, security pass and shutdown).
-  No code written yet. Backlog TASK-001 records that the existing throttle routes share counters. Next: new
-  session `kickoff execute the approved plan: docs/superpowers/plans/2026-11-14-m2.2-requests.md using
-  subagent-driven-development` with XAMPP MySQL running.
+  2026-11-14 (M2.2 execution): M2.2 done via subagent-driven execution of
+  docs/superpowers/plans/2026-11-14-m2.2-requests.md on branch feat/m2.2-requests (Tasks 1-4 each with a
+  spec + quality review, Task 5 static checks and browser check by the controller, then an Opus whole-branch
+  review; fixes in 681d795). Built: BloodRequest::submit() (unique LL-YYMMDD-XXXXXX reference with retry,
+  first history row) and changeStatus() (allowed transitions, row lock, history row in one transaction);
+  reference_number, requester_id and status no longer fillable; SOS form D1 (throttle 5 per 10 min per user),
+  request sent D2, my requests, cancel and mark fulfilled; raised red SOS tab and home buttons; /api/v1 set
+  up in bootstrap/app.php (JSON errors for api/* or when the client expects JSON) with GET
+  /api/v1/requests/track/{reference} (30/min per IP, DEC-014 fields only, 404 unknown, 422 malformed) used by
+  the public /track page (public/js/track.js, textContent only). 247 tests pass; static checks pass; browser
+  check at 375 px and 1280 px passed (donor-role SOS covered by tests only). Deferred items are in the
+  BloodRequests and RestApi system files (Future Changes); fix changeStatus() in-memory status mutation
+  before M2.3 uses it. Next: the team decides whether to merge feat/m2.2-requests into main; then a new
+  session `kickoff` M2.3 (donor matching) with XAMPP MySQL running.
   Previous, 2026-11-14 (M2.1 execution): M2.1 done via subagent-driven execution of
   docs/superpowers/plans/2026-11-14-m2.1-donors.md on branch feat/m2.1-donors (Tasks 1-5 and 7, each
   with a spec + quality review, then an Opus whole-branch review). Built: consent timestamps on users

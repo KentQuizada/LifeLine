@@ -4,7 +4,7 @@
 Mobile-first, installable user interface implementing the team's LifeLine design.
 
 ## Status
-`active` — M1.3 done 2026-11-14: app shell (guest and signed-in layouts, bottom nav), A1–A4 onboarding, B1–B3 registration, B4 login, verify-email, forgot/reset password and the admin verification queue. M2.1 done 2026-11-14: C1 home dashboard and E1 my profile restyled to the team design (red header, green availability switch, Account menu), edit profile, donation history; Profile tab live. Checked in the browser at 360 px and laptop width.
+`active` — M1.3 done 2026-11-14: app shell (guest and signed-in layouts, bottom nav), A1–A4 onboarding, B1–B3 registration, B4 login, verify-email, forgot/reset password and the admin verification queue. M2.1 done 2026-11-14: C1 home dashboard and E1 my profile restyled to the team design (red header, green availability switch, Account menu), edit profile, donation history; Profile tab live. Checked in the browser at 360 px and laptop width. M2.2 done 2026-11-14: D1 SOS form, D2 request sent, my requests, request page and the track page; raised red SOS centre tab and Emergency request / My requests buttons on home. Checked at 375 px and 1280 px.
 
 ## Responsibilities
 - Screens from the design: A1 splash; A2-A4 onboarding; B1-B3 registration; B4 login; C1 home dashboard; C2 live donor map; C3 notifications; D1 SOS request form; D2 request sent; D3 donor profile; E1 my profile
@@ -18,7 +18,8 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 
 ## Runtime References
 - Layouts and shared parts: `lifeline/resources/views/layouts/`, `lifeline/resources/views/partials/` (bottom nav: `partials/bottom-nav.blade.php`)
-- Screens: `lifeline/resources/views/` (`onboarding`, `auth/`, `home`, `profile/`, `donations/`, `admin/`)
+- Screens: `lifeline/resources/views/` (`onboarding`, `auth/`, `home`, `profile/`, `donations/`, `requests/`, `admin/`)
+- Page scripts: `lifeline/public/js/track.js` (plain JS, `textContent` only)
 - Brand CSS: `lifeline/public/css/lifeline.css`; vendored Bootstrap 5.3.3 and Bootstrap Icons 1.11.3: `lifeline/public/vendor/`
 
 ## Invariants
@@ -26,7 +27,7 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 - Layout works from phone to laptop widths
 
 ## Notes
-- Reusable pieces from M2.1 (`lifeline/public/css/lifeline.css`): `.ll-hero` red header with `.ll-hero-stat` tiles, `.ll-availability` card with `.ll-switch` (a real submit button, no JavaScript), `.ll-section-label` and `.ll-menu-icon` for menu lists.
+- Reusable pieces from M2.1 (`lifeline/public/css/lifeline.css`): `.ll-hero` red header with `.ll-hero-stat` tiles, `.ll-availability` card with `.ll-switch` (a real submit button, no JavaScript), `.ll-section-label` and `.ll-menu-icon` for menu lists. From M2.2: `.ll-sos` raised centre tab, `.ll-reference` monospace reference number, status badge partial `partials/request-status.blade.php`.
 - Brand: red primary, white cards, green for available/success.
 - The design image should be saved in the repo for reference, in `docs/design/` (still missing as of 2026-11-14).
 - Front-end assets come from the app itself, not a CDN (see [[30_DECISIONS]] DEC-013).
@@ -38,4 +39,4 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 - PWA manifest is not done yet.
 - The design image is still not in `docs/design/` (team to save it as `docs/design/lifeline-design.png`).
 - M3.2: hero small-text contrast (~3.4–4:1 on red) and the availability switch track contrast are below WCAG AA; fix in the accessibility pass.
-- Design parts still to come: SOS centre tab and Emergency Request button (M2.2), Donors near you and map (M2.4), Notifications switch (M2.5).
+- Design parts still to come: Donors near you and map (M2.4), Notifications switch (M2.5).

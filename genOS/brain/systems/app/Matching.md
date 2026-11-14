@@ -29,6 +29,9 @@ Find compatible, eligible, nearby potential donors for a blood request.
 ## Notes
 - Rule-based matching is the honest "intelligent matching": explainable, testable, no decorative AI.
 - Compatibility covers red cells / whole blood only; plasma and platelets differ and are out of scope.
+- Request location = the selected hospital's coordinates (DEC-014); rank donors by distance from the hospital.
+- Accepting a match sets the request to `donor_found` with `$bloodRequest->changeStatus('donor_found', $donorUser, ...)`, never by assigning `status` (fix the in-memory mutation noted in [[BloodRequests]] first).
+- Start donor queries from `Donor::searchable()` (verified + available + sharing location).
 
 ## Future Changes
 - _TBD_
