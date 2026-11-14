@@ -123,7 +123,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 - **Status:** active
 - **Objective:** Find compatible, available, nearby potential donors for a request.
-- **Deliverables:** Red-cell ABO/Rh compatibility rules; distance ranking; eligibility filter (availability, verification, configurable donation interval); donor accept/decline; contact reveal on acceptance; medical disclaimer.
+- **Deliverables:** Red-cell ABO/Rh compatibility rules; distance ranking; eligibility filter (availability, verification, configurable donation interval); donor accept/decline; contact reveal on acceptance; medical disclaimer. Rules: `[[30_DECISIONS]]` DEC-015 (API sign-in), DEC-016 (matching). Plan: `docs/superpowers/plans/2026-11-14-m2.3-matching.md`.
 - **Completion criteria:** Unit tests cover all 8×8 blood type pairs; matches exclude unavailable, unverified, and recently donated donors.
 - **Dependencies:** M2.1, M2.2
 - **Systems:** Matching

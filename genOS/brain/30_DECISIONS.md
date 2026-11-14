@@ -17,6 +17,8 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-016 | accepted | 2026-11-14 | M2.3 matching rules: when matching runs, eligibility, distance, answers, contact reveal, limits |
+| DEC-015 | accepted | 2026-11-14 | Signed-in /api/v1 routes use the web session (no Sanctum) |
 | DEC-014 | accepted | 2026-11-14 | M2.2 blood request rules: who requests, location, statuses, tracking fields, limits |
 | DEC-013 | accepted | 2026-11-14 | Bootstrap and Bootstrap Icons served from the app, not a CDN |
 | DEC-012 | accepted | 2026-11-14 | App and database run in Philippine time |
@@ -48,6 +50,20 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 ---
 
 ## Decisions
+
+### DEC-016: M2.3 matching rules: when matching runs, eligibility, distance, answers, contact reveal, limits
+- **Status:** accepted
+- **Date:** 2026-11-14
+- **Reason:** Team approved the M2.3 kickoff defaults.
+- **Impact:** Matching runs when a request is submitted and again on the requester's "Find more donors" (while `open` or `donor_found`); each run adds up to 10 of the nearest eligible donors not matched yet (`config/lifeline.php` `match_limit`), no radius. Eligible = `Donor::searchable()` + red-cell ABO/Rh compatible + approximate coordinates set + no donation within 3 months (`donation_interval_months`, from design B2; source still to be cited, DEC-008) + not the requester. No city fallback: until M2.4 captures coordinates only sample donors can match. Distance = Haversine from the hospital (DEC-014), shown in whole km (minimum 1). Donors answer each match once (accept / decline) on a "Requests for you" page; answers are refused once the request is closed. The first acceptance sets `donor_found` through `changeStatus()`; declines never change the request. Contact both ways only after acceptance (DEC-004). No notifications in M2.3 (M2.5). Limits: matches API 60/min per user, Find more donors 5 per 10 min per user, each with its own prefix. Plan: `docs/superpowers/plans/2026-11-14-m2.3-matching.md`. See `[[Matching]]`.
+- **Supersedes:** none
+
+### DEC-015: Signed-in /api/v1 routes use the web session (no Sanctum)
+- **Status:** accepted
+- **Date:** 2026-11-14
+- **Reason:** The `api` route group has no session, so `/api/v1` could only serve public data. Sanctum (stateful) would add a package, config, a migration and a `SANCTUM_STATEFUL_DOMAINS` setting that breaks the API if the demo host is not listed, against DEC-001's simplicity rule. Team chose option A at the M2.3 kickoff.
+- **Impact:** Signed-in API routes in `routes/api.php` use `['web', 'auth', 'verified', 'role:...']`: the normal login session cookie, and the CSRF token on POST/PATCH/DELETE (plain-JS files send it from a `csrf-token` meta tag when the first API write is added). Public routes such as tracking stay stateless. Implements DEC-001's "normal login session (no Sanctum tokens)"; Sanctum tokens only if a native client is ever added. See `[[RestApi]]`.
+- **Supersedes:** none
 
 ### DEC-014: M2.2 blood request rules: who requests, location, statuses, tracking fields, limits
 - **Status:** accepted
