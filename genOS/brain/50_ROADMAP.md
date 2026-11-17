@@ -36,9 +36,9 @@ Do not copy milestone criteria into Progress or Backlog. Progress stores only `c
 | M3 | — | active | Testing, debugging & demo readiness |
 | M3.1 | M3 | active | Test plan & automated tests |
 | M3.2 | M3 | planned | Debugging, usability pass & demo data |
-| M4 | — | planned | Mini Thesis & defense |
-| M4.1 | M4 | planned | Chapter 1 — The Problem and Its Background |
-| M4.2 | M4 | planned | Chapter 2 — Review of Related Literature and Studies |
+| M4 | — | active | Mini Thesis & defense |
+| M4.1 | M4 | active | Chapter 1 — The Problem and Its Background |
+| M4.2 | M4 | active | Chapter 2 — Review of Related Literature and Studies |
 | M4.3 | M4 | planned | Chapter 3 — Methodology |
 | M4.4 | M4 | planned | Defense questions & answers |
 
@@ -189,7 +189,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M4 — Mini Thesis & defense
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Mini Thesis Chapters 1–3 in Philippine university format, plus defense preparation.
 - **Success criteria:**
   - All chapters complete with verified citations only
@@ -199,18 +199,18 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M4.1 — Chapter 1 — The Problem and Its Background
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Introduction, background, statement of the problem, general and specific objectives, scope and limitations, significance, definition of terms.
-- **Deliverables:** Chapter 1 manuscript.
+- **Deliverables:** Chapter 1 manuscript. File: `docs/thesis/chapter-1.md` (Markdown, APA 7th, `[[30_DECISIONS]]` DEC-021).
 - **Completion criteria:** Specific objectives map one-to-one to implemented features; every factual claim is cited or marked for verification.
 - **Dependencies:** M1.1
 - **Systems:** ThesisCore
 
 ## M4.2 — Chapter 2 — Review of Related Literature and Studies
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Local and foreign literature and studies, existing systems, synthesis, research gap.
-- **Deliverables:** Chapter 2 manuscript; source matrix with verified links/DOIs.
+- **Deliverables:** Chapter 2 manuscript; source matrix with verified links/DOIs. Files: `docs/thesis/chapter-2.md`, `docs/thesis/source-matrix.md` (DEC-021).
 - **Completion criteria:** Every source is verified to exist and to say what is cited; the research gap follows from the synthesis.
 - **Dependencies:** M1.1
 - **Systems:** LiteratureReview

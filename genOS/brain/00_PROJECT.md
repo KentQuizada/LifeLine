@@ -63,7 +63,8 @@ Mobile-first web application (installable PWA) that also runs in a laptop browse
 ## Constraints
 
 - Academic final project for ITE-18, built by a student team; must be achievable within the course deadline while maintaining professional quality.
-- Deadline: _TBD_
+- Deadlines (from the course, given by the team 2026-11-17): Mini Thesis softcopy **Nov 19**; **link of the system by Nov 20, 11:59 PM** (the link is inaccessible afterwards); presentation and hands-on with debugging around **Dec 7-8** (course note says Dec 15), 10 minutes, 3-5 problems, each member brings a laptop.
+- Graded: functional and usable system (completeness, correctness), API design / integration of emerging technology, data management and database design (e.g. SQL check that a reference number is not already recorded), documentation with evidence and statistics.
 - Team size / roles: _TBD_
 - Demo environment (localhost vs hosted): _TBD_
 - **Keep the code simple** (team request, 2026-11-13): code the student team can read, explain at the defense, and maintain. Prefer framework built-ins and plain code over extra packages, build tools, and abstractions.

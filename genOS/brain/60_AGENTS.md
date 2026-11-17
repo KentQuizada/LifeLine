@@ -34,3 +34,4 @@ Small workforce on purpose, matching the team's simplicity constraint: three cor
 ## Last Workforce Review
 2026-11-13 — Day 0 setup, active milestone M1.2. Installed by `guides/scripts/install_agent.py` with team approval.
 2026-11-14 — M1.3 kickoff: AppSec Engineer installed with team approval.
+2026-11-17 — M4.1 kickoff: team chose not to install the deferred Research Synthesist and Technical Writer; M4 writing follows DEC-008 and DEC-021 directly.

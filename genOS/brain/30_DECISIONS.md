@@ -17,6 +17,8 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-021 | accepted | 2026-11-17 | Mini Thesis in APA 7th edition, Markdown in docs/thesis/ |
+| DEC-022 | proposed | 2026-11-17 | Donation through a match, withdrawing an acceptance, suspending donors |
 | DEC-020 | proposed | 2026-11-17 | Fixed demo accounts in the seeder |
 | DEC-019 | proposed | 2026-11-17 | M2.6 admin rules: override statuses, audit, hospital delete, exports |
 | DEC-018 | proposed | 2026-11-17 | M2.5 notification rules: events, recipients, email preference, timing |
@@ -54,6 +56,20 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 ---
 
 ## Decisions
+
+### DEC-021: Mini Thesis in APA 7th edition, Markdown in docs/thesis/
+- **Status:** accepted
+- **Date:** 2026-11-17
+- **Reason:** Citation style and manuscript format were blocked items. The team chose both at the M4.1 kickoff.
+- **Impact:** All chapters cite in APA 7th edition. Chapters are Markdown files in `docs/thesis/` (`chapter-1.md`, `chapter-2.md`, later `chapter-3.md`), versioned with git and pasted into the instructor's format at submission. `docs/thesis/source-matrix.md` is the single list of checked sources (DEC-008): only Verified sources are cited as-is, Partly verified ones carry a [VERIFY] mark until a team member opens them. No research agents were installed for M4 (team choice). See `[[ThesisCore]]`, `[[LiteratureReview]]`.
+- **Supersedes:** none
+
+### DEC-022: Donation through a match, withdrawing an acceptance, suspending donors
+- **Status:** proposed
+- **Date:** 2026-11-17
+- **Reason:** Completes the donor loop the earlier milestones left open (Matching and Donors Future Changes) and design D3 (donor profile): requesters need to see who is coming and record that they gave blood; donors need a way out after accepting; admins need to stop a verified donor without the pending-only review queue.
+- **Impact:** (1) D3 donor profile `requests.donor` shows an accepted donor's name, blood type, city, donation count, last donation, distance from the hospital and contact; never coordinates, birthdate or weight; other matches give 404. (2) The requester records the donation there (`requests.donor.donation`): date between the request date and today, request `donor_found` or `fulfilled`, once per match and per donor date; saved in `donations` with `blood_request_id`, the request's hospital and `is_self_reported = false` (the donor cannot delete it), so the donation interval applies; the donor gets a "Thank you" alert. (3) A donor who accepted may withdraw (`matches.withdraw`) while the request looks for donors and before a donation is recorded: match status `withdrawn` (new enum value, migration 2026_11_17_000001), contact details hidden again, the donor is not re-matched for that request; when no other donor accepted, `BloodRequest::reopen()` moves `donor_found` back to `open` with a history row. `TRANSITIONS` still has no way back to `open`, so requesters and admins cannot reopen. The requester gets one "A donor withdrew" alert. (4) Admins can **Suspend** a verified donor (status `rejected`) and **Verify again**, each with an alert to the donor; the pending queue's verify/reject act on pending donors only. See `[[Matching]]`, `[[Donors]]`, `[[AdminDashboard]]`.
+- **Supersedes:** none
 
 ### DEC-020: Fixed demo accounts in the seeder
 - **Status:** proposed
