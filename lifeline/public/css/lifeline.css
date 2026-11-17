@@ -170,3 +170,8 @@ body {
     letter-spacing: 0.05em;
     user-select: all;
 }
+
+/* Leaflet maps (M2.4). */
+.ll-map { height: 360px; width: 100%; background: #e9ecef; }
+.ll-map-sm { height: 220px; }
+@media (min-width: 768px) { .ll-map { height: 440px; } .ll-map-sm { height: 260px; } }

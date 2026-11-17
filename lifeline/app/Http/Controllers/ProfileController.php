@@ -16,6 +16,8 @@ class ProfileController extends Controller
 {
     private const MESSAGES = [
         'mobile_number.regex' => 'Enter a Philippine mobile number, for example 0917 123 4567.',
+        'approx_latitude.between' => 'Choose a location in the Philippines.',
+        'approx_longitude.between' => 'Choose a location in the Philippines.',
     ];
 
     public function show(Request $request): View
@@ -37,6 +39,7 @@ class ProfileController extends Controller
             'user' => $request->user(),
             'donor' => $request->user()->donor,
             'bloodTypes' => Donor::BLOOD_TYPES,
+            'mapCenter' => config('lifeline.map.center'),
         ]);
     }
 
@@ -65,6 +68,11 @@ class ProfileController extends Controller
                 'weight_kg' => ['required', 'numeric', 'decimal:0,2', 'min:1', 'max:300'],
                 'city' => ['required', 'string', 'max:100'],
                 'location_sharing' => ['nullable', 'boolean'],
+                // Approximate location from the map picker (M2.4). Both or neither.
+                'approx_latitude' => ['nullable', 'numeric', 'required_with:approx_longitude',
+                    'between:'.implode(',', config('lifeline.location_bounds.latitude'))],
+                'approx_longitude' => ['nullable', 'numeric', 'required_with:approx_latitude',
+                    'between:'.implode(',', config('lifeline.location_bounds.longitude'))],
             ];
         }
 
@@ -85,7 +93,11 @@ class ProfileController extends Controller
             $donor->fill(Arr::only($data, ['blood_type', 'birthdate', 'weight_kg', 'city']));
             $donor->location_sharing = $request->boolean('location_sharing');
 
-            if (! $donor->location_sharing) {
+            if ($donor->location_sharing && $request->exists('approx_latitude')) {
+                // Rounded here, not by the database: 2 decimals is about 1 km, never the exact home (DEC-004).
+                $donor->approx_latitude = isset($data['approx_latitude']) ? round((float) $data['approx_latitude'], 2) : null;
+                $donor->approx_longitude = isset($data['approx_longitude']) ? round((float) $data['approx_longitude'], 2) : null;
+            } elseif (! $donor->location_sharing) {
                 // Do not keep a location the donor no longer shares (Data Privacy Act: data minimization).
                 $donor->approx_latitude = null;
                 $donor->approx_longitude = null;
