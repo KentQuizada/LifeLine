@@ -8,6 +8,7 @@
             'notified' => ['text-bg-warning', 'Waiting for your answer'],
             'accepted' => ['text-bg-success', 'You accepted'],
             'declined' => ['text-bg-secondary', 'You declined'],
+            'withdrawn' => ['text-bg-secondary', 'You withdrew'],
         ];
     @endphp
 
@@ -76,6 +77,15 @@
                             <button type="submit" class="btn btn-outline-secondary w-100">Not this time</button>
                         </form>
                     </div>
+                @elseif ($match->status === 'accepted')
+                    {{-- DEC-022: a donor who cannot make it after all tells the requester right away. --}}
+                    <form method="POST" action="{{ route('matches.withdraw', $match->id) }}"
+                          onsubmit="return confirm('Withdraw? The requester will be told that you cannot donate for this request.')">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                            <i class="bi bi-x-circle" aria-hidden="true"></i> I can no longer donate
+                        </button>
+                    </form>
                 @endif
             </div>
         </div>

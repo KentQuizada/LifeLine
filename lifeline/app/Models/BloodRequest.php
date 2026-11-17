@@ -33,6 +33,7 @@ class BloodRequest extends Model
      */
     public const TRANSITIONS = [
         'open' => ['donor_found', 'fulfilled', 'cancelled', 'expired'],
+        // Never back to open here; only reopen() does that, when the last accepted donor withdraws (DEC-022).
         'donor_found' => ['fulfilled', 'cancelled', 'expired'],
         'fulfilled' => [],
         'cancelled' => [],
@@ -141,11 +142,28 @@ class BloodRequest extends Model
      */
     public function changeStatus(string $status, ?User $changedBy, ?string $remarks = null): void
     {
-        DB::transaction(function () use ($status, $changedBy, $remarks) {
+        $this->applyStatus($status, $changedBy, $remarks,
+            fn (string $oldStatus) => in_array($status, self::TRANSITIONS[$oldStatus] ?? [], true));
+    }
+
+    /**
+     * donor_found back to open, only when the last accepted donor withdrew (DonorMatch::withdraw(), DEC-022).
+     * Kept out of TRANSITIONS so requesters and admins can never reopen a request themselves.
+     */
+    public function reopen(User $changedBy, string $remarks): void
+    {
+        $this->applyStatus('open', $changedBy, $remarks,
+            fn (string $oldStatus) => $oldStatus === 'donor_found'
+                && ! $this->matches()->where('status', 'accepted')->exists());
+    }
+
+    private function applyStatus(string $status, ?User $changedBy, ?string $remarks, callable $allowed): void
+    {
+        DB::transaction(function () use ($status, $changedBy, $remarks, $allowed) {
             // Read the saved status under a row lock, so two changes at the same moment cannot both pass.
             $oldStatus = self::whereKey($this->id)->lockForUpdate()->value('status');
 
-            if (! in_array($status, self::TRANSITIONS[$oldStatus] ?? [], true)) {
+            if (! $allowed($oldStatus)) {
                 throw new InvalidArgumentException("A {$oldStatus} request cannot become {$status}.");
             }
 

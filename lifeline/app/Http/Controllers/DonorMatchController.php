@@ -43,4 +43,19 @@ class DonorMatchController extends Controller
             ? 'Thank you! The requester can now see your name and mobile number.'
             : 'You declined this request.');
     }
+
+    /** An accepted donor cannot make it after all (DEC-022). */
+    public function withdraw(Request $request, int $donorMatch): RedirectResponse
+    {
+        $match = $request->user()->donor()->firstOrFail()->matches()->findOrFail($donorMatch);
+
+        try {
+            $match->withdraw();
+        } catch (InvalidArgumentException $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
+
+        return redirect()->route('matches.index')
+            ->with('status', 'You withdrew. The requester was told, so they can look for another donor.');
+    }
 }

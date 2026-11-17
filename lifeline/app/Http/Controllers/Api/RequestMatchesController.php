@@ -32,6 +32,8 @@ class RequestMatchesController extends Controller
             'donor' => $match->status === 'accepted' ? [
                 'name' => $match->donor->user->first_name.' '.$match->donor->user->last_name,
                 'mobile_number' => $match->donor->user->mobile_number,
+                // Design D3 donor profile page (DEC-022).
+                'profile_url' => route('requests.donor', [$record->id, $match->id]),
             ] : null,
         ])->all()]);
     }

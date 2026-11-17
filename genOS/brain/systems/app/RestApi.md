@@ -36,4 +36,5 @@ Versioned JSON REST API between the frontend and backend.
 - Tests: `actingAs()` skips the session, so `RequestMatchesTest` checks the route middleware directly to prove the session group is attached.
 
 ## Future Changes
+- Added 2026-11-17: `GET /api/v1/notifications/unread-count` (`api.notifications.count`, `throttle:30,1,alerts-count`); `api.requests.matches` adds `donor.profile_url` for accepted donors (DEC-022).
 - Deployment: the track throttle keys on `$request->ip()`; behind a reverse proxy or tunnel, configure TrustProxies or every visitor shares one 30/min bucket.

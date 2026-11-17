@@ -32,6 +32,7 @@ Notify donors and requesters about emergency requests, matches, and status chang
 - Email is sent directly with no queue worker, to keep setup simple; failures are caught and logged. Revisit only if sending makes request submission noticeably slow.
 
 ## Future Changes
-- Web Push (DEC-005 stretch) and SMS are not built.
+- Web Push (DEC-005 stretch) and SMS are not built. The Alerts badge refreshes itself once a minute (polling `GET /api/v1/notifications/unread-count`), so new alerts show without reloading.
+- Added 2026-11-17 (DEC-022): "A donor withdrew" (to the requester), "Thank you for donating!" (to the donor), suspended / verified again (to the donor).
 - Email is sent during the request (no queue): with many matched donors and a slow SMTP server, submitting could feel slow. Then move mail to a queue (needs a queue worker at the demo).
 - Real-inbox delivery (Gmail/Mailtrap) still to be checked by the team with their SMTP details (EMR-12).

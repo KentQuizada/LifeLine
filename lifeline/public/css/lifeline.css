@@ -188,3 +188,12 @@ body {
 .ll-admin-nav .nav-link.active { color: var(--ll-red); border-bottom-color: var(--ll-red); font-weight: 600; }
 .ll-stat-card .ll-stat-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; }
 .ll-chart { position: relative; height: 260px; }
+
+/* Home "Donors near you" preview (design C1). */
+.ll-map-mini {
+    height: 140px;
+    border-top-left-radius: var(--bs-card-inner-border-radius);
+    border-top-right-radius: var(--bs-card-inner-border-radius);
+    pointer-events: none;
+    background: #e9ecef;
+}

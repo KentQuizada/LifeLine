@@ -22,6 +22,9 @@
             badge.textContent = count;
             badge.hidden = count === 0;
         });
+        document.querySelectorAll('[data-unread-text]').forEach((text) => {
+            text.textContent = count > 0 ? ', ' + count + ' unread' : '';
+        });
     }
 
     function group(title, alerts) {

@@ -253,7 +253,7 @@ Index: (donor_id, donated_on).
 | blood_request_id | BIGINT UNSIGNED | NOT NULL, FK → blood_requests.id (RESTRICT) |
 | donor_id | BIGINT UNSIGNED | NOT NULL, FK → donors.id (RESTRICT) |
 | distance_km | DECIMAL(6,2) | NOT NULL, approximate |
-| status | ENUM('notified','accepted','declined') | NOT NULL, default 'notified' |
+| status | ENUM('notified','accepted','declined','withdrawn') | NOT NULL, default 'notified'; `withdrawn` added 2026-11-17 (DEC-022) |
 | responded_at | TIMESTAMP | NULL |
 | created_at / updated_at | TIMESTAMP | NULL |
 

@@ -74,7 +74,7 @@ CREATE TABLE `donor_matches` (
   `blood_request_id` bigint(20) unsigned NOT NULL,
   `donor_id` bigint(20) unsigned NOT NULL,
   `distance_km` decimal(6,2) NOT NULL,
-  `status` enum('notified','accepted','declined') NOT NULL DEFAULT 'notified',
+  `status` enum('notified','accepted','declined','withdrawn') NOT NULL DEFAULT 'notified',
   `responded_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,

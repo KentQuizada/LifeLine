@@ -10,16 +10,25 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <h1 class="h4 fw-bold mb-0">{{ $name }}</h1>
         <div class="d-flex gap-2">
-            @if ($donor->verification_status !== 'verified')
+            @if ($donor->verification_status === 'pending')
                 <form method="POST" action="{{ route('admin.donors.verify', $donor) }}">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-success">Verify</button>
                 </form>
-            @endif
-            @if ($donor->verification_status !== 'rejected')
                 <form method="POST" action="{{ route('admin.donors.reject', $donor) }}" onsubmit="return confirm('Reject this donor?')">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
+                </form>
+            @elseif ($donor->verification_status === 'verified')
+                <form method="POST" action="{{ route('admin.donors.suspend', $donor) }}"
+                      onsubmit="return confirm('Suspend this donor? They will not be matched with new requests and cannot accept any.')">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Suspend</button>
+                </form>
+            @else
+                <form method="POST" action="{{ route('admin.donors.reinstate', $donor) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-success">Verify again</button>
                 </form>
             @endif
         </div>

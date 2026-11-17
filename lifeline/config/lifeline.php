@@ -4,7 +4,8 @@
 return [
 
     // Design B2: the last donation "must be 3+ months ago to be eligible".
-    // TODO(team): confirm against a Philippine Red Cross or DOH source before the defense.
+    // Source: Philippine Red Cross, "Give blood" (https://redcross.org.ph/give-blood/, read 2026-11-17):
+    // "A healthy individual may donate every three months." Source S05 in docs/thesis/source-matrix.md.
     'donation_interval_months' => 3,
 
     // How many of the nearest eligible donors one matching run adds (DEC-016).

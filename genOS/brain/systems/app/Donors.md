@@ -41,5 +41,5 @@ Donor profiles, medical info, location, availability, and donation history.
 - A rejected donor can return to `pending` by changing their blood type. Accepted: an admin must still verify them.
 
 ## Future Changes
-- When donations are recorded through an accepted match (not built in M2.3; see [[Matching]] Future Changes): decide how one interacts with a self-reported donation on the same date before adding a DB unique index on `donations(donor_id, donated_on)` (today only validation enforces one per date).
+- Donations through an accepted match are built (DEC-022); a match donation is refused when the donor already has a donation on that date. A DB unique index on `donations(donor_id, donated_on)` could still be added (today the checks are in code).
 - Done in M3.2: birthdate must stay before the first recorded donation; the availability message says what still keeps a donor out of searches; hero text and switch contrast meet WCAG AA (BUG-16, bug log contrast table).

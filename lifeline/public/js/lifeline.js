@@ -1,5 +1,31 @@
 // Small helpers used on every page (no build step).
 (function () {
+    // Installable PWA (DEC-001): the service worker shows an offline page when there is no internet.
+    // sw.js sits next to the js/ folder, so this works wherever the app is served from.
+    if ('serviceWorker' in navigator && document.currentScript) {
+        navigator.serviceWorker.register(new URL('../sw.js', document.currentScript.src)).catch(() => {});
+    }
+
+    // Live unread badge on the Alerts tab: checks once a minute while the page is visible.
+    const badge = document.querySelector('[data-unread-badge][data-poll]');
+    const badgeText = document.querySelector('[data-unread-text]');
+    if (badge) {
+        const refresh = () => {
+            if (document.hidden) return;
+            fetch(badge.dataset.poll, { headers: { Accept: 'application/json' } })
+                .then((response) => (response.ok ? response.json() : Promise.reject(response)))
+                .then((body) => {
+                    const count = body.unread_count;
+                    badge.textContent = count;
+                    badge.hidden = count === 0;
+                    if (badgeText) badgeText.textContent = count > 0 ? ', ' + count + ' unread' : '';
+                })
+                .catch(() => {});
+        };
+        setInterval(refresh, 60000);
+        document.addEventListener('visibilitychange', refresh);
+    }
+
     // <form data-submit-once>: a double click or a second tap sends the form only once.
     document.addEventListener('submit', (event) => {
         const form = event.target;

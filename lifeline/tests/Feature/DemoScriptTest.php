@@ -64,6 +64,9 @@ class DemoScriptTest extends TestCase
             ->assertOk()
             ->assertJsonFragment(['name' => 'Demo Donor', 'mobile_number' => '09170000002']);
         $this->getJson(route('api.notifications.index'))->assertJsonPath('data.0.title', 'Donor match found!');
+        $this->get(route('requests.donor', [$bloodRequest->id, $match->id]))->assertOk()->assertSee('Demo Donor');
+        $this->post(route('requests.donor.donation', [$bloodRequest->id, $match->id]), ['donated_on' => now()->toDateString()])
+            ->assertSessionHas('status', 'Donation recorded. Thank you for using LifeLine.');
         $this->patch(route('requests.status', $bloodRequest->id), ['status' => 'fulfilled'])->assertRedirect();
         $this->assertSame('fulfilled', $bloodRequest->refresh()->status);
 

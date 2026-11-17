@@ -37,8 +37,8 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 - Layout sections: `title`, `content`, and in the signed-in layout `container_class` (default `ll-narrow`, empty for full width). Flash messages: `session('status')` (success) and `session('error')` (danger); field errors inline with `@error`.
 
 ## Future Changes
-- No service worker (offline pages); the manifest makes LifeLine installable from the browser menu.
+- Done 2026-11-17: service worker `public/sw.js` with `public/offline.html` (pages and API never cached), LifeLine error pages (`resources/views/errors/`: 401, 403, 404, 419, 429, 500, 503, 4xx, 5xx), C1 "Donors near you" preview on Home (`public/js/home-map.js`), D3 donor profile (`requests/donor.blade.php`), live unread badge (`public/js/lifeline.js` polls `api.notifications.count` once a minute while visible).
+- A1 splash is the installed app's launch screen from the manifest (name, icon, theme colour); there is no separate splash page.
 - The design image is still not in `docs/design/` (team to save it as `docs/design/lifeline-design.png`).
 - Done in M3.2: hero small text 4.6:1+, switch 4.7:1 (off) / 5.1:1 (on), section labels 5.6:1; `public/js/lifeline.js` (single-submit forms) loads on every page.
 - Keyboard-only walkthrough by a team member still to do (MAN-07).
-- Design parts still to come: Donors near you and map (M2.4), Notifications switch (M2.5).

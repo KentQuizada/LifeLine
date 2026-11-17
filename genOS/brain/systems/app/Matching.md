@@ -47,6 +47,6 @@ Find compatible, eligible, nearby potential donors for a blood request.
 
 ## Future Changes
 - Done in M3.2: `matchDonors()` re-reads the status under the request row lock; `respond()` refuses an acceptance from a donor who is not verified (BUG-12, BUG-13).
-- Donor withdraws an acceptance; recording a donation through an accepted match (see [[Donors]]).
+- Done 2026-11-17 (DEC-022): donors withdraw an acceptance; requesters record the donation on the D3 donor profile.
 - Done in M3.2: "Requests for you" is paginated (15 per page).
 - The donation interval (3 months, from design B2) still needs a cited source before the defense (DEC-008; TODO in `config/lifeline.php`).

@@ -3,7 +3,7 @@
 Test cases for the nine required test categories, with expected and actual results.
 
 - **Automated** cases run in PHPUnit (`cd lifeline && php artisan test`). The evidence column names the test class and
-  method. Actual results are from the run on **2026-11-17**: **432 tests, 1,365 assertions, 0 failures**
+  method. Actual results are from the run on **2026-11-17**: **462 tests, 1,457 assertions, 0 failures**
   (full list: [automated-test-results.txt](automated-test-results.txt)).
 - **Manual** cases (`MAN-…`) were run in a browser on 2026-11-17 against `php artisan serve` with the sample data, at
   375 px (phone) and 1280 px (laptop) widths.
@@ -145,4 +145,5 @@ Collection: [api-tests.http](api-tests.http).
 | MAN-04 | Admin at 1280 px: Dashboard and all admin pages | 8 number cards, 3 charts drawn; Donors, Verify, Users, Requests, request detail, donor detail, Hospitals, add/edit hospital, Reports: 200; both CSV exports 200 `text/csv` |
 | MAN-05 | `App\Support\Alerts::send()` for a sample donor with `MAIL_MAILER=smtp`, received by a local SMTP test mailbox on port 2525 | One message saved with the From, To and Subject above, the "Open LifeLine" link and the medical disclaimer |
 | MAN-06 | Demo donor at 375 px after the M3.2 fixes: Home colours, a throwaway `data-submit-once` form submitted twice, Track box with a pasted reference `  ll-261117-abc234  ` | Hero gradient starts at #c62828 with white stat text; switch on = white track, green knob; off = #6c757d track; second submit blocked and button disabled; reference trimmed and accepted by the pattern |
+| MAN-08 | Requester and demo donor at 375 px (system completion): Home, new O- request, donor accepts, requester opens View donor and presses Record donation; /no-such-page; /offline.html; unread-count API | Home "Donors near you": 16 donors within 10 km, map tiles and circles drawn; service worker active (/sw.js); donor accepted, "I can no longer donate" shown; D3 page showed name, O-, 0 donations, 2 km, Call/SMS; after Record donation: "Donation recorded", count 1, last donation Nov 17, 2026; 404 page with LifeLine styling; offline page 200; unread count JSON |
 | MAN-07 | Keyboard-only walkthrough (Tab, Shift+Tab, Enter, Space) of register, login, Home, emergency request, Requests for you, Alerts and Map | **Not run yet: a team member does this and writes what they observed** |

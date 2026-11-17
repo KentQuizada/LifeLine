@@ -15,6 +15,12 @@ class NotificationController extends Controller
 {
     private const LIMIT = 50;
 
+    /** Just the number, for the bottom-nav badge (small and cheap to poll). */
+    public function unreadCount(Request $request): JsonResponse
+    {
+        return response()->json(['unread_count' => $request->user()->notifications()->whereNull('read_at')->count()]);
+    }
+
     public function index(Request $request): JsonResponse
     {
         $user = $request->user();

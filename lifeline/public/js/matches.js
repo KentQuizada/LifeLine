@@ -8,6 +8,7 @@
         notified: 'text-bg-warning',
         accepted: 'text-bg-success',
         declined: 'text-bg-secondary',
+        withdrawn: 'text-bg-secondary',
     };
 
     function element(tag, className, text) {
@@ -53,6 +54,10 @@
                     contactLink('tel', match.donor.mobile_number, 'bi-telephone', 'Call'),
                     contactLink('sms', match.donor.mobile_number, 'bi-chat-dots', 'SMS')
                 );
+                // Design D3: the donor's profile, where the donation is recorded.
+                const profile = element('a', 'btn btn-sm btn-outline-primary', 'View donor');
+                profile.href = match.donor.profile_url;
+                contact.append(profile);
                 item.append(contact);
             }
 

@@ -27,6 +27,10 @@ Route::middleware(['web', 'auth', 'verified', 'role:donor,requester'])->group(fu
     Route::get('/notifications', [NotificationController::class, 'index'])
         ->middleware('throttle:60,1,alerts')
         ->name('api.notifications.index');
+    // Live unread badge on every page (public/js/lifeline.js polls it once a minute while the page is visible).
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])
+        ->middleware('throttle:30,1,alerts-count')
+        ->name('api.notifications.count');
     // The first API write: the browser sends the CSRF token as X-CSRF-TOKEN (DEC-015).
     Route::post('/notifications/read', [NotificationController::class, 'markAllRead'])
         ->middleware('throttle:30,1,alerts-read')

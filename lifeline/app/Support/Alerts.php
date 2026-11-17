@@ -52,7 +52,8 @@ final class Alerts
      */
     public static function statusChanged(BloodRequest $request, string $newStatus, ?User $changedBy): void
     {
-        if ($newStatus === 'donor_found') {
+        // donor_found is covered by donorAccepted(); back to open only happens through donorWithdrew().
+        if (in_array($newStatus, ['donor_found', 'open'], true)) {
             return;
         }
 
@@ -82,6 +83,36 @@ final class Alerts
                     .'No action is needed. Thank you for helping.',
                 $request,
             ));
+    }
+
+    /** An accepted donor withdrew (DEC-022): the requester should not count on them any more. */
+    public static function donorWithdrew(DonorMatch $match): void
+    {
+        $request = $match->bloodRequest->refresh();
+        $donor = $match->donor->user;
+
+        self::send(
+            $request->requester,
+            'A donor withdrew',
+            "{$donor->first_name} {$donor->last_name} can no longer donate for request {$request->reference_number}. "
+                .($request->status === 'open'
+                    ? 'Your request is looking for donors again; use "Find more donors" on the request page.'
+                    : 'Other donors who accepted are still listed on the request page.'),
+            $request,
+        );
+    }
+
+    /** The requester recorded the donor's donation (DEC-022): thank the donor. */
+    public static function donationRecorded(DonorMatch $match): void
+    {
+        $request = $match->bloodRequest;
+
+        self::send(
+            $match->donor->user,
+            'Thank you for donating!',
+            "Your donation for request {$request->reference_number} at {$request->hospital->name} was recorded in your donation history.",
+            $request,
+        );
     }
 
     public static function send(User $user, string $title, string $message, ?BloodRequest $request = null): void

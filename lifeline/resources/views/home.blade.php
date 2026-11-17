@@ -2,6 +2,15 @@
 
 @section('title', 'Home')
 
+@push('head')
+    <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
+    <script src="{{ asset('js/home-map.js') }}"></script>
+@endpush
+
 @section('content')
     <section class="ll-hero">
         <p class="ll-hero-muted small mb-0">Welcome back</p>
@@ -35,6 +44,21 @@
 
     <a href="{{ route('requests.create') }}" class="btn btn-primary btn-lg w-100 mb-3">
         <i class="bi bi-plus-circle-fill" aria-hidden="true"></i> Emergency request
+    </a>
+
+    {{-- Design C1 "Donors near you": a small preview of the Map tab (M2.4 data, DEC-004 approximate circles). --}}
+    <a id="home-map" href="{{ route('map') }}" class="card shadow-sm mb-3 text-decoration-none text-body"
+       data-api="{{ route('api.map') }}"
+       data-center-lat="{{ $mapCenter['latitude'] }}" data-center-lng="{{ $mapCenter['longitude'] }}"
+       @if ($ownLocation) data-lat="{{ $ownLocation['latitude'] }}" data-lng="{{ $ownLocation['longitude'] }}" @endif>
+        <div class="ll-map-mini" data-map role="img" aria-label="Map preview of approximate donor areas"></div>
+        <div class="card-body py-2 d-flex justify-content-between align-items-center gap-2">
+            <div>
+                <div class="fw-semibold"><i class="bi bi-geo-alt-fill text-brand" aria-hidden="true"></i> Donors near you</div>
+                <div class="small text-secondary" data-summary role="status">Loading nearby donors…</div>
+            </div>
+            <i class="bi bi-chevron-right text-secondary" aria-hidden="true"></i>
+        </div>
     </a>
 
     @if ($donor)

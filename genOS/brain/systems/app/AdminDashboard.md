@@ -33,4 +33,5 @@ Administrator tools for managing accounts, requests, hospitals, and viewing stat
 
 ## Future Changes
 - No admin account management (create admins, deactivate users); admins come from the seeder.
+- Done 2026-11-17 (DEC-022): Suspend / Verify again on the donor page (with an alert to the donor).
 - Donor verification and hospital edits are not written to an audit table (only verified_by/verified_at on donors).

@@ -14,6 +14,7 @@ use App\Http\Controllers\DonorMatchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RequestDonorController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/track', 'requests.track')->name('track');
@@ -85,6 +86,14 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
         ->where('bloodRequest', '[0-9]{1,18}')
         ->middleware('throttle:5,10,find-donors')
         ->name('requests.matches.store');
+    // Design D3: a donor who accepted, and recording their donation (DEC-022).
+    Route::get('/requests/{bloodRequest}/donors/{donorMatch}', [RequestDonorController::class, 'show'])
+        ->where(['bloodRequest' => '[0-9]{1,18}', 'donorMatch' => '[0-9]{1,18}'])
+        ->name('requests.donor');
+    Route::post('/requests/{bloodRequest}/donors/{donorMatch}/donation', [RequestDonorController::class, 'storeDonation'])
+        ->where(['bloodRequest' => '[0-9]{1,18}', 'donorMatch' => '[0-9]{1,18}'])
+        ->middleware('throttle:10,1,record-donation')
+        ->name('requests.donor.donation');
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
@@ -92,6 +101,9 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
     Route::patch('/matches/{donorMatch}', [DonorMatchController::class, 'update'])
         ->where('donorMatch', '[0-9]{1,18}')
         ->name('matches.update');
+    Route::post('/matches/{donorMatch}/withdraw', [DonorMatchController::class, 'withdraw'])
+        ->where('donorMatch', '[0-9]{1,18}')
+        ->name('matches.withdraw');
     Route::patch('/availability', AvailabilityController::class)->name('availability.update');
     Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
@@ -104,6 +116,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::get('/donors/pending', [DonorVerificationController::class, 'index'])->name('donors.pending');
     Route::post('/donors/{donor}/verify', [DonorVerificationController::class, 'verify'])->name('donors.verify');
     Route::post('/donors/{donor}/reject', [DonorVerificationController::class, 'reject'])->name('donors.reject');
+    Route::post('/donors/{donor}/suspend', [DonorVerificationController::class, 'suspend'])->name('donors.suspend');
+    Route::post('/donors/{donor}/reinstate', [DonorVerificationController::class, 'reinstate'])->name('donors.reinstate');
 
     // M2.6 admin dashboard, records, status override, hospitals and reports.
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');

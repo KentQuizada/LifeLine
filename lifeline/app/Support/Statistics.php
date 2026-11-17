@@ -27,7 +27,7 @@ final class Statistics
             'requests_by_status' => $requestsByStatus,
             'requests_by_urgency' => self::countBy(BloodRequest::query(), 'urgency', ['critical', 'urgent']),
             'requests_by_blood_type' => self::countBy(BloodRequest::query(), 'blood_type', Donor::BLOOD_TYPES),
-            'matches_by_status' => self::countBy(DonorMatch::query(), 'status', ['notified', 'accepted', 'declined']),
+            'matches_by_status' => self::countBy(DonorMatch::query(), 'status', array_keys(DonorMatch::STATUS_LABELS)),
             'total_requests' => $totalRequests,
             // Share of requests that reached "fulfilled", in whole percent.
             'fulfilled_percent' => $totalRequests > 0 ? (int) round($requestsByStatus['fulfilled'] * 100 / $totalRequests) : 0,

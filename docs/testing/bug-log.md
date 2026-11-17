@@ -22,6 +22,8 @@ history (`git log --grep=fix`).
 | BUG-15 | 2026-11-17 | Code review (BloodRequests carry-over) | A pasted reference with spaces around it was refused by the track box | Spaces are trimmed while typing; box allows 24 characters | Browser check 2026-11-17 |
 | BUG-16 | 2026-11-17 | Code review (Donors carry-over) | Birthdate could be edited to a date after recorded donations; the availability message said "available" to donors who are not searchable | Birthdate must be before the first donation; the message explains what is still missing | `HardeningTest::test_the_birthdate_cannot_move_after_a_recorded_donation, HardeningTest::test_a_pending_donor_switching_available_is_told_they_are_not_searchable_yet` |
 | BUG-17 | 2026-11-17 | Automated test (flaky) | `DonorAnswersTest` used a random-status donor for a second acceptance, which now fails 1 time in 4 because pending donors cannot accept (BUG-13) | The test creates a verified donor | `DonorAnswersTest::test_a_second_acceptance_keeps_donor_found_without_another_history_row` |
+| BUG-18 | 2026-11-17 | Code review while adding Suspend | After BUG-11, the Verify/Reject buttons on an already reviewed donor's admin page only showed an error | Pending donors get Verify/Reject; verified donors get Suspend; rejected donors get Verify again (DEC-022) | `SystemCompletionTest::test_an_admin_can_suspend_and_reinstate_a_verified_donor` |
+| BUG-19 | 2026-11-17 | Automated test | Server errors showed Laravel's plain 500 page instead of LifeLine's, because Laravel's own `errors::500` view is found before the `5xx` fallback | Added `errors/500.blade.php` (and 401) | `SystemCompletionTest::test_server_errors_show_a_friendly_page_without_details` |
 
 ## Responsive and accessibility pass
 

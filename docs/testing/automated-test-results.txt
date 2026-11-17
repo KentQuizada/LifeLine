@@ -1,5 +1,5 @@
 LifeLine automated test results
-Run: 2026-11-17, branch main (after the M3.2 fixes), PHP 8.2.29, MariaDB (XAMPP), database lifeline_test
+Run: 2026-11-17, branch main (system completion), PHP 8.2.29, MariaDB (XAMPP), database lifeline_test
 Command: cd lifeline && php vendor/bin/phpunit --testdox
 
 PHPUnit 11.5.58 by Sebastian Bergmann and contributors.
@@ -7,15 +7,16 @@ PHPUnit 11.5.58 by Sebastian Bergmann and contributors.
 Runtime:       PHP 8.2.29
 Configuration: D:\ITE-18_LifeLine\lifeline\phpunit.xml
 
-...............................................................  63 / 432 ( 14%)
-............................................................... 126 / 432 ( 29%)
-............................................................... 189 / 432 ( 43%)
-............................................................... 252 / 432 ( 58%)
-............................................................... 315 / 432 ( 72%)
-............................................................... 378 / 432 ( 87%)
-......................................................          432 / 432 (100%)
+...............................................................  63 / 462 ( 13%)
+............................................................... 126 / 462 ( 27%)
+............................................................... 189 / 462 ( 40%)
+............................................................... 252 / 462 ( 54%)
+............................................................... 315 / 462 ( 68%)
+............................................................... 378 / 462 ( 81%)
+............................................................... 441 / 462 ( 95%)
+.....................                                           462 / 462 (100%)
 
-Time: 00:28.395, Memory: 68.00 MB
+Time: 00:34.749, Memory: 68.00 MB
 
 Admin Dashboard (Tests\Feature\Admin\AdminDashboard)
  ✔ Admin pages load for admins only with data set "dashboard"
@@ -150,6 +151,25 @@ Distance (Tests\Unit\Distance)
  ✔ The same point is zero km away
  ✔ One degree of longitude on the equator is about 111 km
  ✔ Distance is the same in both directions
+
+Donation And Withdrawal (Tests\Feature\Matching\DonationAndWithdrawal)
+ ✔ The requester sees an accepted donors profile
+ ✔ Donors who did not accept have no profile page
+ ✔ Other users cannot open the profile
+ ✔ The request page api links accepted donors to their profile
+ ✔ Recording a donation adds it to the donors history and thanks them
+ ✔ A donation is recorded only once
+ ✔ The donation date must be between the request and today
+ ✔ A donation can still be recorded after the request is fulfilled
+ ✔ No donation for a cancelled request
+ ✔ A donation recorded through a request cannot be deleted by the donor
+ ✔ The only accepted donor withdrawing reopens the request and tells the requester
+ ✔ Withdrawing keeps donor found when another donor accepted
+ ✔ The requester no longer sees contact details after a withdrawal
+ ✔ A donor cannot withdraw after the donation is recorded
+ ✔ Only accepted matches can be withdrawn and only by their donor
+ ✔ A withdrawn donor is not matched again for the same request
+ ✔ Requesters and admins still cannot reopen a request themselves
 
 Donation History (Tests\Feature\Donors\DonationHistory)
  ✔ Donor sees only their own donations
@@ -507,6 +527,21 @@ Submit Request (Tests\Feature\Requests\SubmitRequest)
  ✔ Admin cannot submit a request
  ✔ Home has the emergency request button
 
+System Completion (Tests\Feature\SystemCompletion)
+ ✔ Unknown pages show the lifeline 404 page
+ ✔ Forbidden pages show the lifeline 403 page
+ ✔ Server errors show a friendly page without details
+ ✔ Api errors stay json
+ ✔ Home shows the donors near you preview
+ ✔ The preview centres on the donors own approximate location
+ ✔ The unread count endpoint returns only my count
+ ✔ Guests get 401 from the unread count
+ ✔ The badge knows where to poll
+ ✔ The offline page and service worker exist
+ ✔ An admin can suspend and reinstate a verified donor
+ ✔ Suspend and reinstate only work from the right status
+ ✔ Only admins can suspend
+
 Track Request (Tests\Feature\Requests\TrackRequest)
  ✔ Tracking returns the status and history only
  ✔ Reference is case insensitive and trimmed
@@ -533,4 +568,4 @@ Users And Hospitals (Tests\Feature\Database\UsersAndHospitals)
  ✔ Duplicate hospital name is rejected
  ✔ Invalid hospital type is rejected
 
-OK (432 tests, 1365 assertions)
+OK (462 tests, 1457 assertions)

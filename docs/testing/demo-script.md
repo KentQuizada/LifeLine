@@ -54,18 +54,30 @@ Use the browser's phone view (F12 → device toolbar, 375 px) to show the mobile
 ## 4. Requester sees the match (window A)
 
 1. Refresh the request page: status **Donor found**, and the donor's name, mobile number, Call and SMS buttons appear.
+   The Alerts badge updates by itself within a minute (no refresh needed).
 2. The Alerts tab shows "Donor match found!".
-3. Press **Mark fulfilled**.
+3. Press **View donor** (design D3 donor profile): blood type, donations, distance from the hospital, Call and SMS.
+   Press **Record donation**: the donation goes into the donor's history and the donor gets a "Thank you" alert.
+4. Back on the request page, press **Mark fulfilled**.
+5. Optional: show that a donor who accepted can press **I can no longer donate** on Requests for you (before a donation
+   is recorded); the request goes back to "Looking for donors" and the requester is told.
 
 ## 5. Administrator (window B, log out first)
 
 1. Log in as **admin@lifeline.test**. The **Dashboard** shows number cards and three charts.
-2. **Verify donors**: verify **Pending Donor**.
+2. **Verify donors**: verify **Pending Donor**. On a verified donor's page, **Suspend** stops them from being matched
+   (**Verify again** undoes it).
 3. **Requests**: search by the reference number from step 1, open a different request that is still "Looking for donors",
    and change its status to **Expired** with a reason. The status history shows the admin's name and reason, and the
    requester gets an alert.
 4. **Hospitals**: add a hospital, edit it, and show that a hospital with requests cannot be deleted.
 5. **Reports**: choose a date range, download the requests CSV and open it in Excel.
+
+## Extra points to show
+
+- Open a page that does not exist (for example /hello): LifeLine's own "Page not found" page.
+- Home's **Donors near you** card is a small preview of the Map tab.
+- Turn on airplane mode after one visit: pages show LifeLine's "You are offline" page instead of the browser error.
 
 ## If something goes wrong
 
