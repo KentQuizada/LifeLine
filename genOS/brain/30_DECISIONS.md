@@ -17,6 +17,10 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-020 | proposed | 2026-11-17 | Fixed demo accounts in the seeder |
+| DEC-019 | proposed | 2026-11-17 | M2.6 admin rules: override statuses, audit, hospital delete, exports |
+| DEC-018 | proposed | 2026-11-17 | M2.5 notification rules: events, recipients, email preference, timing |
+| DEC-017 | proposed | 2026-11-17 | M2.4 donor map rules: who sees it, data returned, fallback, vendored Leaflet |
 | DEC-016 | accepted | 2026-11-14 | M2.3 matching rules: when matching runs, eligibility, distance, answers, contact reveal, limits |
 | DEC-015 | accepted | 2026-11-14 | Signed-in /api/v1 routes use the web session (no Sanctum) |
 | DEC-014 | accepted | 2026-11-14 | M2.2 blood request rules: who requests, location, statuses, tracking fields, limits |
@@ -50,6 +54,34 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 ---
 
 ## Decisions
+
+### DEC-020: Fixed demo accounts in the seeder
+- **Status:** proposed
+- **Date:** 2026-11-17
+- **Reason:** The demo script needs accounts that exist after every `migrate:fresh --seed`; sample users have random emails.
+- **Impact:** `DatabaseSeeder` adds requester@lifeline.test, donor@lifeline.test (verified O- donor near Sample General Hospital) and pending@lifeline.test, password "password" like every sample user. Local demo data only; never seed these on a public deployment. `DemoScriptTest` runs `docs/testing/demo-script.md` on this data. See `[[QualityAssurance]]`.
+- **Supersedes:** none
+
+### DEC-019: M2.6 admin rules: override statuses, audit, hospital delete, exports
+- **Status:** proposed
+- **Date:** 2026-11-17
+- **Reason:** Defaults chosen while building M2.6 under the team's "finish everything" instruction; team to confirm.
+- **Impact:** Admins may set a request to fulfilled, cancelled or expired (never donor_found, which only a donor's acceptance sets), with a required reason, through `changeStatus()`: request_history records the admin and "Admin: reason", and the requester is notified (DEC-018). A hospital with requests cannot be deleted (edit it instead). Reports cover a date range (default last 30 days); CSV exports leave out contact details and patient names, list donors without names, and neutralise formula cells. One `App\Support\Statistics` class feeds the cards, the charts API and the tests. Admins cannot use the donor map and land on the dashboard. See `[[AdminDashboard]]`.
+- **Supersedes:** none
+
+### DEC-018: M2.5 notification rules: events, recipients, email preference, timing
+- **Status:** proposed
+- **Date:** 2026-11-17
+- **Reason:** Defaults chosen while building M2.5 under the team's "finish everything" instruction; team to confirm.
+- **Impact:** Events: a new match notifies that donor; an acceptance notifies the requester; a status change made by someone other than the requester (e.g. an admin) notifies the requester; a request that closes (fulfilled, cancelled, expired) notifies donors who were waiting or accepted, not those who declined. donor_found has no separate status alert. Every event creates an in-app alert (DEC-011); an email copy goes only to users with a verified email and `notifications_enabled` on (the profile switch controls email only). Alerts are sent after the database transaction commits, synchronously (no queue, DEC-001); failures are logged and never undo the action. Web Push and SMS not built (DEC-005 optional). See `[[Notifications]]`.
+- **Supersedes:** none
+
+### DEC-017: M2.4 donor map rules: who sees it, data returned, fallback, vendored Leaflet
+- **Status:** proposed
+- **Date:** 2026-11-17
+- **Reason:** Defaults chosen while building M2.4 under the team's "finish everything" instruction; team to confirm.
+- **Impact:** Signed-in donors and requesters (not admins) see the map; donors never see themselves. `GET /api/v1/map` returns, per donor, only blood type, the stored 2-decimal coordinates and whole-km distance (no ids, names or contacts, DEC-004), up to 50 nearest, filtered by exact blood type. The browser rounds the user's own location to 2 decimals before sending; denied permission falls back to Butuan City and tapping the map picks another point. Donors set their approximate location in Edit profile (device location or tap on map), rounded in the browser and on the server, limited to a Philippines bounding box. Hospitals are public places and keep exact coordinates. Leaflet 1.9.4 and Chart.js 4.4.1 are served from `public/vendor` like Bootstrap (DEC-013); OSM tiles still need internet. See `[[DonorMap]]`.
+- **Supersedes:** none
 
 ### DEC-016: M2.3 matching rules: when matching runs, eligibility, distance, answers, contact reveal, limits
 - **Status:** accepted

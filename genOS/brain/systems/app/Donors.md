@@ -4,7 +4,7 @@
 Donor profiles, medical info, location, availability, and donation history.
 
 ## Status
-`active` — M2.1 done 2026-11-14 on branch `feat/m2.1-donors`: my profile (E1), edit profile and medical info, availability toggle, home dashboard (C1), donation history, and the `Donor::searchable()` gate, with feature tests. Location capture (coordinates) is M2.4.
+`active` — M2.1 done 2026-11-14 on branch `feat/m2.1-donors`: my profile (E1), edit profile and medical info, availability toggle, home dashboard (C1), donation history, and the `Donor::searchable()` gate, with feature tests. Location capture (coordinates) done in M2.4 (2026-11-17): Edit profile location picker, home prompt when sharing is on but no location is set.
 
 ## Responsibilities
 - Donor profile CRUD (blood type, birthdate, weight, city; last donation derived from donations)
@@ -42,6 +42,5 @@ Donor profiles, medical info, location, availability, and donation history.
 
 ## Future Changes
 - When donations are recorded through an accepted match (not built in M2.3; see [[Matching]] Future Changes): decide how one interacts with a self-reported donation on the same date before adding a DB unique index on `donations(donor_id, donated_on)` (today only validation enforces one per date).
-- M2.4: capture approximate coordinates; the map adds a non-null coordinates condition to `searchable()`.
 - Open: birthdate can be edited to a date after recorded donations; the availability flash says "available" even for donors who are not yet searchable (status card explains it).
 - M3.2: hero text and switch-track contrast (accessibility pass).

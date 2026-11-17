@@ -26,15 +26,15 @@ Do not copy milestone criteria into Progress or Backlog. Progress stores only `c
 | M1.1 | M1 | done | Requirements analysis & stack sign-off |
 | M1.2 | M1 | done | Architecture, ERD & SQL database |
 | M1.3 | M1 | done | Authentication, roles & app shell |
-| M2 | — | active | Core features |
+| M2 | — | done | Core features |
 | M2.1 | M2 | done | Donor management & availability |
 | M2.2 | M2 | done | Blood requests, reference numbers & tracking |
 | M2.3 | M2 | done | Donor matching |
-| M2.4 | M2 | active | Donor map & geolocation |
-| M2.5 | M2 | planned | Emergency notifications |
-| M2.6 | M2 | planned | Admin dashboard & reports |
-| M3 | — | planned | Testing, debugging & demo readiness |
-| M3.1 | M3 | planned | Test plan & automated tests |
+| M2.4 | M2 | done | Donor map & geolocation |
+| M2.5 | M2 | done | Emergency notifications |
+| M2.6 | M2 | done | Admin dashboard & reports |
+| M3 | — | active | Testing, debugging & demo readiness |
+| M3.1 | M3 | active | Test plan & automated tests |
 | M3.2 | M3 | planned | Debugging, usability pass & demo data |
 | M4 | — | planned | Mini Thesis & defense |
 | M4.1 | M4 | planned | Chapter 1 — The Problem and Its Background |
@@ -93,7 +93,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M2 — Core features
 
-- **Status:** active
+- **Status:** done
 - **Objective:** Deliver every required feature end-to-end with database-backed CRUD, validation, and no placeholder functionality.
 - **Success criteria:**
   - All eight brief features work in the browser on phone and laptop sizes
@@ -130,27 +130,27 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M2.4 — Donor map & geolocation
 
-- **Status:** active
+- **Status:** done
 - **Objective:** Show nearby available donors on a map without exposing exact locations.
-- **Deliverables:** Leaflet + OpenStreetMap map; browser geolocation with manual fallback; blood type filter; donor list with rounded distance; approximate markers; hospital markers.
+- **Deliverables:** Leaflet + OpenStreetMap map; browser geolocation with manual fallback; blood type filter; donor list with rounded distance; approximate markers; hospital markers. Rules: `[[30_DECISIONS]]` DEC-017.
 - **Completion criteria:** No API response contains a donor's exact coordinates; the map works when location permission is denied.
 - **Dependencies:** M2.1
 - **Systems:** DonorMap, RestApi
 
 ## M2.5 — Emergency notifications
 
-- **Status:** planned
+- **Status:** done
 - **Objective:** Notify matched donors and requesters about requests and status changes.
-- **Deliverables:** In-app Alerts tab with unread count and mark-all-read; email notifications; notification preferences; optional Web Push.
+- **Deliverables:** In-app Alerts tab with unread count and mark-all-read; email notifications; notification preferences; optional Web Push (not built). Rules: `[[30_DECISIONS]]` DEC-018.
 - **Completion criteria:** A new request notifies the matched donors; acceptance and status changes notify the requester; email delivery verified in a test mailbox.
 - **Dependencies:** M2.3
 - **Systems:** Notifications
 
 ## M2.6 — Admin dashboard & reports
 
-- **Status:** planned
+- **Status:** done
 - **Objective:** Administrators manage accounts and requests and see system statistics.
-- **Deliverables:** Admin dashboard (desktop layout); donor verification queue; user and donor management; request management with status override (including marking stale requests `expired`, DEC-014); hospital management; statistics and charts; exportable reports.
+- **Deliverables:** Admin dashboard (desktop layout); donor verification queue; user and donor management; request management with status override (including marking stale requests `expired`, DEC-014); hospital management; statistics and charts; exportable reports. Rules: `[[30_DECISIONS]]` DEC-019.
 - **Completion criteria:** Every admin action is role-protected and audited in request_history where relevant; statistics match database counts.
 - **Dependencies:** M2.2
 - **Systems:** AdminDashboard
@@ -159,7 +159,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M3 — Testing, debugging & demo readiness
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Prove the system works and is ready for the hands-on evaluation.
 - **Success criteria:**
   - Test case document with expected and actual results for all nine required test categories
@@ -169,9 +169,9 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 ## M3.1 — Test plan & automated tests
 
-- **Status:** planned
+- **Status:** active
 - **Objective:** Write and run test cases covering functional, database, API, input validation, login/registration, duplicate reference number, emergency request, donor matching, and usability testing.
-- **Deliverables:** Test case table (ID, steps, expected, actual, pass/fail); automated feature and unit tests; API test collection; SUS-style usability questionnaire.
+- **Deliverables:** Test case table (ID, steps, expected, actual, pass/fail); automated feature and unit tests; API test collection; SUS-style usability questionnaire. Files: `docs/testing/` (`test-cases.md`, `automated-test-results.txt`, `api-tests.http`, `sus-questionnaire.md`).
 - **Completion criteria:** All automated tests pass; manual test table filled with actual results.
 - **Dependencies:** M2
 - **Systems:** QualityAssurance
@@ -180,7 +180,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 
 - **Status:** planned
 - **Objective:** Fix defects found in testing and prepare a reliable demo.
-- **Deliverables:** Bug log with fixes; responsive and accessibility pass; realistic demo seed data; demo script.
+- **Deliverables:** Bug log with fixes; responsive and accessibility pass; realistic demo seed data; demo script. Files: `docs/testing/bug-log.md`, `docs/testing/demo-script.md`, demo accounts in `DatabaseSeeder` (DEC-020), `DemoScriptTest`.
 - **Completion criteria:** Demo script runs end-to-end on a fresh database without errors.
 - **Dependencies:** M3.1
 - **Systems:** QualityAssurance, FrontendUI
