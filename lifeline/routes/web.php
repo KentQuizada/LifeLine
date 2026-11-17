@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\DonorVerificationController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Auth\EmailVerificationController;
@@ -103,4 +104,21 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::get('/donors/pending', [DonorVerificationController::class, 'index'])->name('donors.pending');
     Route::post('/donors/{donor}/verify', [DonorVerificationController::class, 'verify'])->name('donors.verify');
     Route::post('/donors/{donor}/reject', [DonorVerificationController::class, 'reject'])->name('donors.reject');
+
+    // M2.6 admin dashboard, records, status override, hospitals and reports.
+    Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/donors', [Admin\DonorController::class, 'index'])->name('donors.index');
+    Route::get('/donors/{donor}', [Admin\DonorController::class, 'show'])->whereNumber('donor')->name('donors.show');
+    Route::get('/users', [Admin\UserController::class, 'index'])->name('users.index');
+    Route::get('/requests', [Admin\RequestController::class, 'index'])->name('requests.index');
+    Route::get('/requests/{bloodRequest}', [Admin\RequestController::class, 'show'])
+        ->whereNumber('bloodRequest')
+        ->name('requests.show');
+    Route::patch('/requests/{bloodRequest}/status', [Admin\RequestController::class, 'updateStatus'])
+        ->whereNumber('bloodRequest')
+        ->name('requests.status');
+    Route::resource('hospitals', Admin\HospitalController::class)->except('show');
+    Route::get('/reports', [Admin\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/requests.csv', [Admin\ReportController::class, 'requests'])->name('reports.requests');
+    Route::get('/reports/donors.csv', [Admin\ReportController::class, 'donors'])->name('reports.donors');
 });

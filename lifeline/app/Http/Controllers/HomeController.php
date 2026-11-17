@@ -15,7 +15,7 @@ class HomeController extends Controller
 
         // One login form for every role; admins land in their own area.
         if ($user->role === 'admin') {
-            return redirect()->route('admin.donors.pending');
+            return redirect()->route('admin.dashboard');
         }
 
         $donor = $user->donor;

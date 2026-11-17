@@ -3,6 +3,7 @@
 // Served under /api/v1 (bootstrap/app.php). Public routes are stateless. Signed-in routes add the
 // `web` middleware group: the normal login session cookie, plus the CSRF token on POST/PATCH/DELETE (DEC-015).
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\DonorMapController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\RequestMatchesController;
@@ -30,4 +31,11 @@ Route::middleware(['web', 'auth', 'verified', 'role:donor,requester'])->group(fu
     Route::post('/notifications/read', [NotificationController::class, 'markAllRead'])
         ->middleware('throttle:30,1,alerts-read')
         ->name('api.notifications.read');
+});
+
+// M2.6: statistics for the admin dashboard charts (public/js/admin-dashboard.js).
+Route::middleware(['web', 'auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('/admin/stats', [DashboardController::class, 'stats'])
+        ->middleware('throttle:60,1,admin-stats')
+        ->name('api.admin.stats');
 });

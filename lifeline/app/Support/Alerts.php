@@ -26,7 +26,7 @@ final class Alerts
             $match->donor->user,
             ucfirst($request->urgency)." request: {$request->blood_type} blood needed",
             "{$hospital->name} needs {$request->units} unit(s) of {$request->blood_type} blood (about "
-                .max(1, (int) round((float) $match->distance_km))." km from you). Open Requests for you to accept or decline.",
+                .max(1, (int) round((float) $match->distance_km)).' km from you). Open Requests for you to accept or decline.',
             $request,
         );
     }
