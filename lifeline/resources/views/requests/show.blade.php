@@ -67,7 +67,7 @@
     </noscript>
 
     @if (in_array($bloodRequest->status, \App\Models\BloodRequest::LOOKING_FOR_DONORS, true))
-        <form method="POST" action="{{ route('requests.matches.store', $bloodRequest->id) }}" class="mb-3">
+        <form method="POST" action="{{ route('requests.matches.store', $bloodRequest->id) }}" class="mb-3" data-submit-once>
             @csrf
             <button type="submit" class="btn btn-outline-primary w-100">
                 <i class="bi bi-search" aria-hidden="true"></i> Find more donors

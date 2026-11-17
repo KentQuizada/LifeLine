@@ -24,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
         // Own counter for the registration POSTs (slows down email/mobile "already taken" enumeration).
         RateLimiter::for('registration', fn (Request $request) => Limit::perMinute(20)->by($request->ip()));
 
+        // Per-IP ceiling on login POSTs, on top of LoginController's 5 tries per account: stops one
+        // address from trying a few passwords against many accounts.
+        RateLimiter::for('login', fn (Request $request) => Limit::perMinute(30)->by($request->ip())
+            ->response(fn () => back()
+                ->withErrors(['login' => 'Too many login attempts from this network. Try again in a minute.'])
+                ->onlyInput('login')));
+
         // Pagination links styled for Bootstrap instead of Tailwind.
         Paginator::useBootstrapFive();
     }

@@ -28,4 +28,4 @@ Testing and debugging evidence for the hands-on evaluation.
 
 ## Future Changes
 - Re-run `php vendor/bin/phpunit --testdox` and refresh `automated-test-results.txt` after any code change before the defense.
-- Contrast check of the hero text and switches (Donors system file) and a keyboard-only walkthrough by a team member.
+- Contrast check done 2026-11-17 (bug log table). Keyboard-only walkthrough by a team member still open (MAN-07).

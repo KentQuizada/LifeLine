@@ -22,6 +22,7 @@ class PasswordResetController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->lowercaseEmail($request);
         $request->validate(['email' => ['required', 'email']]);
 
         Password::sendResetLink($request->only('email'));
@@ -37,6 +38,7 @@ class PasswordResetController extends Controller
 
     public function update(Request $request): RedirectResponse
     {
+        $this->lowercaseEmail($request);
         $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
@@ -58,5 +60,13 @@ class PasswordResetController extends Controller
         }
 
         return redirect()->route('login')->with('status', 'Your password has been reset. You can now log in.');
+    }
+
+    /** Emails are saved in lower case at registration; match them the same way here. */
+    private function lowercaseEmail(Request $request): void
+    {
+        if (is_string($request->input('email'))) {
+            $request->merge(['email' => Str::lower(trim($request->input('email')))]);
+        }
     }
 }

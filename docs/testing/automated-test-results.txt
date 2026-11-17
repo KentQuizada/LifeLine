@@ -1,5 +1,5 @@
 LifeLine automated test results
-Run: 2026-11-17, branch feat/m2.4-m3.2-system, PHP 8.2.29, MariaDB (XAMPP), database lifeline_test
+Run: 2026-11-17, branch main (after the M3.2 fixes), PHP 8.2.29, MariaDB (XAMPP), database lifeline_test
 Command: cd lifeline && php vendor/bin/phpunit --testdox
 
 PHPUnit 11.5.58 by Sebastian Bergmann and contributors.
@@ -7,15 +7,15 @@ PHPUnit 11.5.58 by Sebastian Bergmann and contributors.
 Runtime:       PHP 8.2.29
 Configuration: D:\ITE-18_LifeLine\lifeline\phpunit.xml
 
-...............................................................  63 / 414 ( 15%)
-............................................................... 126 / 414 ( 30%)
-............................................................... 189 / 414 ( 45%)
-............................................................... 252 / 414 ( 60%)
-............................................................... 315 / 414 ( 76%)
-............................................................... 378 / 414 ( 91%)
-....................................                            414 / 414 (100%)
+...............................................................  63 / 432 ( 14%)
+............................................................... 126 / 432 ( 29%)
+............................................................... 189 / 432 ( 43%)
+............................................................... 252 / 432 ( 58%)
+............................................................... 315 / 432 ( 72%)
+............................................................... 378 / 432 ( 87%)
+......................................................          432 / 432 (100%)
 
-Time: 00:25.652, Memory: 66.00 MB
+Time: 00:28.395, Memory: 68.00 MB
 
 Admin Dashboard (Tests\Feature\Admin\AdminDashboard)
  ✔ Admin pages load for admins only with data set "dashboard"
@@ -259,6 +259,24 @@ Erd Matches Schema (Tests\Feature\Database\ErdMatchesSchema)
 Example (Tests\Unit\Example)
  ✔ That true is true
 
+Hardening (Tests\Feature\Hardening)
+ ✔ Each limited route has its own counter
+ ✔ Forgot password requests do not use up the reset limit
+ ✔ Login accepts an email typed in capitals
+ ✔ One network cannot try many accounts
+ ✔ A reset link can be requested and used with a capitalised email
+ ✔ Changing the password ends other sessions
+ ✔ Resubmitting step one with the same role keeps the medical answers
+ ✔ A duplicate saved at the last moment sends the user back to step one
+ ✔ An admin cannot reject a donor who is already verified
+ ✔ A closed request gets no new matches even from a stale copy
+ ✔ A donor who is no longer verified cannot accept
+ ✔ Requests for you is paginated
+ ✔ A pending donor switching available is told they are not searchable yet
+ ✔ A donor without location sharing is told to turn it on
+ ✔ The birthdate cannot move after a recorded donation
+ ✔ Emergency and find more forms send only once
+
 Hospitals And Reports (Tests\Feature\Admin\HospitalsAndReports)
  ✔ Admins can add edit and delete a hospital
  ✔ Hospital validation
@@ -361,6 +379,10 @@ Profile (Tests\Feature\Profile\Profile)
  ✔ Donor profile has account menu and log out
  ✔ Requester profile has no medical menu item
  ✔ Profile shows location sharing state
+
+Pwa Manifest (Tests\Feature\PwaManifest)
+ ✔ Pages link the manifest
+ ✔ The manifest is valid and its icons exist
 
 Registration (Tests\Feature\Auth\Registration)
  ✔ Registration pages render
@@ -511,4 +533,4 @@ Users And Hospitals (Tests\Feature\Database\UsersAndHospitals)
  ✔ Duplicate hospital name is rejected
  ✔ Invalid hospital type is rejected
 
-OK (414 tests, 1304 assertions)
+OK (432 tests, 1365 assertions)

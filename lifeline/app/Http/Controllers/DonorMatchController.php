@@ -20,7 +20,7 @@ class DonorMatchController extends Controller
             'matches' => $donor->matches()
                 ->with(['bloodRequest.hospital', 'bloodRequest.requester'])
                 ->orderByDesc('id')
-                ->get(),
+                ->paginate(15),
         ]);
     }
 

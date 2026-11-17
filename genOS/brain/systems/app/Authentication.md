@@ -41,8 +41,8 @@ Identity, registration, login, verification, and role-based access for donors, r
 - Admin login uses the same form; admins land on the donor verification queue and get no bottom nav.
 
 ## Future Changes
-Carry-forwards from the M1.3 final review (deferred, not blocking):
-- Before production: end other sessions on password reset (`auth.session` middleware); `SESSION_SECURE_COOKIE=true`, `APP_DEBUG=false`. (Consent recording was done in M2.1: `users.privacy_consent_at` / `terms_accepted_at` are set at registration.)
-- M2.5: queue verification/reset mail (also removes a small timing difference on forgot-password).
-- M2.6: verify/reject should only act on `pending` donors (today an admin can flip a verified donor to rejected).
-- M3.1: unique-check/insert race returns 500 (catch the unique violation → back to step 1); lowercase email at login/reset (case-insensitivity currently relies on the collation); per-IP ceiling on `POST /login`; step-1 resubmit clears step-2 answers even if the role is unchanged; extra tests (admin end-to-end login, token reuse, location_sharing default, session regeneration, rejected-donor home).
+Done in M3.2 (2026-11-17, `tests/Feature/HardeningTest.php`, bug log BUG-05..BUG-11): own throttle counters per route; per-IP login ceiling (`throttle:login`, 30/min); emails lower-cased at login and reset; `AuthenticateSession` in the web group ends other sessions when the password changes; duplicate sign-up race goes back to step 1; step-1 resubmit keeps step-2 answers when the role is unchanged; verify/reject act on `pending` donors only.
+Still open:
+- Before production: `SESSION_SECURE_COOKIE=true`, `APP_DEBUG=false`, HTTPS (deployment settings, not code).
+- Queue verification/reset mail (also removes a small timing difference on forgot-password); needs a queue worker.
+- Extra tests (admin end-to-end login, token reuse, location_sharing default, rejected-donor home).

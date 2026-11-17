@@ -8,7 +8,7 @@
     <h1 class="h4 fw-bold">Secure your account</h1>
     <p class="text-secondary">Choose a password and review how we use your information.</p>
 
-    <form method="POST" action="{{ route('register.step3') }}" class="card card-body shadow-sm">
+    <form method="POST" action="{{ route('register.step3') }}" class="card card-body shadow-sm" data-submit-once>
         @csrf
 
         <div class="mb-3">

@@ -15,8 +15,18 @@ class AvailabilityController extends Controller
         $donor = $request->user()->donor()->firstOrFail();
         $donor->update(['is_available' => $request->boolean('is_available')]);
 
-        return back()->with('status', $donor->is_available
-            ? 'You are now available to donate.'
-            : 'You are now unavailable and will not appear in donor searches.');
+        if (! $donor->is_available) {
+            return back()->with('status', 'You are now unavailable and will not appear in donor searches.');
+        }
+
+        // "Available" alone does not put a donor in searches: they must also be verified and share a location.
+        $message = match (true) {
+            $donor->verification_status === 'pending' => 'You are marked available. You will appear in donor searches once an admin verifies your account.',
+            $donor->verification_status !== 'verified' => 'You are marked available, but your donor account is not verified, so you will not appear in donor searches.',
+            ! $donor->location_sharing => 'You are marked available. Turn on location sharing in your profile to appear in donor searches.',
+            default => 'You are now available to donate.',
+        };
+
+        return back()->with('status', $message);
     }
 }

@@ -13,11 +13,11 @@ Durable ad-hoc queue for non-milestone work (bugs, ideas). AI-owned. See `AGENTS
 ## Todo
 
 <!-- Queued work not yet started -->
-- [TASK-001] Existing `throttle:6,1` (password reset, email verification) and `throttle:10,1` (profile update) routes share one counter per user or guest IP, because plain `throttle:x,y` has no route-specific key. Give each its own prefix (third argument) and add a test.
 
 ## Done
 
 <!-- Completed items -->
+- [TASK-001] Each `throttle:x,y` route now has its own prefix (password-email, password-reset, verify-email, verification-send, profile-update); tested in `HardeningTest` (2026-11-17).
 
 ## Icebox
 

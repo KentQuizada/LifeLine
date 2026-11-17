@@ -9,6 +9,7 @@
         @yield('content')
     </main>
     <script src="{{ asset('vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/lifeline.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

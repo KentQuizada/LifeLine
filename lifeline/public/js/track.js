@@ -73,6 +73,12 @@
             .catch(() => showMessage('Could not reach LifeLine. Check your connection and try again.', 'danger'));
     }
 
+    // A pasted reference often has spaces around it; drop them before the browser checks the pattern.
+    input.addEventListener('input', () => {
+        const trimmed = input.value.trim();
+        if (trimmed !== input.value) input.value = trimmed;
+    });
+
     form.addEventListener('submit', (event) => {
         event.preventDefault();
         const reference = input.value.trim().toUpperCase();

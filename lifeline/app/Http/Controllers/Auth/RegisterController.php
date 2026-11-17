@@ -7,8 +7,10 @@ use App\Models\Donor;
 use App\Models\User;
 use App\Support\MobileNumber;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -26,6 +28,8 @@ class RegisterController extends Controller
 {
     // Never 'admin': administrators are created by the seeder (and later by another admin).
     private const ROLES = ['donor', 'requester'];
+
+    private const STEP2_FIELDS = ['blood_type', 'birthdate', 'weight_kg', 'city'];
 
     private const MESSAGES = [
         'mobile_number.regex' => 'Enter a Philippine mobile number, for example 0917 123 4567.',
@@ -48,7 +52,12 @@ class RegisterController extends Controller
 
         $data = $request->validate($this->step1Rules(), self::MESSAGES);
 
-        // Replaces earlier answers, so changing the role starts the later steps over.
+        // Changing the role starts the later steps over; resubmitting with the same role keeps the
+        // medical answers already given in step 2.
+        $previous = $request->session()->get('registration', []);
+        if (($previous['role'] ?? null) === $data['role']) {
+            $data += Arr::only($previous, self::STEP2_FIELDS);
+        }
         $request->session()->put('registration', $data);
 
         return redirect()->route($data['role'] === 'donor' ? 'register.step2' : 'register.step3');
@@ -116,7 +125,25 @@ class RegisterController extends Controller
             return redirect()->route('register.step1')->withErrors($recheck);
         }
 
-        $user = DB::transaction(function () use ($registration, $account, $request) {
+        try {
+            $user = $this->createAccount($registration, $account, $request);
+        } catch (UniqueConstraintViolationException) {
+            // Another sign-up saved the same email or mobile number between the re-check and the insert.
+            return redirect()->route('register.step1')
+                ->withErrors(['email' => 'This email address or mobile number is already registered.']);
+        }
+
+        $request->session()->forget('registration');
+        Auth::login($user);
+        $request->session()->regenerate();
+        event(new Registered($user)); // sends the verification email
+
+        return redirect()->route('verification.notice');
+    }
+
+    private function createAccount(array $registration, array $account, Request $request): User
+    {
+        return DB::transaction(function () use ($registration, $account, $request) {
             $user = new User([
                 'first_name' => $registration['first_name'],
                 'last_name' => $registration['last_name'],
@@ -143,13 +170,6 @@ class RegisterController extends Controller
 
             return $user;
         });
-
-        $request->session()->forget('registration');
-        Auth::login($user);
-        $request->session()->regenerate();
-        event(new Registered($user)); // sends the verification email
-
-        return redirect()->route('verification.notice');
     }
 
     private function redirectIfIncomplete(Request $request): ?RedirectResponse

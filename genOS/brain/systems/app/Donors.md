@@ -42,5 +42,4 @@ Donor profiles, medical info, location, availability, and donation history.
 
 ## Future Changes
 - When donations are recorded through an accepted match (not built in M2.3; see [[Matching]] Future Changes): decide how one interacts with a self-reported donation on the same date before adding a DB unique index on `donations(donor_id, donated_on)` (today only validation enforces one per date).
-- Open: birthdate can be edited to a date after recorded donations; the availability flash says "available" even for donors who are not yet searchable (status card explains it).
-- M3.2: hero text and switch-track contrast (accessibility pass).
+- Done in M3.2: birthdate must stay before the first recorded donation; the availability message says what still keeps a donor out of searches; hero text and switch contrast meet WCAG AA (BUG-16, bug log contrast table).

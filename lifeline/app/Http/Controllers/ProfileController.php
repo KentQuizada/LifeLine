@@ -7,6 +7,7 @@ use App\Support\MobileNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -62,10 +63,18 @@ class ProfileController extends Controller
         ];
 
         if ($donor) {
+            $firstDonation = $donor->donations()->min('donated_on');
+
             $rules += [
                 'blood_type' => ['required', Rule::in(Donor::BLOOD_TYPES)],
                 // Sanity checks only, as at registration. Eligibility rules belong to matching (M2.3, DEC-008).
-                'birthdate' => ['required', 'date', 'before:today', 'after:1900-01-01'],
+                'birthdate' => ['bail', 'required', 'date', 'before:today', 'after:1900-01-01',
+                    // Recorded donations must stay after the birthdate (the donation form checks the same).
+                    function (string $attribute, mixed $value, \Closure $fail) use ($firstDonation) {
+                        if ($firstDonation && Carbon::parse($value)->toDateString() >= substr((string) $firstDonation, 0, 10)) {
+                            $fail('Your birthdate must be before your first recorded donation.');
+                        }
+                    }],
                 'weight_kg' => ['required', 'numeric', 'decimal:0,2', 'min:1', 'max:300'],
                 'city' => ['required', 'string', 'max:100'],
                 'location_sharing' => ['nullable', 'boolean'],

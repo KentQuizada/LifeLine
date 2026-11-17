@@ -3,7 +3,7 @@
 Test cases for the nine required test categories, with expected and actual results.
 
 - **Automated** cases run in PHPUnit (`cd lifeline && php artisan test`). The evidence column names the test class and
-  method. Actual results are from the run on **2026-11-17**: **414 tests, 1,304 assertions, 0 failures**
+  method. Actual results are from the run on **2026-11-17**: **432 tests, 1,365 assertions, 0 failures**
   (full list: [automated-test-results.txt](automated-test-results.txt)).
 - **Manual** cases (`MAN-…`) were run in a browser on 2026-11-17 against `php artisan serve` with the sample data, at
   375 px (phone) and 1280 px (laptop) widths.
@@ -144,3 +144,5 @@ Collection: [api-tests.http](api-tests.http).
 | MAN-03 | Donor at 375 px: Edit profile, tap the location map | Leaflet map shown; hidden fields became 8.95 / 125.55; message "Location chosen on the map…"; email switch on |
 | MAN-04 | Admin at 1280 px: Dashboard and all admin pages | 8 number cards, 3 charts drawn; Donors, Verify, Users, Requests, request detail, donor detail, Hospitals, add/edit hospital, Reports: 200; both CSV exports 200 `text/csv` |
 | MAN-05 | `App\Support\Alerts::send()` for a sample donor with `MAIL_MAILER=smtp`, received by a local SMTP test mailbox on port 2525 | One message saved with the From, To and Subject above, the "Open LifeLine" link and the medical disclaimer |
+| MAN-06 | Demo donor at 375 px after the M3.2 fixes: Home colours, a throwaway `data-submit-once` form submitted twice, Track box with a pasted reference `  ll-261117-abc234  ` | Hero gradient starts at #c62828 with white stat text; switch on = white track, green knob; off = #6c757d track; second submit blocked and button disabled; reference trimmed and accepted by the pattern |
+| MAN-07 | Keyboard-only walkthrough (Tab, Shift+Tab, Enter, Space) of register, login, Home, emergency request, Requests for you, Alerts and Map | **Not run yet: a team member does this and writes what they observed** |

@@ -100,7 +100,7 @@ class DonorAnswersTest extends TestCase
     public function test_a_second_acceptance_keeps_donor_found_without_another_history_row(): void
     {
         $this->answer('accepted');
-        $secondDonor = Donor::factory()->create();
+        $secondDonor = Donor::factory()->create(['verification_status' => 'verified']);
         $secondMatch = $this->bloodRequest->matches()->create(['donor_id' => $secondDonor->id, 'distance_km' => 4]);
 
         $this->actingAs($secondDonor->user)->patch(route('matches.update', $secondMatch->id), ['answer' => 'accepted']);
@@ -113,7 +113,7 @@ class DonorAnswersTest extends TestCase
     public function test_declining_while_donor_found_keeps_donor_found(): void
     {
         $this->answer('accepted');
-        $secondDonor = Donor::factory()->create();
+        $secondDonor = Donor::factory()->create(['verification_status' => 'verified']);
         $secondMatch = $this->bloodRequest->matches()->create(['donor_id' => $secondDonor->id, 'distance_km' => 4]);
 
         $this->actingAs($secondDonor->user)->patch(route('matches.update', $secondMatch->id), ['answer' => 'declined']);

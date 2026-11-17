@@ -39,5 +39,6 @@ Mobile-first, installable user interface implementing the team's LifeLine design
 ## Future Changes
 - No service worker (offline pages); the manifest makes LifeLine installable from the browser menu.
 - The design image is still not in `docs/design/` (team to save it as `docs/design/lifeline-design.png`).
-- M3.2: hero small-text contrast (~3.4–4:1 on red) and the availability switch track contrast are below WCAG AA; fix in the accessibility pass.
+- Done in M3.2: hero small text 4.6:1+, switch 4.7:1 (off) / 5.1:1 (on), section labels 5.6:1; `public/js/lifeline.js` (single-submit forms) loads on every page.
+- Keyboard-only walkthrough by a team member still to do (MAN-07).
 - Design parts still to come: Donors near you and map (M2.4), Notifications switch (M2.5).

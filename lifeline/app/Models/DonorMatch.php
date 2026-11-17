@@ -54,6 +54,11 @@ class DonorMatch extends Model
                 throw new InvalidArgumentException('This request is no longer looking for donors.');
             }
 
+            // A donor whose verification was withdrawn after matching cannot share contact details.
+            if ($answer === 'accepted' && $this->donor()->value('verification_status') !== 'verified') {
+                throw new InvalidArgumentException('Only verified donors can accept requests.');
+            }
+
             $this->status = $answer;
             $this->responded_at = now();
             $this->save();

@@ -171,10 +171,17 @@ class BloodRequest extends Model
      */
     public function matchDonors(): int
     {
-        if (! in_array($this->status, self::LOOKING_FOR_DONORS, true)) {
-            return 0;
-        }
+        return DB::transaction(function (): int {
+            // Re-read the status under the same row lock changeStatus() and respond() use, so a request
+            // cancelled at the same moment never gets new "notified" donors.
+            $status = self::whereKey($this->id)->lockForUpdate()->value('status');
 
+            return in_array($status, self::LOOKING_FOR_DONORS, true) ? $this->addNearestDonors() : 0;
+        });
+    }
+
+    private function addNearestDonors(): int
+    {
         $hospital = $this->hospital;
 
         // Only the columns ranking needs (DEC-004).

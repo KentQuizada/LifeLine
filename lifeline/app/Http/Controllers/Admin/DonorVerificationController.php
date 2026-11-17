@@ -33,6 +33,11 @@ class DonorVerificationController extends Controller
 
     private function review(Request $request, Donor $donor, string $status): RedirectResponse
     {
+        // Only new donors are reviewed here; a verified donor cannot be flipped to rejected (or back) by a stale page.
+        if ($donor->verification_status !== 'pending') {
+            return back()->with('error', "{$donor->user->first_name} {$donor->user->last_name} was already reviewed ({$donor->verification_status}).");
+        }
+
         // Not fillable, so set explicitly. verified_by/verified_at record who reviewed and when, for both outcomes.
         $donor->forceFill([
             'verification_status' => $status,

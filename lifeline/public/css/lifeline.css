@@ -76,15 +76,16 @@ body {
     font-weight: 700;
 }
 
-/* Red header band (design C1 home, E1 profile). */
+/* Red header band (design C1 home, E1 profile). Starts at #c62828, not the brand red, so the small
+   white text inside keeps at least 4.5:1 contrast (WCAG AA, M3.2). */
 .ll-hero {
-    background: linear-gradient(160deg, var(--ll-red) 0%, var(--ll-red-dark) 100%);
+    background: linear-gradient(160deg, #c62828 0%, var(--ll-red-dark) 100%);
     color: #fff;
     border-radius: 1.25rem;
     padding: 1.25rem;
     margin-bottom: 1rem;
 }
-.ll-hero-muted { color: rgba(255, 255, 255, 0.85); }
+.ll-hero-muted { color: rgba(255, 255, 255, 0.95); }
 .ll-hero .ll-avatar { background: rgba(255, 255, 255, 0.2); }
 
 /* Stat tile inside the red header. */
@@ -95,13 +96,15 @@ body {
     background: rgba(255, 255, 255, 0.15);
     text-align: center;
 }
-.ll-hero-stat .small { color: rgba(255, 255, 255, 0.85); }
+.ll-hero-stat .small { color: #fff; }
 
 /* "Available to donate" card: green when on, white when off. */
 .ll-availability { border: 0; border-radius: 1rem; }
 .ll-availability.is-on { background: #2e7d32; color: #fff; }
 
-/* Switch look for the availability submit button (a real button, so no JavaScript). */
+/* Switch look for the availability submit button (a real button, so no JavaScript).
+   Off: white knob on a grey track; on: green knob on a white track. Both keep 3:1 against their
+   background (WCAG non-text contrast, M3.2). */
 .ll-switch {
     position: relative;
     flex-shrink: 0;
@@ -110,7 +113,7 @@ body {
     padding: 0;
     border: 0;
     border-radius: 999px;
-    background: #ced4da;
+    background: #6c757d;
 }
 .ll-switch::after {
     content: "";
@@ -122,8 +125,8 @@ body {
     border-radius: 50%;
     background: #fff;
 }
-.ll-switch.is-on { background: rgba(255, 255, 255, 0.45); }
-.ll-switch.is-on::after { left: 25px; }
+.ll-switch.is-on { background: #fff; }
+.ll-switch.is-on::after { left: 25px; background: #2e7d32; }
 .ll-switch:focus-visible { outline: 3px solid var(--ll-red); outline-offset: 2px; }
 .ll-availability.is-on .ll-switch:focus-visible { outline-color: #fff; }
 
@@ -134,7 +137,7 @@ body {
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: #6c757d;
+    color: #5c636a;
 }
 .ll-menu-icon {
     display: flex;

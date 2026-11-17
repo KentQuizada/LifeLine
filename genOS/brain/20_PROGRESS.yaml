@@ -28,18 +28,19 @@ working_on:
   - "M3.1 USE-01: team runs the SUS usability sessions (docs/testing/sus-questionnaire.md) with real participants and fills the results; then mark USE-01 in docs/testing/test-cases.md"
   - "M3.1 EMR-12: team puts real SMTP or Mailtrap details in lifeline/.env and checks an alert email in a real inbox"
   - "Team to review proposed decisions DEC-017 to DEC-020 (map, notifications, admin, demo accounts) and accept or change them"
+  - "M3.2 MAN-07: a team member does the keyboard-only walkthrough and writes what they observed in docs/testing/test-cases.md"
 
 # Known bugs or risks
 known_issues:
-  - "M2.4-M2.6 and M3 work merged into main locally 2026-11-17 (merge dcda4a0, 416 tests pass); main has not been pushed to any remote (no GitHub repo exists yet)"
-  - "Dev database lifeline still holds the older random sample data; run php artisan migrate:fresh --seed before the demo to get the fixed demo accounts (DEC-020)"
+  - "All work is on main locally (432 tests pass on 2026-11-17); main has not been pushed to any remote (no GitHub repo exists yet)"
+  - "Dev database lifeline was reset with migrate:fresh --seed on 2026-11-17 and holds the fixed demo accounts (DEC-020); reset again before the demo if it gets messy"
+  - "Pre-production settings still to set at deployment: SESSION_SECURE_COOKIE=true, APP_DEBUG=false, HTTPS; mail is sent without a queue"
   - "Donation interval (3 months, design B2) still needs a cited source before the defense (DEC-008, TODO in lifeline/config/lifeline.php)"
   - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010); admins can now add the real ones in Admin > Hospitals"
   - "Map tiles come from OpenStreetMap and need internet at the defense; lists still work offline"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image is not saved in the repo yet (team to save it as docs/design/lifeline-design.png)"
   - "XAMPP MariaDB must be running for artisan and tests (start MySQL in the XAMPP Control Panel)"
-  - "Pre-production auth hardening is deferred (Authentication system file, Future Changes) - must be done before any public deployment"
   - "Browser pane screenshots crop on this display (DPR 1.25) and stall when the Claude window is behind another window; verify layout with DOM measurements"
   - "Shell heredocs in this environment collapse double backslashes; write PHP/YAML edits with the Edit/Write tools, not python -c or heredocs"
 
@@ -51,7 +52,16 @@ blocked:
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
 session_summary: >-
-  2026-11-17 (kickoff + "finish everything, especially the system"): built the rest of the system on
+  2026-11-17, second part ("just focus on the system"): reset the dev DB to the demo data, then fixed every
+  code carry-forward in the system files, on main: own throttle counters (TASK-001), per-IP login limit,
+  lower-cased email at login/reset, AuthenticateSession ends other sessions after a password change,
+  duplicate sign-up race back to step 1, step-1 resubmit keeps medical answers, verify/reject pending donors
+  only, matchDonors() locks the request, only verified donors can accept, Requests for you paginated,
+  single-submit forms (public/js/lifeline.js), track box trims pasted references, birthdate before first
+  donation, clearer availability message, WCAG AA contrast for hero text, switch and labels. Bug log
+  BUG-05..BUG-17, tests/Feature/HardeningTest.php, 432 tests pass, results file refreshed. M3.2 code work is
+  done; it stays planned until M3.1 closes (SUS sessions) and needs a keyboard walkthrough (MAN-07).
+  Earlier the same day (kickoff + "finish everything, especially the system"): built the rest of the system on
   branch feat/m2.4-m3.2-system, merged into main (dcda4a0). M2.4 done: donor map page and GET /api/v1/map
   (blood type, 2-decimal coordinates, whole-km distance only), Near me with denied-permission fallback to
   Butuan City and tap-to-choose, location picker in Edit profile, Leaflet 1.9.4 vendored. M2.5 done:

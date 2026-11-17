@@ -39,6 +39,5 @@ Emergency blood requests: creation, unique reference numbers, status lifecycle, 
 - Since M2.2, `status`, `reference_number` and `requester_id` are not fillable; factories run unguarded so tests and seeders may still set them. Request rules: [[30_DECISIONS]] DEC-014.
 
 ## Future Changes
-- A double click on "Send emergency request" can create two requests (the 5 per 10 min throttle allows it); add disable-on-submit later.
-- The track input's browser pattern rejects a pasted reference with surrounding spaces, although the server trims.
+- Done in M3.2: forms marked `data-submit-once` send once (`public/js/lifeline.js`); the track box trims a pasted reference (BUG-14, BUG-15).
 - Not yet tested: donor-role cancel, cancel from `donor_found`. `submit()` throws a `RuntimeException` (500) after 5 reference collisions (negligible).

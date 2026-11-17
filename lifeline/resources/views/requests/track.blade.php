@@ -8,7 +8,7 @@
 
     <form id="track-form" class="card card-body shadow-sm mb-3" data-api="{{ url('/api/v1/requests/track') }}">
         <label for="reference" class="form-label">Reference number</label>
-        <input id="reference" name="reference" type="text" required maxlength="16"
+        <input id="reference" name="reference" type="text" required maxlength="24"
                pattern="[Ll][Ll]-[0-9]{6}-[A-Za-z0-9]{6}" title="LL-YYMMDD-XXXXXX"
                autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="LL-YYMMDD-XXXXXX"
                class="form-control font-monospace text-uppercase mb-3">

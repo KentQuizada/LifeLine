@@ -85,6 +85,8 @@
         </div>
     @endforelse
 
+    {{ $matches->links() }}
+
     <p class="small text-secondary">
         <i class="bi bi-info-circle" aria-hidden="true"></i>
         LifeLine only suggests potential donors. Final compatibility and eligibility are confirmed by healthcare professionals.

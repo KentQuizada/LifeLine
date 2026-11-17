@@ -46,8 +46,7 @@ Find compatible, eligible, nearby potential donors for a blood request.
 - No notifications are sent yet: the `notified` match rows are what M2.5 will notify.
 
 ## Future Changes
-- M2.5: re-check the request status before notifying matched donors (`matchDonors()` reads the status without a lock, so a request cancelled at the same moment can get `notified` rows).
-- Before M2.6 adds suspend/reject for verified donors: `respond()` should refuse an acceptance from a donor who is no longer verified.
+- Done in M3.2: `matchDonors()` re-reads the status under the request row lock; `respond()` refuses an acceptance from a donor who is not verified (BUG-12, BUG-13).
 - Donor withdraws an acceptance; recording a donation through an accepted match (see [[Donors]]).
-- Pagination on "Requests for you" once donors collect many matches.
+- Done in M3.2: "Requests for you" is paginated (15 per page).
 - The donation interval (3 months, from design B2) still needs a cited source before the defense (DEC-008; TODO in `config/lifeline.php`).

@@ -31,7 +31,7 @@ class LoginController extends Controller
 
         $login = trim($request->input('login'));
         $credentials = str_contains($login, '@')
-            ? ['email' => $login]
+            ? ['email' => Str::lower($login)] // emails are saved in lower case at registration
             : ['mobile_number' => MobileNumber::normalize($login) ?? $login];
 
         // Keyed on the normalized login, so "+63…" and "09…" share one counter.

@@ -6,7 +6,7 @@
     <h1 class="h4 fw-bold"><i class="bi bi-plus-circle-fill text-brand" aria-hidden="true"></i> Emergency blood request</h1>
     <p class="text-secondary">Tell us what the hospital needs. You will get a reference number to track the request.</p>
 
-    <form method="POST" action="{{ route('requests.store') }}" class="card card-body shadow-sm mb-3">
+    <form method="POST" action="{{ route('requests.store') }}" class="card card-body shadow-sm mb-3" data-submit-once>
         @csrf
 
         <fieldset class="mb-3">
