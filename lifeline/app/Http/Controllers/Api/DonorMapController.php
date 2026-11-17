@@ -52,15 +52,16 @@ class DonorMapController extends Controller
             ->take(config('lifeline.map.donor_limit'))
             ->values();
 
-        $hospitals = Hospital::orderBy('name')
-            ->get(['name', 'type', 'latitude', 'longitude'])
+        $hospitals = Hospital::get(['name', 'type', 'latitude', 'longitude'])
             ->map(fn (Hospital $hospital) => [
                 'name' => $hospital->name,
                 'type' => $hospital->type,
                 'latitude' => (float) $hospital->latitude,
                 'longitude' => (float) $hospital->longitude,
                 'distance_km' => $distance($hospital->latitude, $hospital->longitude),
-            ]);
+            ])
+            ->sortBy([['distance_km', 'asc'], ['name', 'asc']])
+            ->values();
 
         return response()->json(['data' => [
             'center' => $center + ['source' => $usesDefault ? 'default' : 'user'],

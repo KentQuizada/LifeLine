@@ -120,11 +120,13 @@ class DonorMapTest extends TestCase
 
     public function test_hospitals_are_listed_with_distance(): void
     {
+        Hospital::factory()->create(['name' => 'A Far Hospital', 'latitude' => 8.95, 'longitude' => 125.60]);
         Hospital::factory()->create(['name' => 'Sample Map Hospital', 'latitude' => 8.95, 'longitude' => 125.54]);
 
         $this->actingAs($this->requester)->getJson(route('api.map'))
             ->assertJsonPath('data.hospitals.0.name', 'Sample Map Hospital')
-            ->assertJsonPath('data.hospitals.0.distance_km', 1);
+            ->assertJsonPath('data.hospitals.0.distance_km', 1)
+            ->assertJsonPath('data.hospitals.1.name', 'A Far Hospital');
     }
 
     public function test_invalid_filters_are_rejected_as_json(): void
