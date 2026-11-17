@@ -23,4 +23,8 @@ return [
         'longitude' => [116.0, 127.0],
     ],
 
+    // Password for the sample and demo accounts made by the seeder. Locally it is "password"; online,
+    // set SEED_PASSWORD so strangers cannot log in as the demo admin (docs/deployment.md).
+    'seed_password' => env('SEED_PASSWORD', 'password'),
+
 ];

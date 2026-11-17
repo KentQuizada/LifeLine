@@ -1,0 +1,119 @@
+# Putting LifeLine online (system link due Nov 20, 11:59 PM)
+
+LifeLine runs online as one **Docker** container (`lifeline/Dockerfile`: Apache + PHP 8.2) plus a **MySQL**
+database from the hosting site. On every start the container caches settings, creates or updates the tables
+(`php artisan migrate`) and adds the demo data only if the database is empty (`php artisan lifeline:seed-if-empty`).
+
+The steps below use **Railway** (railway.com). Prices change, so check its pricing page first. In late 2026 it
+offers a short trial credit, then about US$5 a month. Any host that can run a Dockerfile and give you a MySQL
+database works the same way.
+
+## What you need
+
+- A **GitHub** account (the code goes there; Railway reads it from there).
+- A **Railway** account (sign up with GitHub).
+- Optional, for sign-up emails: a **Gmail** account with 2-Step Verification and an **App Password**.
+
+## 1. Put the code on GitHub
+
+1. On github.com, create a new **private** repository, for example `lifeline`, without a README.
+2. In a terminal in `D:\ITE-18_LifeLine`:
+
+   ```bash
+   git remote add origin https://github.com/YOUR-USERNAME/lifeline.git
+   git push -u origin main
+   ```
+
+## 2. Create the app on Railway
+
+1. railway.com → **New Project** → **Deploy from GitHub repo** → choose `lifeline`.
+2. Open the new service → **Settings** → **Source** → **Root Directory**: `lifeline`
+   (the Laravel app is in that folder). Railway then finds the `Dockerfile` by itself.
+3. In the same project: **New** → **Database** → **MySQL**.
+
+## 3. Settings (Variables)
+
+Open the LifeLine service → **Variables** → **Raw Editor** and paste this, then fill the empty values.
+The `${{MySQL.…}}` parts are filled in by Railway from the MySQL service.
+
+```
+APP_NAME=LifeLine
+APP_ENV=production
+APP_DEBUG=false
+APP_KEY=
+APP_URL=
+LOG_CHANNEL=stderr
+LOG_LEVEL=warning
+DB_CONNECTION=mysql
+DB_HOST=${{MySQL.MYSQLHOST}}
+DB_PORT=${{MySQL.MYSQLPORT}}
+DB_DATABASE=${{MySQL.MYSQLDATABASE}}
+DB_USERNAME=${{MySQL.MYSQLUSER}}
+DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}
+SESSION_DRIVER=file
+SESSION_SECURE_COOKIE=true
+CACHE_STORE=file
+QUEUE_CONNECTION=sync
+SEED_PASSWORD=
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS=no-reply@lifeline.test
+MAIL_FROM_NAME=LifeLine
+```
+
+- **APP_KEY**: run `php artisan key:generate --show` in `D:\ITE-18_LifeLine\lifeline` and paste the whole
+  `base64:...` value.
+- **SEED_PASSWORD**: choose a password for the demo accounts online (requester@, donor@, pending@ and
+  admin@lifeline.test). Do not use "password": the link is public. Give it only to your instructor.
+- **APP_URL**: fill in after step 4.
+
+The full list with comments is in `lifeline/.env.production.example`.
+
+## 4. Get the link
+
+1. LifeLine service → **Settings** → **Networking** → **Generate Domain**. Railway shows a link such as
+   `https://lifeline-production.up.railway.app`.
+2. Put that link in the **APP_URL** variable. Railway redeploys by itself.
+3. Wait for the deploy to finish (**Deployments** tab, green). The first start also adds the demo data.
+
+## 5. Check it
+
+- `https://YOUR-LINK/up` shows a green "Application up" page.
+- Log in as `admin@lifeline.test` with your SEED_PASSWORD: the dashboard shows the charts.
+- Run the demo script (`docs/testing/demo-script.md`) once on the link: requester, donor, admin.
+- Open the link on a phone. The browser menu offers **Install app / Add to Home screen**.
+
+## Emails online
+
+With `MAIL_MAILER=log` no email leaves the server. The demo accounts already have verified emails, so the demo
+works without email, but **a brand-new sign-up cannot verify its email**. To send real emails, replace the
+MAIL lines with (Gmail App Password):
+
+```
+MAIL_MAILER=smtp
+MAIL_SCHEME=smtps
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=your.gmail@gmail.com
+MAIL_PASSWORD=the 16-letter app password
+MAIL_FROM_ADDRESS=your.gmail@gmail.com
+MAIL_FROM_NAME=LifeLine
+```
+
+## Updating the online system
+
+Commit and `git push`; Railway builds and restarts by itself. Data stays, because the database is a separate
+service. To start over with fresh demo data, delete and re-create the MySQL service (this erases everything).
+
+## If something goes wrong
+
+- **Deploy fails while building**: open the build log in Railway → Deployments. Most often the Root Directory
+  is not set to `lifeline`.
+- **500 error / "No application encryption key"**: APP_KEY is empty or was pasted without `base64:`.
+- **Database connection refused**: the DB_ variables do not point at the MySQL service; check the names in the
+  `${{MySQL.…}}` references match your MySQL service's name.
+- **Forms say "Page expired"**: APP_URL must be the exact https link, and SESSION_SECURE_COOKIE=true.
+- **Logs**: Railway → the service → **Logs** (LOG_CHANNEL=stderr sends Laravel's errors there).
+
+Note: the Docker image was written for this guide but not built on the team laptop (Docker is not installed
+there). The production settings themselves were checked locally on 2026-11-17 (`config:cache`, `route:cache`,
+`view:cache`, pages and https links).

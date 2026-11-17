@@ -10,6 +10,7 @@ use App\Models\Hospital;
 use App\Models\RequestHistory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -70,6 +71,11 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->demoAccounts($admin);
+
+        // Online the demo accounts get a private password (config lifeline.seed_password, from SEED_PASSWORD).
+        if (config('lifeline.seed_password') !== 'password') {
+            User::query()->update(['password' => Hash::make(config('lifeline.seed_password'))]);
+        }
     }
 
     /**
