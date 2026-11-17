@@ -5,7 +5,7 @@
 schema_version: 2
 
 # ISO date of last SHUTDOWN update (YYYY-MM-DD)
-last_updated: "2026-11-14"
+last_updated: "2026-11-17"
 
 # Who last wrote this file (e.g. cursor-agent, agy-agent, agency:unity-specialist)
 last_agent: claude-code
@@ -14,54 +14,60 @@ last_agent: claude-code
 last_ide: claude-desktop
 
 # ID only — resolve objective/criteria in 50_ROADMAP.md
-current_milestone: M2.4
+current_milestone: M3.1
 
 # Active scene or primary file in focus, if any
 current_scene: null
 
 # System file basenames under brain/systems/ (without .md) to load on BOOT
 # Example: [Input, Movement]
-systems_in_scope: [DonorMap, RestApi, Donors]
+systems_in_scope: [QualityAssurance, FrontendUI]
 
 # Sole in-progress list (do not duplicate into Backlog)
-working_on: []
+working_on:
+  - "M3.1 USE-01: team runs the SUS usability sessions (docs/testing/sus-questionnaire.md) with real participants and fills the results; then mark USE-01 in docs/testing/test-cases.md"
+  - "M3.1 EMR-12: team puts real SMTP or Mailtrap details in lifeline/.env and checks an alert email in a real inbox"
+  - "Team to review proposed decisions DEC-017 to DEC-020 (map, notifications, admin, demo accounts) and accept or change them"
 
 # Known bugs or risks
 known_issues:
-  - "M2.3 is merged into main locally (2026-11-14, merge cb01d68, 353 tests pass on main); main has not been pushed to any remote (no GitHub repo exists yet)"
-  - "Signed-in /api/v1 routes use the web session (DEC-015); the first API write (M2.5) must send the CSRF token (RestApi system file)"
-  - "Until M2.4 captures donor coordinates, only seeded sample donors can be matched (DEC-016)"
+  - "M2.4-M2.6 and M3 work merged into main locally 2026-11-17 (merge dcda4a0, 416 tests pass); main has not been pushed to any remote (no GitHub repo exists yet)"
+  - "Dev database lifeline still holds the older random sample data; run php artisan migrate:fresh --seed before the demo to get the fixed demo accounts (DEC-020)"
   - "Donation interval (3 months, design B2) still needs a cited source before the defense (DEC-008, TODO in lifeline/config/lifeline.php)"
-  - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010)"
+  - "Sample hospitals are fake until the team supplies verified Butuan hospital and blood bank names (DEC-010); admins can now add the real ones in Admin > Hospitals"
+  - "Map tiles come from OpenStreetMap and need internet at the defense; lists still work offline"
   - "An earlier prototype may exist outside this folder (Downloads has lifeline-*.html prototypes) - not yet inspected"
   - "UI design image is not saved in the repo yet (team to save it as docs/design/lifeline-design.png)"
   - "XAMPP MariaDB must be running for artisan and tests (start MySQL in the XAMPP Control Panel)"
   - "Pre-production auth hardening is deferred (Authentication system file, Future Changes) - must be done before any public deployment"
   - "Browser pane screenshots crop on this display (DPR 1.25) and stall when the Claude window is behind another window; verify layout with DOM measurements"
+  - "Shell heredocs in this environment collapse double backslashes; write PHP/YAML edits with the Edit/Write tools, not python -c or heredocs"
 
 # Blockers requiring human decision or external input
 blocked:
   - "Team to provide: course deadline, team size and roles, demo environment (localhost or hosted), citation style"
+  - "M3.1 cannot close until real participants complete the SUS usability test (USE-01)"
 
 # Self-contained SHUTDOWN summary: what completed, what remains, what next agent should do
 # null = unset (Empty Brain / no session yet) — do not invent
 session_summary: >-
-  2026-11-14 (M2.3 execution): M2.3 donor matching done via subagent-driven execution of
-  docs/superpowers/plans/2026-11-14-m2.3-matching.md on branch feat/m2.3-matching (Tasks 1-4 each with a
-  spec + quality review; Task 4 review fix beea63c; controller static checks and browser check; Opus
-  whole-branch review, fixes in 0a2d324). Built: changeStatus() leaves the model untouched when it refuses
-  a change; red-cell ABO/Rh table BloodRequest::COMPATIBLE_DONORS (all 64 pairs tested);
-  App\Support\Distance (Haversine); Donor::eligibleFor() (searchable + compatible + coordinates + no
-  donation within config lifeline.donation_interval_months + not the requester + not matched yet);
-  BloodRequest::matchDonors() (10 nearest, ties by donor id) run on submit (errors logged, not shown) and by
-  "Find more donors"; DonorMatch::respond() (one-time accept/decline, locks request then match, first
-  acceptance sets donor_found); donor "Requests for you" page and home count; contact both ways only after
-  acceptance; GET /api/v1/requests/{id}/matches with the web session (DEC-015) used by public/js/matches.js;
-  ForceJsonResponse makes every /api/v1 answer JSON. Decisions DEC-015 and DEC-016 recorded. 353 tests
-  pass; browser check at 375 px and 1280 px passed (real Tab presses not verified, pane hidden). Deferred
-  items are in the Matching, RestApi and Donors system files (Future Changes). Merged into main
-  2026-11-14 (merge cb01d68, 353 tests pass on main). Next: a new session `kickoff` M2.4 (donor map and
-  geolocation) with XAMPP MySQL running.
-  Previous, 2026-11-14 (M2.2 execution): M2.2 blood requests done on feat/m2.2-requests (submit() with
-  unique LL-YYMMDD-XXXXXX references, changeStatus() with history, SOS form, request sent, my requests,
-  cancel and fulfil, /api/v1 with public tracking); merged into main 0129e37 (247 tests).
+  2026-11-17 (kickoff + "finish everything, especially the system"): built the rest of the system on
+  branch feat/m2.4-m3.2-system, merged into main (dcda4a0). M2.4 done: donor map page and GET /api/v1/map
+  (blood type, 2-decimal coordinates, whole-km distance only), Near me with denied-permission fallback to
+  Butuan City and tap-to-choose, location picker in Edit profile, Leaflet 1.9.4 vendored. M2.5 done:
+  App\Support\Alerts sends in-app alerts plus email (after commit, failures logged) for new matches,
+  acceptances, closed requests and changes by others; Alerts tab with Today/Earlier, nav badge,
+  mark-all-read via POST /api/v1/notifications/read with CSRF; email switch in Edit profile; SMTP delivery
+  checked with a local test mailbox. M2.6 done: admin dashboard (cards + Chart.js 4.4.1 from
+  /api/v1/admin/stats, one Statistics class), donor/user/request lists and detail, status override with
+  reason (audited in request_history, requester notified), hospital CRUD, reports with CSV exports. M2
+  closed. Also PWA manifest and icons. M3 started: fixed demo accounts in the seeder (DEC-020),
+  DemoScriptTest runs docs/testing/demo-script.md on a fresh seeded DB, docs/testing/ has test-cases.md
+  (nine categories, actual results from the 2026-11-17 run), automated-test-results.txt (414 at that
+  run; 416 now), api-tests.http, sus-questionnaire.md, bug-log.md (4 bugs fixed). Browser-checked at 375 px
+  and 1280 px. Decisions DEC-017..DEC-020 recorded as proposed for team review. Not done: SUS sessions with
+  real people and a real-inbox email check (M3.1 working_on); M3.2 deliverables are drafted but it stays
+  planned until M3.1 closes; M4 thesis not started. Next: team runs the SUS sessions; a new session can
+  `kickoff` M3.2 (refresh the bug log from usability findings, contrast/keyboard pass) or start M4.1/M4.2
+  (thesis writing, verified sources only, DEC-008).
+  Previous, 2026-11-14 (M2.3): donor matching merged into main cb01d68 (353 tests).
