@@ -16,6 +16,10 @@
         </div>
     </header>
 
+    @if (auth()->user()->role === 'admin')
+        @include('partials.admin-nav')
+    @endif
+
     <main class="container @yield('container_class', 'll-narrow') py-3">
         @include('partials.alerts')
         @yield('content')
@@ -26,5 +30,6 @@
     @endif
 
     <script src="{{ asset('vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

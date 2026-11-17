@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Alerts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,11 @@ class DonorMatch extends Model
 
             if ($answer === 'accepted' && $requestStatus === 'open') {
                 $this->bloodRequest->changeStatus('donor_found', $this->donor->user, 'A donor accepted');
+            }
+
+            if ($answer === 'accepted') {
+                // M2.5: the requester learns that contact details are now shared (DEC-004).
+                DB::afterCommit(fn () => Alerts::donorAccepted($this));
             }
         });
     }

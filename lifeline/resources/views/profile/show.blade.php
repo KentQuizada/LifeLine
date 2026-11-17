@@ -73,6 +73,9 @@
             <li class="list-group-item d-flex justify-content-between gap-3">
                 <span class="text-secondary">Mobile number</span><span>{{ $user->mobile_number }}</span>
             </li>
+            <li class="list-group-item d-flex justify-content-between gap-3">
+                <span class="text-secondary">Email notifications</span><span>{{ $user->notifications_enabled ? 'On' : 'Off' }}</span>
+            </li>
             @if ($donor)
                 <li class="list-group-item d-flex justify-content-between gap-3">
                     <span class="text-secondary">Blood type</span><span>{{ $donor->blood_type }}</span>

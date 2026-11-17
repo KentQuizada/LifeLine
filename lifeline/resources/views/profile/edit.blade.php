@@ -86,10 +86,59 @@
                     Show my approximate location (about 1 km) on the donor map. When this is off, you do not appear in donor searches.
                 </label>
             </div>
+
+            {{-- M2.4: approximate location, rounded to about 1 km in the browser and again on the server (DEC-004). --}}
+            <fieldset id="location" class="mb-3" data-location-picker
+                      data-center-lat="{{ $mapCenter['latitude'] }}" data-center-lng="{{ $mapCenter['longitude'] }}">
+                <legend class="h6 fw-bold">Approximate location</legend>
+                <p class="small text-secondary mb-2">
+                    Used only when location sharing is on. LifeLine keeps it at about 1 km, never your exact home.
+                    Use your device location or tap the map near your barangay.
+                </p>
+                <input type="hidden" name="approx_latitude" value="{{ old('approx_latitude', $donor->approx_latitude) }}" data-latitude>
+                <input type="hidden" name="approx_longitude" value="{{ old('approx_longitude', $donor->approx_longitude) }}" data-longitude>
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                    <button type="button" class="btn btn-sm btn-outline-primary" data-use-location>
+                        <i class="bi bi-crosshair" aria-hidden="true"></i> Use my current location
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-clear-location>Clear</button>
+                </div>
+                <p class="small mb-2" data-location-text role="status" aria-live="polite">
+                    @if ($donor->approx_latitude !== null)
+                        Location set (about {{ (float) $donor->approx_latitude }}, {{ (float) $donor->approx_longitude }}).
+                    @else
+                        No location set yet.
+                    @endif
+                </p>
+                <div class="ll-map ll-map-sm rounded border" data-location-map aria-label="Map: tap to choose your approximate location"></div>
+                @error('approx_latitude')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
+                @error('approx_longitude')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
+            </fieldset>
         @endif
+
+        {{-- M2.5 preference (design E1). In-app alerts are always kept; this controls email copies. --}}
+        <h2 id="notifications" class="h6 fw-bold mt-2">Notifications</h2>
+        <div class="form-check form-switch mb-3">
+            <input type="hidden" name="notifications_enabled" value="0">
+            <input class="form-check-input" type="checkbox" role="switch" name="notifications_enabled" id="notifications_enabled" value="1"
+                   @checked($errors->any() ? old('notifications_enabled') : $user->notifications_enabled)>
+            <label class="form-check-label" for="notifications_enabled">
+                Email me about emergency requests, donor matches and status changes. Alerts in the app are always on.
+            </label>
+        </div>
 
         <button type="submit" class="btn btn-primary w-100">Save changes</button>
     </form>
 
     <p class="text-center"><a href="{{ route('profile.show') }}">Cancel</a></p>
 @endsection
+
+@if ($donor)
+    @push('head')
+        <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}">
+    @endpush
+    @push('scripts')
+        <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
+        <script src="{{ asset('js/location-picker.js') }}"></script>
+    @endpush
+@endif

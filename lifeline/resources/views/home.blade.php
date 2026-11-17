@@ -42,12 +42,17 @@
 
         @include('partials.donor-status')
 
-        @unless ($donor->location_sharing)
+        @if (! $donor->location_sharing)
             <div class="alert alert-warning small" role="status">
                 Location sharing is off, so you do not appear in donor searches.
                 <a href="{{ route('profile.edit') }}">Change this in your profile.</a>
             </div>
-        @endunless
+        @elseif ($donor->approx_latitude === null)
+            <div class="alert alert-warning small" role="status">
+                Set your approximate location so requesters near you can find you.
+                <a href="{{ route('profile.edit') }}#location">Set location</a>
+            </div>
+        @endif
 
         <div class="d-grid gap-2">
             <a href="{{ route('matches.index') }}" class="btn btn-outline-danger d-flex justify-content-center align-items-center gap-2">

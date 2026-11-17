@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Alerts;
 use App\Support\Distance;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -157,6 +158,9 @@ class BloodRequest extends Model
                 'new_status' => $status,
                 'remarks' => $remarks,
             ]);
+
+            // M2.5: notify once the change is saved (runs right away when there is no transaction).
+            DB::afterCommit(fn () => Alerts::statusChanged($this, $status, $changedBy));
         });
     }
 
@@ -197,7 +201,11 @@ class BloodRequest extends Model
                 ['donor_id' => $candidate['donor_id']],
                 ['distance_km' => $candidate['distance_km']]
             );
-            $added += $match->wasRecentlyCreated ? 1 : 0;
+            if ($match->wasRecentlyCreated) {
+                $added++;
+                // M2.5: tell the donor about the request (in-app, plus email if they keep it on).
+                DB::afterCommit(fn () => Alerts::newMatch($match));
+            }
         }
 
         return $added;

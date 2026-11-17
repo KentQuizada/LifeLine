@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\DonorVerificationController;
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DonorMatchController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +61,13 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->middleware('throttle:10,1')->name('profile.update');
 
+    Route::get('/map', MapController::class)->name('map');
+
+    Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
+    Route::get('/alerts/{notification}', [AlertController::class, 'open'])
+        ->where('notification', '[0-9]{1,18}')
+        ->name('alerts.open');
+
     Route::get('/requests', [BloodRequestController::class, 'index'])->name('requests.index');
     Route::get('/requests/new', [BloodRequestController::class, 'create'])->name('requests.create');
     // The third throttle argument gives this limit its own counter. Without it, Laravel counts every
@@ -94,4 +104,21 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::get('/donors/pending', [DonorVerificationController::class, 'index'])->name('donors.pending');
     Route::post('/donors/{donor}/verify', [DonorVerificationController::class, 'verify'])->name('donors.verify');
     Route::post('/donors/{donor}/reject', [DonorVerificationController::class, 'reject'])->name('donors.reject');
+
+    // M2.6 admin dashboard, records, status override, hospitals and reports.
+    Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/donors', [Admin\DonorController::class, 'index'])->name('donors.index');
+    Route::get('/donors/{donor}', [Admin\DonorController::class, 'show'])->whereNumber('donor')->name('donors.show');
+    Route::get('/users', [Admin\UserController::class, 'index'])->name('users.index');
+    Route::get('/requests', [Admin\RequestController::class, 'index'])->name('requests.index');
+    Route::get('/requests/{bloodRequest}', [Admin\RequestController::class, 'show'])
+        ->whereNumber('bloodRequest')
+        ->name('requests.show');
+    Route::patch('/requests/{bloodRequest}/status', [Admin\RequestController::class, 'updateStatus'])
+        ->whereNumber('bloodRequest')
+        ->name('requests.status');
+    Route::resource('hospitals', Admin\HospitalController::class)->except('show');
+    Route::get('/reports', [Admin\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/requests.csv', [Admin\ReportController::class, 'requests'])->name('reports.requests');
+    Route::get('/reports/donors.csv', [Admin\ReportController::class, 'donors'])->name('reports.donors');
 });

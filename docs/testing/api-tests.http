@@ -1,0 +1,62 @@
+### LifeLine REST API test collection (/api/v1)
+### Open in VS Code with the "REST Client" extension, or import the requests into Postman.
+### Every answer is JSON, including errors: {"message": "..."} plus "errors" for 422 validation errors.
+###
+### Signed-in endpoints use the normal login session (DEC-015). To call them from here:
+### 1. Log in at http://127.0.0.1:8000/login in a browser.
+### 2. Copy the "lifeline-session" cookie (F12 > Application > Cookies) into @session below.
+### 3. For POST requests also copy the csrf-token <meta> value from any page into @csrf.
+
+@base = http://127.0.0.1:8000/api/v1
+@session = paste-the-lifeline-session-cookie-here
+@csrf = paste-the-csrf-token-here
+@reference = LL-261117-ABCDEF
+
+### API-01 Track a request (public). Expect 200 with reference, status, urgency, blood type, hospital, history.
+GET {{base}}/requests/track/{{reference}}
+Accept: application/json
+
+### API-02 Track an unknown reference. Expect 404.
+GET {{base}}/requests/track/LL-000000-AAAAAA
+Accept: application/json
+
+### API-03 Track a malformed reference. Expect 422.
+GET {{base}}/requests/track/hello
+Accept: application/json
+
+### API-04 Donor map without signing in. Expect 401 {"message": "Unauthenticated."}.
+GET {{base}}/map
+Accept: application/json
+
+### API-05 Donor map (requester or donor). Expect 200: donors with blood_type, latitude, longitude (2 decimals),
+### distance_km only; hospitals nearest first.
+GET {{base}}/map?blood_type=O-&latitude=8.95&longitude=125.54
+Accept: application/json
+Cookie: lifeline-session={{session}}
+
+### API-06 Donor map with an invalid blood type. Expect 422 with errors.blood_type.
+GET {{base}}/map?blood_type=Z%2B
+Accept: application/json
+Cookie: lifeline-session={{session}}
+
+### API-07 Potential donors for one of my requests (requester). Expect 200; name and mobile only for accepted donors.
+### Someone else's request id gives 404.
+GET {{base}}/requests/1/matches
+Accept: application/json
+Cookie: lifeline-session={{session}}
+
+### API-08 My alerts. Expect 200 with unread_count and up to 50 alerts.
+GET {{base}}/notifications
+Accept: application/json
+Cookie: lifeline-session={{session}}
+
+### API-09 Mark all alerts as read (needs the CSRF token). Expect 200 {"unread_count": 0}. Without the token: 419.
+POST {{base}}/notifications/read
+Accept: application/json
+Cookie: lifeline-session={{session}}
+X-CSRF-TOKEN: {{csrf}}
+
+### API-10 Admin statistics (admin session). Expect 200. A donor or requester session gets 403.
+GET {{base}}/admin/stats
+Accept: application/json
+Cookie: lifeline-session={{session}}
