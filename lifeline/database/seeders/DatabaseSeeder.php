@@ -7,7 +7,6 @@ use App\Models\BloodRequest;
 use App\Models\Donation;
 use App\Models\Donor;
 use App\Models\Hospital;
-use App\Models\Notification;
 use App\Models\RequestHistory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -66,17 +65,8 @@ class DatabaseSeeder extends Seeder
                 'remarks' => 'Request submitted',
             ]);
 
-            // Sample matches come from the real matching rules (M2.3).
+            // Sample matches and their alerts come from the real matching and notification rules (M2.3, M2.5).
             $request->matchDonors();
-
-            foreach ($request->matches()->with('donor')->get() as $match) {
-                Notification::create([
-                    'user_id' => $match->donor->user_id,
-                    'blood_request_id' => $request->id,
-                    'title' => "Urgent: {$request->blood_type} blood needed",
-                    'message' => "{$hospital->name} needs {$request->units} unit(s) of {$request->blood_type} blood.",
-                ]);
-            }
         }
     }
 }

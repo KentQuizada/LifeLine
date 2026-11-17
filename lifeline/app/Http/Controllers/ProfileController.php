@@ -58,6 +58,7 @@ class ProfileController extends Controller
             'first_name' => ['required', 'string', 'max:100'],
             'last_name' => ['required', 'string', 'max:100'],
             'mobile_number' => ['required', 'string', 'regex:/^09\d{9}$/', Rule::unique('users', 'mobile_number')->ignore($user->id)],
+            'notifications_enabled' => ['nullable', 'boolean'],
         ];
 
         if ($donor) {
@@ -84,7 +85,12 @@ class ProfileController extends Controller
             && $donor->verification_status !== 'pending';
 
         DB::transaction(function () use ($user, $donor, $data, $request, $needsReview) {
-            $user->update(Arr::only($data, ['first_name', 'last_name', 'mobile_number']));
+            $user->fill(Arr::only($data, ['first_name', 'last_name', 'mobile_number']));
+            // Email preference (M2.5); a form without the field keeps the current choice.
+            if ($request->exists('notifications_enabled')) {
+                $user->notifications_enabled = $request->boolean('notifications_enabled');
+            }
+            $user->save();
 
             if (! $donor) {
                 return;

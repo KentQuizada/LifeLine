@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DonorVerificationController;
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
@@ -60,6 +61,11 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
     Route::put('/profile', [ProfileController::class, 'update'])->middleware('throttle:10,1')->name('profile.update');
 
     Route::get('/map', MapController::class)->name('map');
+
+    Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
+    Route::get('/alerts/{notification}', [AlertController::class, 'open'])
+        ->where('notification', '[0-9]{1,18}')
+        ->name('alerts.open');
 
     Route::get('/requests', [BloodRequestController::class, 'index'])->name('requests.index');
     Route::get('/requests/new', [BloodRequestController::class, 'create'])->name('requests.create');

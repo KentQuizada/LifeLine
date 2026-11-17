@@ -17,8 +17,15 @@
                 <li class="nav-item">
                     <a href="{{ route($tab['route']) }}" class="nav-link {{ $tab['class'] ?? '' }} {{ $isActive ? 'active' : '' }}"
                        @if ($isActive) aria-current="page" @endif>
-                        <i class="bi {{ $tab['icon'] }}" aria-hidden="true"></i>
-                        {{ $tab['label'] }}
+                        <span class="position-relative">
+                            <i class="bi {{ $tab['icon'] }}" aria-hidden="true"></i>
+                            @if ($tab['route'] === 'alerts.index')
+                                @php($unread = auth()->user()->notifications()->whereNull('read_at')->count())
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger ll-nav-badge"
+                                      data-unread-badge @if ($unread === 0) hidden @endif>{{ $unread }}</span>
+                            @endif
+                        </span>
+                        {{ $tab['label'] }}@if ($tab['route'] === 'alerts.index' && $unread > 0)<span class="visually-hidden">, {{ $unread }} unread</span>@endif
                     </a>
                 </li>
             @endif

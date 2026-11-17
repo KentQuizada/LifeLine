@@ -175,3 +175,7 @@ body {
 .ll-map { height: 360px; width: 100%; background: #e9ecef; }
 .ll-map-sm { height: 220px; }
 @media (min-width: 768px) { .ll-map { height: 440px; } .ll-map-sm { height: 260px; } }
+
+/* Alerts (M2.5, design C3). */
+.ll-unread { border-left: 4px solid var(--ll-red); background: #fff5f5; }
+.ll-nav-badge { font-size: 0.6rem; }

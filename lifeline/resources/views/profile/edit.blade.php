@@ -116,6 +116,17 @@
             </fieldset>
         @endif
 
+        {{-- M2.5 preference (design E1). In-app alerts are always kept; this controls email copies. --}}
+        <h2 id="notifications" class="h6 fw-bold mt-2">Notifications</h2>
+        <div class="form-check form-switch mb-3">
+            <input type="hidden" name="notifications_enabled" value="0">
+            <input class="form-check-input" type="checkbox" role="switch" name="notifications_enabled" id="notifications_enabled" value="1"
+                   @checked($errors->any() ? old('notifications_enabled') : $user->notifications_enabled)>
+            <label class="form-check-label" for="notifications_enabled">
+                Email me about emergency requests, donor matches and status changes. Alerts in the app are always on.
+            </label>
+        </div>
+
         <button type="submit" class="btn btn-primary w-100">Save changes</button>
     </form>
 
