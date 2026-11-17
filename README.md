@@ -74,8 +74,8 @@ CDN. Everything used is free; no paid API keys.
 1. Get the code:
 
    ```bash
-   git clone https://github.com/KentQuizada/lifeline.git
-   cd lifeline/lifeline
+   git clone https://github.com/KentQuizada/LifeLine.git
+   cd LifeLine/lifeline
    ```
 
 2. Install the PHP packages:
