@@ -109,7 +109,8 @@ Collection: [api-tests.http](api-tests.http).
 | EMR-08 | Request cancelled | Waiting and accepted donors are told; donors who declined are not | As expected | P | `EmergencyNotificationsTest` |
 | EMR-09 | Admin marks a stale request expired | History shows the admin and reason; requester notified | As expected | P | `RequestOverrideTest` |
 | EMR-10 | More than 5 requests in 10 minutes | Limited | As expected | P | `SubmitRequestTest::test_submitting_is_limited_to_five_requests_per_ten_minutes` |
-| EMR-11 | Email arrives in a real inbox | Email with title, message, link and disclaimer | — | NR | Team: set SMTP/Mailtrap in `.env`, submit a request, check the donor's inbox. Content is checked by `test_the_email_has_a_link_and_the_medical_disclaimer`. |
+| EMR-11 | Send an alert email over SMTP (`MAIL_MAILER=smtp`, 127.0.0.1:2525) to a local test mailbox | Email with title, message, link and disclaimer | Delivered: From "LifeLine &lt;no-reply@lifeline.test&gt;", Subject "LifeLine: Critical request: O- blood needed", link to /alerts, disclaimer present | P | MAN-05; content also checked by `test_the_email_has_a_link_and_the_medical_disclaimer` |
+| EMR-12 | Same email to a real inbox (Gmail or Mailtrap) | Arrives, not in spam | — | NR | Team: put the SMTP details in `lifeline/.env` before the defense and repeat EMR-11 |
 
 ## 8. Donor matching testing
 
@@ -142,3 +143,4 @@ Collection: [api-tests.http](api-tests.http).
 | MAN-02 | Donor at 375 px: Alerts tab with 2 unread, Mark all as read | Badge "2" then hidden; "All caught up."; network: GET notifications 200, POST notifications/read 200, GET 200 |
 | MAN-03 | Donor at 375 px: Edit profile, tap the location map | Leaflet map shown; hidden fields became 8.95 / 125.55; message "Location chosen on the map…"; email switch on |
 | MAN-04 | Admin at 1280 px: Dashboard and all admin pages | 8 number cards, 3 charts drawn; Donors, Verify, Users, Requests, request detail, donor detail, Hospitals, add/edit hospital, Reports: 200; both CSV exports 200 `text/csv` |
+| MAN-05 | `App\Support\Alerts::send()` for a sample donor with `MAIL_MAILER=smtp`, received by a local SMTP test mailbox on port 2525 | One message saved with the From, To and Subject above, the "Open LifeLine" link and the medical disclaimer |
