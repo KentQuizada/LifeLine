@@ -18,8 +18,9 @@ class SampleDataTest extends TestCase
         $this->seed();
 
         $this->assertSame(1, User::where('role', 'admin')->count());
-        $this->assertSame(5, User::where('role', 'requester')->count());
-        $this->assertSame(30, Donor::count());
+        // 5 sample requesters + 1 demo requester; 30 sample donors + 2 demo donors (demo script accounts).
+        $this->assertSame(6, User::where('role', 'requester')->count());
+        $this->assertSame(32, Donor::count());
         $this->assertSame(3, Hospital::count());
         $this->assertSame(5, BloodRequest::count());
         $this->assertSame(0, BloodRequest::doesntHave('history')->count());

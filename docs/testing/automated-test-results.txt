@@ -1,0 +1,514 @@
+LifeLine automated test results
+Run: 2026-11-17, branch feat/m2.4-m3.2-system, PHP 8.2.29, MariaDB (XAMPP), database lifeline_test
+Command: cd lifeline && php vendor/bin/phpunit --testdox
+
+PHPUnit 11.5.58 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.2.29
+Configuration: D:\ITE-18_LifeLine\lifeline\phpunit.xml
+
+...............................................................  63 / 414 ( 15%)
+............................................................... 126 / 414 ( 30%)
+............................................................... 189 / 414 ( 45%)
+............................................................... 252 / 414 ( 60%)
+............................................................... 315 / 414 ( 76%)
+............................................................... 378 / 414 ( 91%)
+....................................                            414 / 414 (100%)
+
+Time: 00:25.652, Memory: 66.00 MB
+
+Admin Dashboard (Tests\Feature\Admin\AdminDashboard)
+ ✔ Admin pages load for admins only with data set "dashboard"
+ ✔ Admin pages load for admins only with data set "donors"
+ ✔ Admin pages load for admins only with data set "users"
+ ✔ Admin pages load for admins only with data set "requests"
+ ✔ Admin pages load for admins only with data set "hospitals"
+ ✔ Admin pages load for admins only with data set "new hospital"
+ ✔ Admin pages load for admins only with data set "reports"
+ ✔ Every admin route requires the admin role
+ ✔ Admins land on the dashboard after login
+ ✔ Statistics match database counts
+ ✔ The stats api is admin only and json
+ ✔ Donor list filters and record page
+ ✔ User list filters by role
+ ✔ Request list search and detail
+
+Alerts Tab (Tests\Feature\Notifications\AlertsTab)
+ ✔ The alerts page loads and shows the unread badge
+ ✔ The api lists only my alerts newest first with the unread count
+ ✔ Older alerts are grouped as earlier
+ ✔ Mark all read only touches my alerts
+ ✔ The api uses the login session and answers guests in json
+ ✔ Opening a request alert marks it read and goes to the request
+ ✔ A donor opening a request alert goes to requests for you
+ ✔ Other peoples alerts give 404
+ ✔ Users can turn email notifications off and on
+
+Availability (Tests\Feature\Donors\Availability)
+ ✔ Turning availability off and on changes donor searches
+ ✔ Availability value is validated
+ ✔ Only donors have availability
+ ✔ Donor home shows availability and stats
+ ✔ Donor profile shows availability switch
+ ✔ Requester home has no donor dashboard
+
+Blood Compatibility (Tests\Unit\BloodCompatibility)
+ ✔ Compatibility with data set "O- receives from O-"
+ ✔ Compatibility with data set "O- receives from O+"
+ ✔ Compatibility with data set "O- receives from A-"
+ ✔ Compatibility with data set "O- receives from A+"
+ ✔ Compatibility with data set "O- receives from B-"
+ ✔ Compatibility with data set "O- receives from B+"
+ ✔ Compatibility with data set "O- receives from AB-"
+ ✔ Compatibility with data set "O- receives from AB+"
+ ✔ Compatibility with data set "O+ receives from O-"
+ ✔ Compatibility with data set "O+ receives from O+"
+ ✔ Compatibility with data set "O+ receives from A-"
+ ✔ Compatibility with data set "O+ receives from A+"
+ ✔ Compatibility with data set "O+ receives from B-"
+ ✔ Compatibility with data set "O+ receives from B+"
+ ✔ Compatibility with data set "O+ receives from AB-"
+ ✔ Compatibility with data set "O+ receives from AB+"
+ ✔ Compatibility with data set "A- receives from O-"
+ ✔ Compatibility with data set "A- receives from O+"
+ ✔ Compatibility with data set "A- receives from A-"
+ ✔ Compatibility with data set "A- receives from A+"
+ ✔ Compatibility with data set "A- receives from B-"
+ ✔ Compatibility with data set "A- receives from B+"
+ ✔ Compatibility with data set "A- receives from AB-"
+ ✔ Compatibility with data set "A- receives from AB+"
+ ✔ Compatibility with data set "A+ receives from O-"
+ ✔ Compatibility with data set "A+ receives from O+"
+ ✔ Compatibility with data set "A+ receives from A-"
+ ✔ Compatibility with data set "A+ receives from A+"
+ ✔ Compatibility with data set "A+ receives from B-"
+ ✔ Compatibility with data set "A+ receives from B+"
+ ✔ Compatibility with data set "A+ receives from AB-"
+ ✔ Compatibility with data set "A+ receives from AB+"
+ ✔ Compatibility with data set "B- receives from O-"
+ ✔ Compatibility with data set "B- receives from O+"
+ ✔ Compatibility with data set "B- receives from A-"
+ ✔ Compatibility with data set "B- receives from A+"
+ ✔ Compatibility with data set "B- receives from B-"
+ ✔ Compatibility with data set "B- receives from B+"
+ ✔ Compatibility with data set "B- receives from AB-"
+ ✔ Compatibility with data set "B- receives from AB+"
+ ✔ Compatibility with data set "B+ receives from O-"
+ ✔ Compatibility with data set "B+ receives from O+"
+ ✔ Compatibility with data set "B+ receives from A-"
+ ✔ Compatibility with data set "B+ receives from A+"
+ ✔ Compatibility with data set "B+ receives from B-"
+ ✔ Compatibility with data set "B+ receives from B+"
+ ✔ Compatibility with data set "B+ receives from AB-"
+ ✔ Compatibility with data set "B+ receives from AB+"
+ ✔ Compatibility with data set "AB- receives from O-"
+ ✔ Compatibility with data set "AB- receives from O+"
+ ✔ Compatibility with data set "AB- receives from A-"
+ ✔ Compatibility with data set "AB- receives from A+"
+ ✔ Compatibility with data set "AB- receives from B-"
+ ✔ Compatibility with data set "AB- receives from B+"
+ ✔ Compatibility with data set "AB- receives from AB-"
+ ✔ Compatibility with data set "AB- receives from AB+"
+ ✔ Compatibility with data set "AB+ receives from O-"
+ ✔ Compatibility with data set "AB+ receives from O+"
+ ✔ Compatibility with data set "AB+ receives from A-"
+ ✔ Compatibility with data set "AB+ receives from A+"
+ ✔ Compatibility with data set "AB+ receives from B-"
+ ✔ Compatibility with data set "AB+ receives from B+"
+ ✔ Compatibility with data set "AB+ receives from AB-"
+ ✔ Compatibility with data set "AB+ receives from AB+"
+ ✔ The table covers exactly the eight blood types
+
+Blood Requests Table (Tests\Feature\Database\BloodRequestsTable)
+ ✔ Duplicate reference number is rejected by database
+ ✔ Units between one and ten are accepted
+ ✔ Zero units are rejected
+ ✔ More than ten units are rejected
+ ✔ Invalid status is rejected
+ ✔ New request is open
+ ✔ Request requires existing hospital
+ ✔ Request with history cannot be deleted
+ ✔ Requester with requests cannot be deleted
+ ✔ History rows get a timestamp automatically
+
+Bottom Nav (Tests\Feature\BottomNav)
+ ✔ Donors and requesters get home and profile tabs with data set "donor"
+ ✔ Donors and requesters get home and profile tabs with data set "requester"
+ ✔ Sos tab is marked current on the sos form
+ ✔ Profile tab is marked current on the profile page
+ ✔ Admin pages have no bottom nav
+
+Database Setup (Tests\Feature\Database\DatabaseSetup)
+ ✔ Uses mariadb test database
+ ✔ Only needed framework tables exist
+ ✔ App and database use philippine time
+
+Demo Script (Tests\Feature\DemoScript)
+ ✔ The demo script runs end to end on a fresh database
+
+Distance (Tests\Unit\Distance)
+ ✔ The same point is zero km away
+ ✔ One degree of longitude on the equator is about 111 km
+ ✔ Distance is the same in both directions
+
+Donation History (Tests\Feature\Donors\DonationHistory)
+ ✔ Donor sees only their own donations
+ ✔ Empty history says so
+ ✔ Donor adds a self reported donation
+ ✔ Hospital is optional
+ ✔ Invalid donation dates are rejected
+ ✔ Unknown hospital is rejected
+ ✔ Donor removes a self reported donation
+ ✔ Donor cannot remove another donors donation
+ ✔ Donations recorded through lifeline cannot be removed
+ ✔ Requesters have no donation history
+ ✔ Huge donation id returns 404
+ ✔ Another donors donation date does not block mine
+
+Donor Answers (Tests\Feature\Matching\DonorAnswers)
+ ✔ Requests for you shows the request but no private details before accepting
+ ✔ A donor sees only their own matches
+ ✔ Accepting shares contacts and marks the request donor found
+ ✔ A second acceptance keeps donor found without another history row
+ ✔ Declining while donor found keeps donor found
+ ✔ Declining leaves the request open
+ ✔ A match can be answered only once
+ ✔ Closed requests cannot be answered
+ ✔ An unknown answer is rejected
+ ✔ Another donors match gives 404
+ ✔ Home shows how many requests wait for an answer
+
+Donor Location (Tests\Feature\Profile\DonorLocation)
+ ✔ The edit page has the location picker
+ ✔ Coordinates are rounded to about one kilometre before saving
+ ✔ Locations outside the philippines are rejected
+ ✔ Latitude without longitude is rejected
+ ✔ Turning sharing off drops a submitted location
+ ✔ A form without location fields keeps the saved location
+ ✔ Home asks a sharing donor without a location to set one
+
+Donor Map (Tests\Feature\Map\DonorMap)
+ ✔ The map page loads for donors and requesters
+ ✔ Guests and admins cannot use the map
+ ✔ The map api uses the login session
+ ✔ Only searchable donors with coordinates are listed
+ ✔ Donors never see themselves
+ ✔ Responses hold only approximate location and no identity
+ ✔ Blood type filter and nearest first
+ ✔ It falls back to the default centre when location is unknown
+ ✔ Hospitals are listed with distance
+ ✔ Invalid filters are rejected as json
+
+Donor Verification (Tests\Feature\Admin\DonorVerification)
+ ✔ Admin sees pending donors only
+ ✔ Admin can verify a donor
+ ✔ Admin can reject a donor
+ ✔ Non admins cannot verify or reject donors
+ ✔ Donor home shows verification status
+ ✔ Requester home has no donor status
+
+Donors Table (Tests\Feature\Database\DonorsTable)
+ ✔ Invalid blood type is rejected
+ ✔ Weight must be positive
+ ✔ User has at most one donor profile
+ ✔ Exact coordinates are rounded to about one kilometre
+ ✔ New donor defaults
+ ✔ Deleting user removes donor profile
+
+Edit Profile (Tests\Feature\Profile\EditProfile)
+ ✔ Edit page shows current values
+ ✔ Donor updates profile and medical info
+ ✔ Keeping your own mobile number is allowed
+ ✔ Mobile number of another user is rejected
+ ✔ Email role and verification cannot be changed here
+ ✔ Changing blood type sends a verified donor back to review
+ ✔ Turning location sharing off clears the approximate location
+ ✔ Medical info is validated
+ ✔ Requester updates name and mobile only
+ ✔ Array input is rejected without a server error
+ ✔ Location opt out survives a validation error
+ ✔ Weight accepts two decimals and rejects three
+ ✔ Changing blood type sends a rejected donor back to review
+ ✔ Changing blood type on a pending donor keeps it pending
+ ✔ Profile updates are rate limited
+
+Email Verification (Tests\Feature\Auth\EmailVerification)
+ ✔ Unverified user is blocked from the app
+ ✔ Verification notice is shown to unverified user
+ ✔ Verified user skips the notice
+ ✔ Valid link verifies the email
+ ✔ Link with wrong hash is rejected
+ ✔ Link for another user is rejected
+ ✔ Unsigned link is rejected
+ ✔ Verification email can be resent
+
+Emergency Notifications (Tests\Feature\Notifications\EmergencyNotifications)
+ ✔ A new request notifies each matched donor in app and by email
+ ✔ Donors who turned notifications off get in app alerts only
+ ✔ Find more donors notifies only the new donors
+ ✔ An acceptance notifies the requester
+ ✔ A decline does not notify the requester
+ ✔ Cancelling notifies waiting and accepted donors but not those who declined
+ ✔ A status change by someone else notifies the requester
+ ✔ An email failure never blocks the request
+ ✔ The email has a link and the medical disclaimer
+
+Erd Matches Schema (Tests\Feature\Database\ErdMatchesSchema)
+ ✔ Erd lists every table and column
+
+Example (Tests\Unit\Example)
+ ✔ That true is true
+
+Hospitals And Reports (Tests\Feature\Admin\HospitalsAndReports)
+ ✔ Admins can add edit and delete a hospital
+ ✔ Hospital validation
+ ✔ A hospital with requests cannot be deleted
+ ✔ The report summarises requests in the date range
+ ✔ The requests csv export
+ ✔ The donors csv has no contact details and neutralises formulas
+ ✔ Reports are admin only
+
+Json Errors (Tests\Feature\JsonErrors)
+ ✔ Web routes return json when the client asks for json
+
+Login (Tests\Feature\Auth\Login)
+ ✔ Login page renders
+ ✔ User can log in with email
+ ✔ Email login ignores letter case
+ ✔ User can log in with mobile number in any format
+ ✔ Wrong password is rejected
+ ✔ Unknown account gets the same error as a wrong password
+ ✔ Login requires both fields
+ ✔ Login is locked after five failed attempts
+ ✔ User can log out
+ ✔ Logged in user is redirected away from login page
+ ✔ Guest is redirected to login from home
+ ✔ Logged in user sees home
+
+Match Donors (Tests\Feature\Matching\MatchDonors)
+ ✔ Matches compatible donors nearest first
+ ✔ Only searchable donors with coordinates are matched
+ ✔ Donors who gave blood within the interval are not matched
+ ✔ The donation interval comes from config
+ ✔ A donor is never matched to their own request
+ ✔ Only the nearest donors up to the limit are matched
+ ✔ Running again adds only donors not matched yet
+ ✔ Donors at the same distance are matched lowest id first
+ ✔ Already matched is per request
+ ✔ Closed requests are not matched
+ ✔ A request with a donor found still gets more matches
+
+Matches Donations Notifications (Tests\Feature\Database\MatchesDonationsNotifications)
+ ✔ Donor is matched at most once per request
+ ✔ New match is notified
+ ✔ Invalid match status is rejected
+ ✔ Donation requires existing donor
+ ✔ Self reported donation needs no request or hospital
+ ✔ Donor with donation history cannot be deleted
+ ✔ Deleting user removes their notifications
+ ✔ Notification starts unread with timestamp
+
+Mobile Number (Tests\Unit\MobileNumber)
+ ✔ Valid numbers normalize to local format with data set "local"
+ ✔ Valid numbers normalize to local format with data set "international"
+ ✔ Valid numbers normalize to local format with data set "international without plus"
+ ✔ Valid numbers normalize to local format with data set "without leading zero"
+ ✔ Valid numbers normalize to local format with data set "with spaces and dashes"
+ ✔ Valid numbers normalize to local format with data set "with brackets"
+ ✔ Invalid numbers return null with data set "empty"
+ ✔ Invalid numbers return null with data set "too short"
+ ✔ Invalid numbers return null with data set "too long"
+ ✔ Invalid numbers return null with data set "landline"
+ ✔ Invalid numbers return null with data set "letters"
+ ✔ Invalid numbers return null with data set "foreign"
+ ✔ Null returns null
+
+My Requests (Tests\Feature\Requests\MyRequests)
+ ✔ My requests lists only my own requests newest first
+ ✔ Empty list points to the sos form
+ ✔ Owner sees details history and actions
+ ✔ Other users requests are not found
+ ✔ Owner can cancel an open request
+ ✔ Owner can mark a request fulfilled
+ ✔ A closed request cannot be changed
+ ✔ Closed requests hide the actions
+ ✔ Requesters can only cancel or fulfil with data set "open"
+ ✔ Requesters can only cancel or fulfil with data set "donor found"
+ ✔ Requesters can only cancel or fulfil with data set "expired"
+ ✔ Requesters can only cancel or fulfil with data set "unknown"
+ ✔ Requesters can only cancel or fulfil with data set "missing"
+ ✔ Home links to my requests
+
+Onboarding (Tests\Feature\Auth\Onboarding)
+ ✔ Guest sees onboarding with register and login links
+ ✔ Logged in user skips onboarding
+
+Password Reset (Tests\Feature\Auth\PasswordReset)
+ ✔ Forgot password page renders
+ ✔ Reset link is sent to an existing account
+ ✔ Unknown email gets the same message
+ ✔ Password can be reset with a valid token
+ ✔ Invalid token is rejected
+ ✔ New password must be strong
+ ✔ Reset password post is rate limited
+ ✔ Reset form ignores array email query
+
+Profile (Tests\Feature\Profile\Profile)
+ ✔ Donor sees their profile and medical info
+ ✔ Donor without donations sees none yet
+ ✔ Requester profile has no medical info
+ ✔ Admin has no profile page
+ ✔ Donor profile has account menu and log out
+ ✔ Requester profile has no medical menu item
+ ✔ Profile shows location sharing state
+
+Registration (Tests\Feature\Auth\Registration)
+ ✔ Registration pages render
+ ✔ Donor registers in three steps
+ ✔ Requester skips the medical step
+ ✔ Requester cannot open the medical step
+ ✔ Donor cannot skip the medical step
+ ✔ Last step without earlier steps redirects to step one
+ ✔ Nobody can register as admin
+ ✔ Role sent with the last step is ignored
+ ✔ Duplicate email is rejected regardless of case
+ ✔ Duplicate mobile number in another format is rejected
+ ✔ Invalid mobile number is rejected
+ ✔ Mobile number is saved in local format
+ ✔ Email taken between steps sends user back to step one
+ ✔ Medical info is validated
+ ✔ Weight with more than two decimals is rejected
+ ✔ Password must be confirmed and strong
+ ✔ Consent and terms are required
+ ✔ Registration posts are rate limited
+ ✔ Array input is rejected without a server error
+ ✔ Registration records when consent was given
+
+Request Lifecycle (Tests\Feature\Requests\RequestLifecycle)
+ ✔ Submit saves an open request with a reference and first history row
+ ✔ Submit skips a reference that already exists
+ ✔ Submit retries when the database rejects a duplicate reference
+ ✔ Submit gives up after five taken references
+ ✔ Every status change writes request history
+ ✔ Forbidden status changes are refused without history with data set "fulfilled is final"
+ ✔ Forbidden status changes are refused without history with data set "cancelled is final"
+ ✔ Forbidden status changes are refused without history with data set "expired is final"
+ ✔ Forbidden status changes are refused without history with data set "donor found cannot reopen"
+ ✔ Forbidden status changes are refused without history with data set "same status"
+ ✔ Forbidden status changes are refused without history with data set "unknown status"
+ ✔ A stale copy cannot change a request that was already closed
+ ✔ A refused change leaves the model in memory untouched
+ ✔ An allowed change updates the model in memory
+ ✔ Status reference and requester are not mass assignable
+ ✔ Every status has a label and a transition rule
+
+Request Matches (Tests\Feature\Matching\RequestMatches)
+ ✔ Submitting a request matches donors right away
+ ✔ A matching failure does not break submitting a request
+ ✔ The api lists matches nearest first and shares contacts only after acceptance
+ ✔ The api needs a login
+ ✔ The api hides other peoples requests
+ ✔ The api is closed to admins and unverified emails
+ ✔ An unverified email gets json 403 even without an accept header
+ ✔ Signed in api routes use the login session and tracking stays stateless
+ ✔ Find more donors adds donors who became eligible
+ ✔ Find more donors is refused for closed requests
+ ✔ Find more donors hides other peoples requests
+ ✔ The request page loads potential donors from the api
+
+Request Override (Tests\Feature\Admin\RequestOverride)
+ ✔ An admin can mark a stale request expired with history and a notification
+ ✔ Remarks are required and donor found cannot be forced
+ ✔ Closed requests cannot be changed
+ ✔ Non admins cannot override
+
+Role Access (Tests\Feature\Auth\RoleAccess)
+ ✔ Role access with data set "donor opens home"
+ ✔ Role access with data set "requester opens home"
+ ✔ Role access with data set "admin home goes to admin area"
+ ✔ Role access with data set "donor blocked from admin area"
+ ✔ Role access with data set "requester blocked from admin area"
+ ✔ Role access with data set "admin opens admin area"
+ ✔ Role access with data set "donor opens profile"
+ ✔ Role access with data set "requester opens profile"
+ ✔ Role access with data set "admin has no profile page"
+ ✔ Role access with data set "donor opens SOS form"
+ ✔ Role access with data set "requester opens SOS form"
+ ✔ Role access with data set "admin cannot make requests"
+ ✔ Role access with data set "requester opens my requests"
+ ✔ Role access with data set "donor opens my requests"
+ ✔ Role access with data set "admin has no my requests"
+ ✔ Role access with data set "requester has no donation history"
+ ✔ Role access with data set "admin has no donation history"
+ ✔ Role access with data set "requester has no requests for you"
+ ✔ Role access with data set "admin has no requests for you"
+ ✔ Guests are sent to login with data set "home"
+ ✔ Guests are sent to login with data set "admin area"
+ ✔ Guests are sent to login with data set "profile"
+ ✔ Guests are sent to login with data set "donation history"
+ ✔ Guests are sent to login with data set "SOS form"
+ ✔ Guests are sent to login with data set "my requests"
+ ✔ Unverified emails are sent to the verification notice with data set "home"
+ ✔ Unverified emails are sent to the verification notice with data set "admin area"
+ ✔ Unverified emails are sent to the verification notice with data set "profile"
+ ✔ Unverified emails are sent to the verification notice with data set "donation history"
+ ✔ Unverified emails are sent to the verification notice with data set "SOS form"
+ ✔ Unverified emails are sent to the verification notice with data set "my requests"
+
+Sample Data (Tests\Feature\Database\SampleData)
+ ✔ Sample data loads
+ ✔ Sample hospitals are clearly fake
+ ✔ Reference number format
+ ✔ Relationships connect the tables
+
+Searchable Donors (Tests\Feature\Donors\SearchableDonors)
+ ✔ Only verified available location sharing donors are searchable
+
+Submit Request (Tests\Feature\Requests\SubmitRequest)
+ ✔ Sos form lists hospitals blood types urgency and the disclaimer
+ ✔ Donors and requesters can submit a request with data set "donor"
+ ✔ Donors and requesters can submit a request with data set "requester"
+ ✔ Request sent screen shows the reference number
+ ✔ Invalid requests are rejected with data set "missing patient name"
+ ✔ Invalid requests are rejected with data set "patient name too long"
+ ✔ Invalid requests are rejected with data set "missing blood type"
+ ✔ Invalid requests are rejected with data set "unknown blood type"
+ ✔ Invalid requests are rejected with data set "zero units"
+ ✔ Invalid requests are rejected with data set "eleven units"
+ ✔ Invalid requests are rejected with data set "fractional units"
+ ✔ Invalid requests are rejected with data set "unknown urgency"
+ ✔ Invalid requests are rejected with data set "missing hospital"
+ ✔ Invalid requests are rejected with data set "unknown hospital"
+ ✔ Invalid requests are rejected with data set "notes too long"
+ ✔ Status reference and requester cannot be set from the form
+ ✔ Submitting is limited to five requests per ten minutes
+ ✔ Admin cannot submit a request
+ ✔ Home has the emergency request button
+
+Track Request (Tests\Feature\Requests\TrackRequest)
+ ✔ Tracking returns the status and history only
+ ✔ Reference is case insensitive and trimmed
+ ✔ Unknown reference is not found
+ ✔ Malformed reference is rejected as json without an accept header with data set "too short"
+ ✔ Malformed reference is rejected as json without an accept header with data set "wrong prefix"
+ ✔ Malformed reference is rejected as json without an accept header with data set "letter in the date"
+ ✔ Malformed reference is rejected as json without an accept header with data set "ambiguous letter O"
+ ✔ Malformed reference is rejected as json without an accept header with data set "quote injection"
+ ✔ Malformed reference is rejected as json without an accept header with data set "very long"
+ ✔ Malformed reference is rejected as json without an accept header with data set "only whitespace"
+ ✔ Unknown api paths answer in json
+ ✔ Tracking is limited to thirty lookups a minute
+ ✔ Track page is open to guests
+ ✔ Signed in users get the track page in the app layout
+ ✔ Login page and request page link to tracking
+
+Users And Hospitals (Tests\Feature\Database\UsersAndHospitals)
+ ✔ Duplicate email is rejected
+ ✔ Duplicate mobile number is rejected
+ ✔ Invalid role is rejected
+ ✔ User has at most one administrator profile
+ ✔ Administrator requires existing user
+ ✔ Duplicate hospital name is rejected
+ ✔ Invalid hospital type is rejected
+
+OK (414 tests, 1304 assertions)

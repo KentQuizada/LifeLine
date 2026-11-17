@@ -68,5 +68,48 @@ class DatabaseSeeder extends Seeder
             // Sample matches and their alerts come from the real matching and notification rules (M2.3, M2.5).
             $request->matchDonors();
         }
+
+        $this->demoAccounts($admin);
+    }
+
+    /**
+     * Fixed accounts for the demo script (docs/testing/demo-script.md), added last so the sample
+     * requests above do not match them. Password: "password", like every sample user.
+     */
+    private function demoAccounts(User $admin): void
+    {
+        User::factory()->create([
+            'role' => 'requester',
+            'first_name' => 'Demo',
+            'last_name' => 'Requester',
+            'email' => 'requester@lifeline.test',
+            'mobile_number' => '09170000001',
+        ]);
+
+        // Verified, available O- donor (can give to every type) close to Sample General Hospital, no recent donation.
+        $donor = Donor::factory()->for(User::factory()->state([
+            'role' => 'donor',
+            'first_name' => 'Demo',
+            'last_name' => 'Donor',
+            'email' => 'donor@lifeline.test',
+            'mobile_number' => '09170000002',
+        ]))->create([
+            'blood_type' => 'O-',
+            'approx_latitude' => 8.95,
+            'approx_longitude' => 125.54,
+            'is_available' => true,
+            'location_sharing' => true,
+            'verification_status' => 'verified',
+        ]);
+        $donor->forceFill(['verified_by' => $admin->id, 'verified_at' => now()])->save();
+
+        // Waits in the admin verification queue.
+        Donor::factory()->for(User::factory()->state([
+            'role' => 'donor',
+            'first_name' => 'Pending',
+            'last_name' => 'Donor',
+            'email' => 'pending@lifeline.test',
+            'mobile_number' => '09170000003',
+        ]))->create(['blood_type' => 'A+', 'verification_status' => 'pending']);
     }
 }
