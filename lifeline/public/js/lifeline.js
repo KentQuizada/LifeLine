@@ -42,6 +42,18 @@
         });
     });
 
+    // <button data-toggle-password="field-id">: show or hide the password the user typed.
+    document.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-toggle-password]');
+        if (!button) return;
+        const field = document.getElementById(button.dataset.togglePassword);
+        if (!field) return;
+        const show = field.type === 'password';
+        field.type = show ? 'text' : 'password';
+        button.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        button.querySelector('i').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+    });
+
     // Coming back with the browser's Back button shows the cached page: make the form usable again.
     window.addEventListener('pageshow', (event) => {
         if (!event.persisted) return;

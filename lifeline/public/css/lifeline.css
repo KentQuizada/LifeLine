@@ -197,3 +197,126 @@ body {
     pointer-events: none;
     background: #e9ecef;
 }
+
+/* ---------- Guest pages (welcome, log in, register, track): team design A1 / B1-B4 ---------- */
+.ll-guest {
+    background: linear-gradient(180deg, #fde8e8 0%, #fdf3f3 260px, #f6f6f8 520px);
+    min-height: 100vh;
+}
+.ll-guest-wrap { display: flex; min-height: 100vh; }
+.ll-guest-main { flex: 1; display: flex; align-items: center; justify-content: center; }
+.ll-guest-main > .container { width: 100%; }
+
+.ll-brand-panel {
+    width: 42%;
+    max-width: 560px;
+    background: radial-gradient(circle at 20% 15%, #e53935 0%, #c62828 45%, #9f1717 100%);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+.ll-brand-panel::after { /* soft circle in the corner */
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    right: -160px;
+    bottom: -160px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+}
+.ll-brand-inner { position: relative; z-index: 1; max-width: 380px; }
+.ll-brand-logo {
+    width: 84px;
+    height: 84px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.75rem;
+    margin-bottom: 1.25rem;
+}
+.ll-brand-name { font-size: 2.75rem; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+.ll-brand-tagline { font-size: 1.15rem; margin: 0.5rem 0 2rem; color: rgba(255, 255, 255, 0.95); }
+.ll-brand-points { list-style: none; padding: 0; margin: 0 0 2.5rem; }
+.ll-brand-points li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.6rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.12);
+}
+.ll-brand-points i { font-size: 1.25rem; }
+.ll-brand-foot { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); margin: 0; }
+
+/* Cards, fields and buttons on guest pages: rounder and softer, like the design. */
+.ll-guest .card {
+    border: 0;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(183, 28, 28, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+.ll-guest .card.card-body { padding: 1.5rem; }
+.ll-guest .form-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5c636a;
+}
+.ll-guest .form-control,
+.ll-guest .form-select { border-radius: 12px; padding: 0.7rem 0.9rem; border-color: #e3e3e8; }
+.ll-guest .form-control:focus,
+.ll-guest .form-select:focus { border-color: var(--ll-red); }
+.ll-guest .btn { border-radius: 12px; padding: 0.7rem 1rem; font-weight: 600; }
+.ll-guest .btn-primary {
+    background-image: linear-gradient(90deg, #c62828 0%, #e53935 100%);
+    border: 0;
+    box-shadow: 0 6px 16px rgba(211, 47, 47, 0.3);
+}
+.ll-guest .btn-primary:hover { background-image: linear-gradient(90deg, #b71c1c 0%, #d32f2f 100%); }
+
+/* Field with an icon on the left (log in page). */
+.ll-field { position: relative; }
+.ll-field > .bi {
+    position: absolute;
+    left: 0.9rem;
+    top: 0.85rem;
+    color: #9a9aa3;
+    pointer-events: none;
+}
+.ll-field > .form-control { padding-left: 2.5rem; }
+.ll-field > .ll-eye {
+    position: absolute;
+    right: 0.4rem;
+    top: 0.3rem;
+    border: 0;
+    background: none;
+    color: #6c6c75;
+    padding: 0.45rem 0.6rem;
+}
+.ll-field > .ll-eye ~ .form-control,
+.ll-field > .form-control:has(~ .ll-eye) { padding-right: 2.75rem; }
+
+/* Round red logo above the page title (phones; the brand panel shows it on laptops). */
+.ll-auth-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    background: linear-gradient(160deg, #e53935 0%, #b71c1c 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 8px 20px rgba(211, 47, 47, 0.3);
+}
+.ll-divider { display: flex; align-items: center; gap: 0.75rem; color: #6c6c75; font-size: 0.85rem; }
+.ll-divider::before, .ll-divider::after { content: ""; flex: 1; height: 1px; background: #e3e3e8; }
