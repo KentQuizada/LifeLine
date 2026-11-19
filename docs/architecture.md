@@ -21,13 +21,11 @@ flowchart LR
     end
 
     DB[("MariaDB / MySQL<br/>lifeline database")]
-    OSM["OpenStreetMap tiles<br/>(via Leaflet)"]
     SMTP["SMTP email service"]
 
     Pages -->|HTTP forms| Web
     JS -->|fetch JSON| Api
     Geo --> JS
-    JS -->|map tiles| OSM
     Web --> Ctrl
     Api --> Ctrl
     Ctrl --> Models

@@ -3,7 +3,7 @@
 // - when a page cannot load offline, the cached offline.html is shown instead;
 // - the app's own CSS, scripts, icons and fonts still come from the network first; a copy is kept as a
 //   backup for when the connection drops.
-const CACHE = 'lifeline-v1';
+const CACHE = 'lifeline-v2';
 const OFFLINE_URL = new URL('offline.html', self.location).href;
 const PRECACHE = [
     'offline.html',

@@ -83,17 +83,16 @@
                 <input class="form-check-input" type="checkbox" role="switch" name="location_sharing" id="location_sharing" value="1"
                        @checked($errors->any() ? old('location_sharing') : $donor->location_sharing)>
                 <label class="form-check-label" for="location_sharing">
-                    Show my approximate location (about 1 km) on the donor map. When this is off, you do not appear in donor searches.
+                    Share my approximate location (about 1 km) so I can be matched with requests near me. When this is off, you do not appear in donor searches.
                 </label>
             </div>
 
             {{-- M2.4: approximate location, rounded to about 1 km in the browser and again on the server (DEC-004). --}}
-            <fieldset id="location" class="mb-3" data-location-picker
-                      data-center-lat="{{ $mapCenter['latitude'] }}" data-center-lng="{{ $mapCenter['longitude'] }}">
+            <fieldset id="location" class="mb-3" data-location-picker>
                 <legend class="h6 fw-bold">Approximate location</legend>
                 <p class="small text-secondary mb-2">
                     Used only when location sharing is on. LifeLine keeps it at about 1 km, never your exact home.
-                    Use your device location or tap the map near your barangay.
+                    Use your device location, or pick the hospital nearest to you.
                 </p>
                 <input type="hidden" name="approx_latitude" value="{{ old('approx_latitude', $donor->approx_latitude) }}" data-latitude>
                 <input type="hidden" name="approx_longitude" value="{{ old('approx_longitude', $donor->approx_longitude) }}" data-longitude>
@@ -110,7 +109,13 @@
                         No location set yet.
                     @endif
                 </p>
-                <div class="ll-map ll-map-sm rounded border" data-location-map aria-label="Map: tap to choose your approximate location"></div>
+                <label for="near_hospital" class="form-label">Or the hospital nearest to you</label>
+                <select id="near_hospital" class="form-select" data-near-hospital>
+                    <option value="">Choose a hospital</option>
+                    @foreach ($hospitals as $hospital)
+                        <option value="{{ $hospital->id }}" data-lat="{{ (float) $hospital->latitude }}" data-lng="{{ (float) $hospital->longitude }}">{{ $hospital->name }}</option>
+                    @endforeach
+                </select>
                 @error('approx_latitude')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
                 @error('approx_longitude')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
             </fieldset>
@@ -134,11 +139,7 @@
 @endsection
 
 @if ($donor)
-    @push('head')
-        <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}">
-    @endpush
     @push('scripts')
-        <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
         <script src="{{ asset('js/location-picker.js') }}"></script>
     @endpush
 @endif

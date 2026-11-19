@@ -35,6 +35,8 @@ body {
     --bs-btn-hover-border-color: var(--ll-red);
     --bs-btn-active-bg: var(--ll-red-dark);
     --bs-btn-active-border-color: var(--ll-red-dark);
+    --bs-btn-disabled-color: var(--ll-red);
+    --bs-btn-disabled-border-color: var(--ll-red);
     --bs-btn-focus-shadow-rgb: 211, 47, 47;
 }
 
@@ -174,11 +176,6 @@ body {
     user-select: all;
 }
 
-/* Leaflet maps (M2.4). */
-.ll-map { height: 360px; width: 100%; background: #e9ecef; }
-.ll-map-sm { height: 220px; }
-@media (min-width: 768px) { .ll-map { height: 440px; } .ll-map-sm { height: 260px; } }
-
 /* Alerts (M2.5, design C3). */
 .ll-unread { border-left: 4px solid var(--ll-red); background: #fff5f5; }
 .ll-nav-badge { font-size: 0.6rem; }
@@ -188,15 +185,6 @@ body {
 .ll-admin-nav .nav-link.active { color: var(--ll-red); border-bottom-color: var(--ll-red); font-weight: 600; }
 .ll-stat-card .ll-stat-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; }
 .ll-chart { position: relative; height: 260px; }
-
-/* Home "Donors near you" preview (design C1). */
-.ll-map-mini {
-    height: 140px;
-    border-top-left-radius: var(--bs-card-inner-border-radius);
-    border-top-right-radius: var(--bs-card-inner-border-radius);
-    pointer-events: none;
-    background: #e9ecef;
-}
 
 /* ---------- Guest pages (welcome, log in, register, track): team design A1 / B1-B4 ---------- */
 .ll-guest {
@@ -320,3 +308,126 @@ body {
 }
 .ll-divider { display: flex; align-items: center; gap: 0.75rem; color: #6c6c75; font-size: 0.85rem; }
 .ll-divider::before, .ll-divider::after { content: ""; flex: 1; height: 1px; background: #e3e3e8; }
+
+/* ---------- Signed-in pages: the same soft look as the design (C1-E1) ---------- */
+.ll-app { background: #f6f6f8; }
+
+/* Red top bar (design C1, D1, E1). */
+.ll-topbar { background: #c62828; }
+.ll-topbar .navbar-brand { color: #fff !important; font-size: 1.3rem; letter-spacing: -0.3px; }
+.ll-topbar .btn { border-radius: 10px; }
+
+/* Cards: no border, round corners, soft shadow. */
+.ll-app .card {
+    border: 0;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+.ll-app .card.card-body { padding: 1.25rem; }
+.ll-app .list-group { border-radius: 18px; }
+.ll-app .list-group-item { border-color: #f0f0f3; }
+
+/* Fields and buttons (same as the log in page). */
+.ll-app .form-label,
+.ll-app legend.form-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5c636a;
+}
+.ll-app legend.form-label { font-size: 0.75rem !important; } /* beats Bootstrap's fs-6 on fieldset titles */
+.ll-app .form-control,
+.ll-app .form-select { border-radius: 12px; padding: 0.65rem 0.9rem; border-color: #e3e3e8; }
+.ll-app .form-control:focus,
+.ll-app .form-select:focus { border-color: var(--ll-red); }
+.ll-app .btn { border-radius: 12px; font-weight: 600; }
+.ll-app .btn-sm { border-radius: 10px; }
+.ll-app .btn-primary {
+    background-image: linear-gradient(90deg, #c62828 0%, #e53935 100%);
+    border: 0;
+    box-shadow: 0 6px 16px rgba(211, 47, 47, 0.25);
+}
+.ll-app .btn-primary:hover { background-image: linear-gradient(90deg, #b71c1c 0%, #d32f2f 100%); }
+.ll-app .badge { border-radius: 999px; }
+
+/* Red header joins the top bar on phones: full width with a round bottom (design C1, E1). */
+@media (max-width: 575.98px) {
+    .ll-app .ll-hero {
+        margin: -1rem calc(-0.5 * var(--bs-gutter-x)) 1rem;
+        border-radius: 0 0 28px 28px;
+        padding: 1.25rem 1.25rem 1.5rem;
+    }
+}
+.ll-hero { box-shadow: 0 10px 24px rgba(183, 28, 28, 0.18); }
+
+/* Blood type and urgency choices: grey tiles, red when picked (design B2, D1). */
+.ll-app .btn-check + .btn-outline-primary {
+    --bs-btn-color: #33333a;
+    --bs-btn-border-color: #e3e3e8;
+    --bs-btn-bg: #fff;
+    --bs-btn-hover-color: var(--ll-red);
+    --bs-btn-hover-bg: #fff5f5;
+    --bs-btn-hover-border-color: var(--ll-red);
+    padding: 0.6rem 0.25rem;
+}
+.ll-app .btn-check:checked + .btn-outline-primary {
+    color: #fff;
+    background: var(--ll-red);
+    border-color: var(--ll-red);
+    box-shadow: 0 6px 14px rgba(211, 47, 47, 0.3);
+}
+.ll-urgency { display: block; text-align: center; white-space: normal; line-height: 1.2; }
+.ll-urgency small { display: block; margin-top: 0.2rem; font-weight: 400; font-size: 0.75rem; opacity: 0.85; }
+
+/* Home "Emergency Blood Request" card (design C1). */
+.ll-sos-card {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1rem 1.1rem;
+    border-radius: 18px;
+    background: linear-gradient(120deg, #c62828 0%, #e53935 100%);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 10px 22px rgba(211, 47, 47, 0.3);
+}
+.ll-sos-card:hover { color: #fff; background: linear-gradient(120deg, #b71c1c 0%, #d32f2f 100%); }
+.ll-sos-card .ll-sos-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 1.4rem;
+}
+
+/* Bottom navigation: soft shadow and a square red SOS tab (design C1). */
+.ll-bottom-nav { border-top: 0 !important; box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.06); }
+.ll-bottom-nav .ll-sos .bi {
+    border-radius: 16px;
+    background: linear-gradient(160deg, #e53935 0%, #c62828 100%);
+    box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
+}
+
+/* Alerts list (design C3): icon tile beside each alert. */
+.ll-alert { display: flex; gap: 0.75rem; align-items: flex-start; }
+.ll-alert-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #fdecea;
+    color: var(--ll-red);
+}
+.ll-alert-icon.is-good { background: #e8f5e9; color: #2e7d32; }
+.ll-unread { border-left: 4px solid var(--ll-red) !important; }
+
+/* Profile menu rows (design E1). */
+.ll-menu-icon { border-radius: 12px; }

@@ -12,7 +12,6 @@ use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DonorMatchController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestDonorController;
 use Illuminate\Support\Facades\Route;
@@ -61,8 +60,6 @@ Route::middleware(['auth', 'verified', 'role:donor,requester'])->group(function 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->middleware('throttle:10,1,profile-update')->name('profile.update');
-
-    Route::get('/map', MapController::class)->name('map');
 
     Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
     Route::get('/alerts/{notification}', [AlertController::class, 'open'])

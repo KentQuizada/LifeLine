@@ -1,9 +1,9 @@
 {{-- A tab appears only once its page exists, so there are no placeholder screens.
-     Route names are the contract for M2: map, requests.create, alerts.index, profile.show. --}}
+     Route names are the contract for M2: requests.create, alerts.index, profile.show.
+     The Map tab was removed on the instructor's request (DEC-023). --}}
 @php
     $tabs = [
         ['route' => 'home', 'label' => 'Home', 'icon' => 'bi-house-door'],
-        ['route' => 'map', 'label' => 'Map', 'icon' => 'bi-geo-alt'],
         ['route' => 'requests.create', 'label' => 'SOS', 'icon' => 'bi-plus-lg', 'class' => 'll-sos'],
         ['route' => 'alerts.index', 'label' => 'Alerts', 'icon' => 'bi-bell'],
         ['route' => 'profile.show', 'label' => 'Profile', 'icon' => 'bi-person'],

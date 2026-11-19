@@ -11,12 +11,6 @@ return [
     // How many of the nearest eligible donors one matching run adds (DEC-016).
     'match_limit' => 10,
 
-    // Donor map (M2.4). Default centre when the browser location is unknown or denied: Butuan City.
-    'map' => [
-        'center' => ['latitude' => 8.95, 'longitude' => 125.54],
-        'donor_limit' => 50,
-    ],
-
     // Donor locations must fall inside this box (the Philippines), rounded to 2 decimals (~1 km, DEC-004).
     'location_bounds' => [
         'latitude' => [4.5, 21.5],

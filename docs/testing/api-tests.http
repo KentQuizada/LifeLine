@@ -24,20 +24,7 @@ Accept: application/json
 GET {{base}}/requests/track/hello
 Accept: application/json
 
-### API-04 Donor map without signing in. Expect 401 {"message": "Unauthenticated."}.
-GET {{base}}/map
-Accept: application/json
-
-### API-05 Donor map (requester or donor). Expect 200: donors with blood_type, latitude, longitude (2 decimals),
-### distance_km only; hospitals nearest first.
-GET {{base}}/map?blood_type=O-&latitude=8.95&longitude=125.54
-Accept: application/json
-Cookie: lifeline-session={{session}}
-
-### API-06 Donor map with an invalid blood type. Expect 422 with errors.blood_type.
-GET {{base}}/map?blood_type=Z%2B
-Accept: application/json
-Cookie: lifeline-session={{session}}
+### API-04 to API-06 (donor map) were removed with the map screens (DEC-023).
 
 ### API-07 Potential donors for one of my requests (requester). Expect 200; name and mobile only for accepted donors.
 ### Someone else's request id gives 404.

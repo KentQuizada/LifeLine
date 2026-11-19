@@ -38,12 +38,18 @@
                 <div class="col-6">
                     <input type="radio" class="btn-check" name="urgency" id="urgency_critical" value="critical"
                            required @checked(old('urgency') === 'critical')>
-                    <label class="btn btn-outline-primary w-100 fw-bold" for="urgency_critical">Critical</label>
+                    <label class="btn btn-outline-primary w-100 fw-bold h-100 ll-urgency" for="urgency_critical">
+                        <i class="bi bi-exclamation-octagon-fill" aria-hidden="true"></i> Critical
+                        <small>Surgery or life-threatening</small>
+                    </label>
                 </div>
                 <div class="col-6">
                     <input type="radio" class="btn-check" name="urgency" id="urgency_urgent" value="urgent"
                            required @checked(old('urgency') === 'urgent')>
-                    <label class="btn btn-outline-primary w-100 fw-bold" for="urgency_urgent">Urgent</label>
+                    <label class="btn btn-outline-primary w-100 fw-bold h-100 ll-urgency" for="urgency_urgent">
+                        <i class="bi bi-clock-fill" aria-hidden="true"></i> Urgent
+                        <small>Needed within 24 hours</small>
+                    </label>
                 </div>
             </div>
             @error('urgency')<div class="text-danger small mt-1">{{ $message }}</div>@enderror

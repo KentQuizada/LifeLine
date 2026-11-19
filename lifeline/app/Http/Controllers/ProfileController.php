@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donor;
+use App\Models\Hospital;
 use App\Support\MobileNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ class ProfileController extends Controller
             'user' => $request->user(),
             'donor' => $request->user()->donor,
             'bloodTypes' => Donor::BLOOD_TYPES,
-            'mapCenter' => config('lifeline.map.center'),
+            // No map (DEC-023): when the device cannot share its location, the donor picks the nearest hospital.
+            'hospitals' => Hospital::orderBy('name')->get(['id', 'name', 'latitude', 'longitude']),
         ]);
     }
 

@@ -32,11 +32,18 @@
         const section = element('section', 'mb-3');
         const items = element('div', 'list-group shadow-sm');
         alerts.forEach((alert) => {
-            const link = element('a', 'list-group-item list-group-item-action py-3' + (alert.read ? '' : ' ll-unread'));
+            const link = element('a', 'list-group-item list-group-item-action py-3 ll-alert' + (alert.read ? '' : ' ll-unread'));
             link.href = alert.url;
+            // Icon tile (design C3): green check for good news, red drop for requests.
+            const good = /accept|match|thank|complete|fulfil/i.test(alert.title);
+            const icon = element('span', 'll-alert-icon' + (good ? ' is-good' : ''));
+            icon.append(element('i', 'bi ' + (good ? 'bi-check-circle-fill' : 'bi-droplet-fill')));
+            icon.setAttribute('aria-hidden', 'true');
+            const body = element('div', 'flex-grow-1');
             const top = element('div', 'd-flex justify-content-between gap-2');
             top.append(element('span', 'fw-semibold', alert.title), element('span', 'small text-secondary text-nowrap', alert.time));
-            link.append(top, element('div', 'small', alert.message));
+            body.append(top, element('div', 'small', alert.message));
+            link.append(icon, body);
             if (!alert.read) link.append(element('span', 'visually-hidden', 'Unread'));
             items.append(link);
         });

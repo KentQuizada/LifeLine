@@ -52,7 +52,7 @@
                        value="{{ old('longitude', $hospital->longitude) }}" class="form-control @error('longitude') is-invalid @enderror">
                 @error('longitude')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
-            <div class="col-12 form-text">Hospitals are public places, so their exact coordinates are shown on the donor map. Copy them from OpenStreetMap.</div>
+            <div class="col-12 form-text">Used to find donors near the hospital, and as a location choice for donors. Copy the coordinates from OpenStreetMap or Google Maps.</div>
         </div>
 
         <button type="submit" class="btn btn-primary">{{ $hospital->exists ? 'Save changes' : 'Add hospital' }}</button>

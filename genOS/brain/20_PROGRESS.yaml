@@ -5,7 +5,7 @@
 schema_version: 2
 
 # ISO date of last SHUTDOWN update (YYYY-MM-DD)
-last_updated: "2026-11-17"
+last_updated: "2026-11-19"
 
 # Who last wrote this file (e.g. cursor-agent, agy-agent, agency:unity-specialist)
 last_agent: claude-code
@@ -35,7 +35,9 @@ working_on:
 
 # Known bugs or risks
 known_issues:
-  - "main is pushed to https://github.com/KentQuizada/LifeLine (private) on 2026-11-17; 466 tests pass. Thesis drafts (docs/thesis/) committed on main 2026-11-17, not pushed yet"
+  - "2026-11-19: map screens removed on the instructor's request (DEC-023) and the signed-in pages restyled to the team design; 456 tests pass. Thesis Chapter 1 objectives/scope still mention the donor map: the team must update them"
+  - "2026-11-19: Railway project created from KentQuizada/LifeLine (Trial plan). First build failed with 'Railpack failed to prepare the build' because Root Directory was not set to lifeline; the team sets it in Railway Settings"
+  - "main is pushed to https://github.com/KentQuizada/LifeLine (private); thesis drafts pushed 2026-11-19"
   - "Hosting prepared 2026-11-17 (docs/deployment.md: Dockerfile + Railway + MySQL); the Docker image was not built locally (no Docker on this laptop). The team must create GitHub and hosting accounts and put the system online before Nov 20, 11:59 PM"
   - "Dev database lifeline was reset with migrate:fresh --seed on 2026-11-17 and holds the fixed demo accounts (DEC-020); reset again before the demo if it gets messy"
   - "Donation interval (3 months) now cites the Philippine Red Cross Give blood page (S05) in lifeline/config/lifeline.php"

@@ -50,24 +50,30 @@ class SystemCompletionTest extends TestCase
         $this->getJson('/api/v1/does-not-exist')->assertNotFound()->assertJsonStructure(['message']);
     }
 
-    // --- Home "Donors near you" ---
+    // --- No map (instructor's request, DEC-023) ---
 
-    public function test_home_shows_the_donors_near_you_preview(): void
+    public function test_there_is_no_map_page_map_api_or_map_tab(): void
     {
-        $this->actingAs(User::factory()->create(['role' => 'requester']))->get(route('home'))
-            ->assertOk()
-            ->assertSee('Donors near you')
-            ->assertSee('data-center-lat="8.95"', false)
-            ->assertSee('js/home-map.js', false);
+        $this->actingAs(User::factory()->create(['role' => 'requester']));
+
+        $this->get('/map')->assertNotFound();
+        $this->getJson('/api/v1/map')->assertNotFound();
+        $this->get(route('home'))->assertOk()
+            ->assertDontSee('leaflet', false)
+            ->assertDontSee('>Map<', false);
     }
 
-    public function test_the_preview_centres_on_the_donors_own_approximate_location(): void
+    public function test_a_donor_can_set_the_location_from_the_nearest_hospital(): void
     {
-        $donor = Donor::factory()->create(['approx_latitude' => 8.93, 'approx_longitude' => 125.51, 'location_sharing' => true]);
+        $donor = Donor::factory()->create(['location_sharing' => true]);
+        $hospital = \App\Models\Hospital::factory()->create(['latitude' => 8.947, 'longitude' => 125.543]);
 
-        $this->actingAs($donor->user)->get(route('home'))
-            ->assertSee('data-lat="8.93"', false)
-            ->assertSee('data-lng="125.51"', false);
+        $this->actingAs($donor->user)->get(route('profile.edit'))
+            ->assertOk()
+            ->assertSee('data-near-hospital', false)
+            ->assertSee($hospital->name)
+            ->assertSee('data-lat="8.947"', false)
+            ->assertDontSee('leaflet', false);
     }
 
     // --- Live unread badge ---

@@ -76,7 +76,6 @@ Use the browser's phone view (F12 → device toolbar, 375 px) to show the mobile
 ## Extra points to show
 
 - Open a page that does not exist (for example /hello): LifeLine's own "Page not found" page.
-- Home's **Donors near you** card is a small preview of the Map tab.
 - Turn on airplane mode after one visit: pages show LifeLine's "You are offline" page instead of the browser error.
 
 ## If something goes wrong

@@ -17,6 +17,7 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 
 | ID | Status | Date | Title |
 |----|--------|------|-------|
+| DEC-023 | accepted | 2026-11-19 | Map screens removed on the instructor's request |
 | DEC-021 | accepted | 2026-11-17 | Mini Thesis in APA 7th edition, Markdown in docs/thesis/ |
 | DEC-022 | proposed | 2026-11-17 | Donation through a match, withdrawing an acceptance, suspending donors |
 | DEC-020 | proposed | 2026-11-17 | Fixed demo accounts in the seeder |
@@ -63,6 +64,13 @@ Keep the Index in sync with entries below. Do not leave blank placeholder rows.
 - **Reason:** Citation style and manuscript format were blocked items. The team chose both at the M4.1 kickoff.
 - **Impact:** All chapters cite in APA 7th edition. Chapters are Markdown files in `docs/thesis/` (`chapter-1.md`, `chapter-2.md`, later `chapter-3.md`), versioned with git and pasted into the instructor's format at submission. `docs/thesis/source-matrix.md` is the single list of checked sources (DEC-008): only Verified sources are cited as-is, Partly verified ones carry a [VERIFY] mark until a team member opens them. No research agents were installed for M4 (team choice). See `[[ThesisCore]]`, `[[LiteratureReview]]`.
 - **Supersedes:** none
+
+### DEC-023: Map screens removed on the instructor's request
+- **Status:** accepted
+- **Date:** 2026-11-19
+- **Reason:** The instructor told the team to remove the map (relayed by the team on 2026-11-19). The team chose to remove every map screen, not only the Home preview.
+- **Impact:** Removed the Map tab and `/map` page (design C2), the Home "Donors near you" map preview (C1), `GET /api/v1/map`, the Leaflet files and OpenStreetMap tiles, and `config('lifeline.map')`. Kept: donors' approximate location (about 1 km, DEC-004) and distance-based matching (DEC-016). Edit profile sets the location from the device (Geolocation API) or, when that is denied, from the hospital nearest to the donor (hospital coordinates are public). Bottom navigation is Home / SOS / Alerts / Profile. Supersedes the map parts of DEC-017. Thesis Chapter 1 objectives and scope that mention the map need the team's update. See `[[DonorMap]]`.
+- **Supersedes:** DEC-017 (map screens only)
 
 ### DEC-022: Donation through a match, withdrawing an acceptance, suspending donors
 - **Status:** proposed

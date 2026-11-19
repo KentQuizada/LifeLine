@@ -31,11 +31,10 @@ class DemoScriptTest extends TestCase
         // 1. Public tracking page works without an account.
         $this->get(route('track'))->assertOk();
 
-        // 2. Requester: home, map, SOS request with a unique reference number.
+        // 2. Requester: home, SOS request with a unique reference number (the map was removed, DEC-023).
         $this->logIn('requester@lifeline.test');
         $this->get(route('home'))->assertOk()->assertSee('Demo');
-        $this->get(route('map'))->assertOk();
-        $this->getJson(route('api.map', ['blood_type' => 'O-']))->assertOk()->assertJsonMissingPath('data.donors.0.name');
+        $this->get('/map')->assertNotFound();
         $this->get(route('requests.create'))->assertOk();
         $this->post(route('requests.store'), [
             'patient_name' => 'Demo Patient',

@@ -3,15 +3,15 @@
 <head>
     @include('partials.head')
 </head>
-<body class="{{ auth()->user()->role === 'admin' ? '' : 'll-has-bottom-nav' }}">
-    <header class="navbar bg-white border-bottom">
+<body class="ll-app {{ auth()->user()->role === 'admin' ? '' : 'll-has-bottom-nav' }}">
+    <header class="navbar ll-topbar">
         <div class="container @yield('container_class', 'll-narrow')">
-            <a class="navbar-brand fw-bold text-brand" href="{{ route('home') }}">
+            <a class="navbar-brand fw-bold" href="{{ route('home') }}">
                 <i class="bi bi-droplet-fill" aria-hidden="true"></i> LifeLine
             </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-sm btn-outline-secondary">Log out</button>
+                <button type="submit" class="btn btn-sm btn-outline-light">Log out</button>
             </form>
         </div>
     </header>

@@ -19,7 +19,7 @@ Abbreviations: P = pass, F = fail, NR = not run yet.
 | FUN-01 | Donor profile | Donor edits name, mobile, blood type, weight, city | Saved; a changed blood type sends the donor back to admin verification | As expected | P | `EditProfileTest` |
 | FUN-02 | Availability | Donor toggles availability on Home | Saved; unavailable donors leave the map and matching | As expected | P | `AvailabilityTest`, `SearchableDonorsTest` |
 | FUN-03 | Donation history | Donor adds and removes a self-reported donation | Saved; one per date; only own records | As expected | P | `DonationHistoryTest` |
-| FUN-04 | Donor map | Requester opens Map, filters O-, presses Near me | Approximate circles, list with whole-km distances, hospitals nearest first | As expected | P | `DonorMapTest`, MAN-01 |
+| FUN-04 | Donor map | Requester opens Map, filters O-, presses Near me | Approximate circles, list with whole-km distances, hospitals nearest first | As expected | P | Removed: map screens taken out on the instructor's request (DEC-023) |
 | FUN-05 | Location capture | Donor taps the map in Edit profile and saves | Coordinates saved rounded to 2 decimals (about 1 km) | As expected | P | `DonorLocationTest`, MAN-03 |
 | FUN-06 | Alerts | Donor opens Alerts, marks all read | Today/Earlier groups, unread badge clears | As expected | P | `AlertsTabTest`, MAN-02 |
 | FUN-07 | Admin dashboard | Admin opens Dashboard | Number cards and 3 charts load | As expected | P | `AdminDashboardTest`, MAN-04 |
@@ -49,8 +49,8 @@ Collection: [api-tests.http](api-tests.http).
 |---|---|---|---|---|---|
 | API-01 | GET `/api/v1/requests/track/{reference}` | 200 with status and history only, no patient details | As expected | P | `TrackRequestTest` |
 | API-02 | Track an unknown / malformed reference | 404 / 422 JSON | As expected | P | `TrackRequestTest` |
-| API-03 | GET `/api/v1/map` as a guest; as an admin | 401 / 403 JSON | As expected | P | `DonorMapTest::test_guests_and_admins_cannot_use_the_map` |
-| API-04 | GET `/api/v1/map` as a requester | Donors with blood type, 2-decimal coordinates and distance only; no names, emails or phones | As expected | P | `DonorMapTest::test_responses_hold_only_approximate_location_and_no_identity` |
+| API-03 | GET `/api/v1/map` as a guest; as an admin | 401 / 403 JSON | As expected | P | Removed: map screens taken out on the instructor's request (DEC-023) |
+| API-04 | GET `/api/v1/map` as a requester | Donors with blood type, 2-decimal coordinates and distance only; no names, emails or phones | As expected | P | Removed: map screens taken out on the instructor's request (DEC-023) |
 | API-05 | GET `/api/v1/requests/{id}/matches` | Nearest first; contact only after acceptance; others' requests 404 | As expected | P | `RequestMatchesTest` |
 | API-06 | GET `/api/v1/notifications`; POST `/api/v1/notifications/read` | Own alerts only; marks only own alerts | As expected | P | `AlertsTabTest` |
 | API-07 | POST mark-read from the browser with the CSRF token | 200 | 200 | P | MAN-02 (network log) |
@@ -139,9 +139,9 @@ Collection: [api-tests.http](api-tests.http).
 
 | ID | What was done | Observed |
 |---|---|---|
-| MAN-01 | Requester at 375 px: Map tab, Near me (permission not available in the test browser), filter O-, tap map | Fallback message "Location permission was denied, so the map shows Butuan City…"; 2 O- donors listed at about 4 km; 3 hospitals; page width 375 px; no console errors |
+| MAN-01 | Requester at 375 px: Map tab, Near me (permission not available in the test browser), filter O-, tap map | Removed: map screens taken out on the instructor's request (DEC-023) |
 | MAN-02 | Donor at 375 px: Alerts tab with 2 unread, Mark all as read | Badge "2" then hidden; "All caught up."; network: GET notifications 200, POST notifications/read 200, GET 200 |
-| MAN-03 | Donor at 375 px: Edit profile, tap the location map | Leaflet map shown; hidden fields became 8.95 / 125.55; message "Location chosen on the map…"; email switch on |
+| MAN-03 | Donor at 375 px: Edit profile, tap the location map | Removed: map screens taken out on the instructor's request (DEC-023) |
 | MAN-04 | Admin at 1280 px: Dashboard and all admin pages | 8 number cards, 3 charts drawn; Donors, Verify, Users, Requests, request detail, donor detail, Hospitals, add/edit hospital, Reports: 200; both CSV exports 200 `text/csv` |
 | MAN-05 | `App\Support\Alerts::send()` for a sample donor with `MAIL_MAILER=smtp`, received by a local SMTP test mailbox on port 2525 | One message saved with the From, To and Subject above, the "Open LifeLine" link and the medical disclaimer |
 | MAN-06 | Demo donor at 375 px after the M3.2 fixes: Home colours, a throwaway `data-submit-once` form submitted twice, Track box with a pasted reference `  ll-261117-abc234  ` | Hero gradient starts at #c62828 with white stat text; switch on = white track, green knob; off = #6c757d track; second submit blocked and button disabled; reference trimmed and accepted by the pattern |

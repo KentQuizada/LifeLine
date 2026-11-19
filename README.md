@@ -37,7 +37,7 @@ ITE-18 Application Development · Final Project · Caraga State University
 | Donor matching | Rule-based: compatible blood type, available, verified, no donation in the last 3 months, nearest first |
 | Donor answers | Donors accept or decline; contact details are shared only after a donor accepts; a donor can withdraw before donating |
 | Donor profile | The requester sees an accepted donor's profile and records the donation |
-| Donor map | Available donors as approximate circles and hospitals on a map, filter by blood type, "Near me" |
+| Donor location | Donors share an approximate location (about 1 km) from their device or the nearest hospital; used only for matching. The map screens were removed on the instructor's request (DEC-023) |
 | Notifications | In-app alerts with an unread badge that updates by itself, plus email (can be turned off) |
 | Request tracking | Anyone can track a request by reference number without logging in (no patient details shown) |
 | Admin | Dashboard with charts, donor verification and suspension, users, requests (status override with reason), hospitals, reports with CSV export |
@@ -53,12 +53,12 @@ ITE-18 Application Development · Final Project · Caraga State University
 | Backend | **PHP 8.2**, **Laravel 12** |
 | Database | **MySQL / MariaDB** (XAMPP) |
 | API | REST JSON API under `/api/v1` |
-| Maps and location | Leaflet 1.9.4 + OpenStreetMap, browser Geolocation API |
+| Location | Browser Geolocation API (no map) |
 | Charts | Chart.js 4.4.1 |
 | Email | SMTP (Laravel Mail) |
 | Tests | PHPUnit 11 |
 
-Bootstrap, Leaflet and Chart.js are saved inside the project (`lifeline/public/vendor/`), so they work without a
+Bootstrap and Chart.js are saved inside the project (`lifeline/public/vendor/`), so they work without a
 CDN. Everything used is free; no paid API keys.
 
 ## 3. Install and run on Windows
@@ -139,7 +139,6 @@ The seeder also adds 30 sample donors, 5 sample requests and 3 sample hospitals 
 | Welcome / onboarding | `/` | everyone |
 | Register (3 steps), Log in, Forgot password | `/register`, `/login`, `/forgot-password` | guests |
 | Home dashboard | `/home` | donors, requesters |
-| Donor map | `/map` | donors, requesters |
 | Emergency request (SOS) | `/requests/new` | donors, requesters |
 | My requests, request page, donor profile | `/requests`, `/requests/{id}`, `/requests/{id}/donors/{match}` | the requester |
 | Track a request | `/track` | everyone, no login |
@@ -158,7 +157,6 @@ the CSRF token in the `X-CSRF-TOKEN` header.
 |---|---|---|---|
 | GET | `/api/v1/requests/track/{reference}` | Track a request by reference number | no |
 | GET | `/api/v1/requests/{id}/matches` | Potential donors for my request (contact only after acceptance) | yes |
-| GET | `/api/v1/map` | Approximate donor locations and hospitals, nearest first | yes |
 | GET | `/api/v1/notifications` | My alerts (Today / Earlier) | yes |
 | GET | `/api/v1/notifications/unread-count` | Number for the Alerts badge | yes |
 | POST | `/api/v1/notifications/read` | Mark all my alerts as read | yes |
@@ -171,8 +169,7 @@ Code: `lifeline/routes/api.php` and `lifeline/app/Http/Controllers/Api/`. Ready-
 
 | Technology | Purpose in LifeLine |
 |---|---|
-| Geolocation (GPS) | "Near me" on the map and the donor's location picker |
-| Interactive map (Leaflet + OpenStreetMap) | Shows nearby donors as about 1 km circles, so exact homes are never shown |
+| Geolocation (GPS) | The donor's approximate location for distance-based matching |
 | Rule-based donor matching | Blood type compatibility, distance (Haversine), availability and the 3-month donation interval |
 | Real-time style notifications | In-app alerts, email, self-updating unread badge |
 | Data visualization | Admin charts (Chart.js) and CSV reports |
@@ -265,7 +262,6 @@ genOS/                     project notes (decisions, progress, roadmap)
 - [ ] Donor gets the alert, accepts, and the requester sees the donor's contact
 - [ ] Requester opens the donor profile and records the donation, then marks the request fulfilled
 - [ ] Admin dashboard: charts, verify a pending donor, reports and CSV export
-- [ ] Donor map with blood type filter and "Near me"
 - [ ] Duplicate reference number check explained (UNIQUE constraint + SQL check)
 - [ ] `php vendor/bin/phpunit` passes
 

@@ -134,6 +134,7 @@ M4.1 and M4.2 can run in parallel with M2 (writing work, no code dependency). M4
 - **Objective:** Show nearby available donors on a map without exposing exact locations.
 - **Deliverables:** Leaflet + OpenStreetMap map; browser geolocation with manual fallback; blood type filter; donor list with rounded distance; approximate markers; hospital markers. Rules: `[[30_DECISIONS]]` DEC-017.
 - **Completion criteria:** No API response contains a donor's exact coordinates; the map works when location permission is denied.
+- **Note (2026-11-19):** The map screens were removed on the instructor's request (`[[30_DECISIONS]]` DEC-023); the donor's approximate location for matching remains.
 - **Dependencies:** M2.1
 - **Systems:** DonorMap, RestApi
 

@@ -4,7 +4,6 @@
 // `web` middleware group: the normal login session cookie, plus the CSRF token on POST/PATCH/DELETE (DEC-015).
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Api\DonorMapController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\RequestMatchesController;
 use App\Http\Controllers\Api\TrackRequestController;
@@ -19,10 +18,6 @@ Route::middleware(['web', 'auth', 'verified', 'role:donor,requester'])->group(fu
         ->where('bloodRequest', '[0-9]{1,18}')
         ->middleware('throttle:60,1,matches')
         ->name('api.requests.matches');
-
-    Route::get('/map', DonorMapController::class)
-        ->middleware('throttle:60,1,map')
-        ->name('api.map');
 
     Route::get('/notifications', [NotificationController::class, 'index'])
         ->middleware('throttle:60,1,alerts')

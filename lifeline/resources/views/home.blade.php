@@ -2,15 +2,6 @@
 
 @section('title', 'Home')
 
-@push('head')
-    <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}">
-@endpush
-
-@push('scripts')
-    <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
-    <script src="{{ asset('js/home-map.js') }}"></script>
-@endpush
-
 @section('content')
     <section class="ll-hero">
         <p class="ll-hero-muted small mb-0">Welcome back</p>
@@ -42,23 +33,13 @@
         @endif
     </section>
 
-    <a href="{{ route('requests.create') }}" class="btn btn-primary btn-lg w-100 mb-3">
-        <i class="bi bi-plus-circle-fill" aria-hidden="true"></i> Emergency request
-    </a>
-
-    {{-- Design C1 "Donors near you": a small preview of the Map tab (M2.4 data, DEC-004 approximate circles). --}}
-    <a id="home-map" href="{{ route('map') }}" class="card shadow-sm mb-3 text-decoration-none text-body"
-       data-api="{{ route('api.map') }}"
-       data-center-lat="{{ $mapCenter['latitude'] }}" data-center-lng="{{ $mapCenter['longitude'] }}"
-       @if ($ownLocation) data-lat="{{ $ownLocation['latitude'] }}" data-lng="{{ $ownLocation['longitude'] }}" @endif>
-        <div class="ll-map-mini" data-map role="img" aria-label="Map preview of approximate donor areas"></div>
-        <div class="card-body py-2 d-flex justify-content-between align-items-center gap-2">
-            <div>
-                <div class="fw-semibold"><i class="bi bi-geo-alt-fill text-brand" aria-hidden="true"></i> Donors near you</div>
-                <div class="small text-secondary" data-summary role="status">Loading nearby donors…</div>
-            </div>
-            <i class="bi bi-chevron-right text-secondary" aria-hidden="true"></i>
-        </div>
+    <a href="{{ route('requests.create') }}" class="ll-sos-card mb-3">
+        <span class="ll-sos-icon"><i class="bi bi-broadcast" aria-hidden="true"></i></span>
+        <span class="flex-grow-1">
+            <span class="d-block h5 fw-bold mb-0">Emergency request</span>
+            <span class="d-block small">Find compatible blood donors fast</span>
+        </span>
+        <i class="bi bi-chevron-right" aria-hidden="true"></i>
     </a>
 
     @if ($donor)
@@ -78,31 +59,31 @@
             </div>
         @endif
 
-        <div class="d-grid gap-2">
-            <a href="{{ route('matches.index') }}" class="btn btn-outline-danger d-flex justify-content-center align-items-center gap-2">
-                <i class="bi bi-heart-pulse" aria-hidden="true"></i> Requests for you
-                @if ($waitingMatches > 0)
+    @endif
+
+    {{-- Shortcuts as menu rows (design E1 style). --}}
+    @php
+        $links = array_filter([
+            $donor ? ['matches.index', 'bi-heart-pulse', 'Requests for you', 'Emergencies that match your blood type'] : null,
+            ['requests.index', 'bi-list-check', 'My requests', 'Track the requests you sent'],
+            $donor ? ['donations.index', 'bi-clock-history', 'Donation history', 'Your recorded donations'] : null,
+            ['profile.show', 'bi-person', 'My profile', 'Account and settings'],
+        ]);
+    @endphp
+    <h2 class="ll-section-label">Quick links</h2>
+    <div class="card shadow-sm list-group list-group-flush mb-3">
+        @foreach ($links as [$route, $icon, $label, $hint])
+            <a href="{{ route($route) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
+                <span class="ll-menu-icon"><i class="bi {{ $icon }}" aria-hidden="true"></i></span>
+                <span class="flex-grow-1">
+                    <span class="d-block fw-semibold">{{ $label }}</span>
+                    <span class="small text-secondary">{{ $hint }}</span>
+                </span>
+                @if ($route === 'matches.index' && $waitingMatches > 0)
                     <span class="badge text-bg-danger">{{ $waitingMatches }} waiting</span>
                 @endif
+                <i class="bi bi-chevron-right text-secondary" aria-hidden="true"></i>
             </a>
-            <a href="{{ route('requests.index') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-list-check" aria-hidden="true"></i> My requests
-            </a>
-            <a href="{{ route('donations.index') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-clock-history" aria-hidden="true"></i> Donation history
-            </a>
-            <a href="{{ route('profile.show') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-person" aria-hidden="true"></i> My profile
-            </a>
-        </div>
-    @else
-        <div class="d-grid gap-2">
-            <a href="{{ route('requests.index') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-list-check" aria-hidden="true"></i> My requests
-            </a>
-            <a href="{{ route('profile.show') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-person" aria-hidden="true"></i> My profile
-            </a>
-        </div>
-    @endif
+        @endforeach
+    </div>
 @endsection
