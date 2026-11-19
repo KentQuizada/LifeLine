@@ -136,6 +136,13 @@ class RegisterController extends Controller
         $request->session()->forget('registration');
         Auth::login($user);
         $request->session()->regenerate();
+
+        if (config('lifeline.auto_verify_email')) {
+            $user->markEmailAsVerified(); // DEC-024: no email service online
+
+            return redirect()->route('home');
+        }
+
         event(new Registered($user)); // sends the verification email
 
         return redirect()->route('verification.notice');

@@ -55,6 +55,21 @@ class RegistrationTest extends TestCase
         $this->get('/register/account')->assertOk()->assertSee('Data Privacy Act');
     }
 
+    public function test_online_without_email_the_new_account_is_verified_at_sign_up(): void
+    {
+        Notification::fake();
+        config(['lifeline.auto_verify_email' => true]); // DEC-024
+
+        $this->post('/register', $this->step1());
+        $this->post('/register/medical', $this->step2());
+        $this->post('/register/account', $this->step3())->assertRedirect(route('home'));
+
+        $user = User::where('email', 'maria@example.test')->firstOrFail();
+        $this->assertNotNull($user->email_verified_at);
+        Notification::assertNothingSent();
+        $this->get(route('home'))->assertOk();
+    }
+
     public function test_donor_registers_in_three_steps(): void
     {
         Notification::fake();

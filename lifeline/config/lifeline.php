@@ -21,4 +21,8 @@ return [
     // set SEED_PASSWORD so strangers cannot log in as the demo admin (docs/deployment.md).
     'seed_password' => env('SEED_PASSWORD', 'password'),
 
+    // DEC-024: the free online host cannot send email (Railway blocks SMTP on its Trial plan), so online
+    // new accounts count as verified at sign-up. Keep it off wherever real email works.
+    'auto_verify_email' => (bool) env('AUTO_VERIFY_EMAIL', false),
+
 ];

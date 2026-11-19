@@ -45,11 +45,8 @@ APP_URL=
 LOG_CHANNEL=stderr
 LOG_LEVEL=warning
 DB_CONNECTION=mysql
-DB_HOST=${{MySQL.MYSQLHOST}}
-DB_PORT=${{MySQL.MYSQLPORT}}
-DB_DATABASE=${{MySQL.MYSQLDATABASE}}
-DB_USERNAME=${{MySQL.MYSQLUSER}}
-DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}
+DB_URL=${{MySQL.MYSQL_URL}}
+PORT=8000
 SESSION_DRIVER=file
 SESSION_SECURE_COOKIE=true
 CACHE_STORE=file
@@ -58,8 +55,12 @@ SEED_PASSWORD=
 MAIL_MAILER=log
 MAIL_FROM_ADDRESS=no-reply@lifeline.test
 MAIL_FROM_NAME=LifeLine
+AUTO_VERIFY_EMAIL=true
 ```
 
+- **DB_URL**: add it with **New Variable → Add Reference → MySQL → MYSQL_URL** so Railway links the two
+  services. (Separate `DB_HOST`/`DB_PORT`/... references came out empty in our project.)
+- **PORT**: must equal the port shown under the domain in **Settings → Networking** (ours is 8000).
 - **APP_KEY**: run `php artisan key:generate --show` in `D:\ITE-18_LifeLine\lifeline` and paste the whole
   `base64:...` value.
 - **SEED_PASSWORD**: choose a password for the demo accounts online (requester@, donor@, pending@ and
@@ -84,8 +85,11 @@ The full list with comments is in `lifeline/.env.production.example`.
 
 ## Emails online
 
-With `MAIL_MAILER=log` no email leaves the server. The demo accounts already have verified emails, so the demo
-works without email, but **a brand-new sign-up cannot verify its email**. To send real emails, replace the
+Railway blocks outgoing mail (SMTP) on its Trial and Hobby plans, so with `MAIL_MAILER=log` no email leaves
+the server. `AUTO_VERIFY_EMAIL=true` (DEC-024) makes a brand-new sign-up count as verified at once, so anyone can
+register and use the system. Password-reset emails still do not arrive online; the admin can help instead.
+
+On a plan that allows SMTP (Railway Pro, or another host), set `AUTO_VERIFY_EMAIL=false` and replace the
 MAIL lines with (Gmail App Password):
 
 ```
