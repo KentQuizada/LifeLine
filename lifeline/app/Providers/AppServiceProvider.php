@@ -5,10 +5,13 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +34,11 @@ class AppServiceProvider extends ServiceProvider
             ->response(fn () => back()
                 ->withErrors(['login' => 'Too many login attempts from this network. Try again in a minute.'])
                 ->onlyInput('login')));
+
+        // Email through Brevo's web API (DEC-025): works on hosts that block SMTP, such as Railway's Trial plan.
+        Mail::extend('brevo', fn () => (new BrevoTransportFactory)->create(
+            new Dsn('brevo+api', 'default', config('services.brevo.key'))
+        ));
 
         // Pagination links styled for Bootstrap instead of Tailwind.
         Paginator::useBootstrapFive();

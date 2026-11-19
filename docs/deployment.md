@@ -89,8 +89,29 @@ Railway blocks outgoing mail (SMTP) on its Trial and Hobby plans, so with `MAIL_
 the server. `AUTO_VERIFY_EMAIL=true` (DEC-024) makes a brand-new sign-up count as verified at once, so anyone can
 register and use the system. Password-reset emails still do not arrive online; the admin can help instead.
 
-On a plan that allows SMTP (Railway Pro, or another host), set `AUTO_VERIFY_EMAIL=false` and replace the
-MAIL lines with (Gmail App Password):
+### Real emails on the free plan: Brevo (DEC-025)
+
+Brevo sends email over HTTPS, which Railway allows on every plan (free: 300 emails a day).
+
+1. Sign up at brevo.com (free plan).
+2. **Senders, Domains & Dedicated IPs → Senders → Add a sender**: your Gmail address. Brevo emails you a
+   link to confirm it.
+3. **SMTP & API → API Keys → Generate a new API key** (name it LifeLine). Copy it once; Brevo shows it only once.
+4. In Railway, LifeLine → Variables, set:
+
+```
+MAIL_MAILER=brevo
+BREVO_API_KEY=the key from step 3
+MAIL_FROM_ADDRESS=the Gmail you confirmed in step 2
+AUTO_VERIFY_EMAIL=false
+```
+
+Deploy. New sign-ups now get the verification email, and **Resend verification email** and password reset
+work. Tell testers to check their spam folder the first time.
+
+### SMTP (Railway Pro or another host)
+
+On a plan that allows SMTP, set `AUTO_VERIFY_EMAIL=false` and replace the MAIL lines with (Gmail App Password):
 
 ```
 MAIL_MAILER=smtp

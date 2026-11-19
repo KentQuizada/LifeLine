@@ -65,6 +65,11 @@ return [
             'transport' => 'resend',
         ],
 
+        // Registered in AppServiceProvider (DEC-025). Online: MAIL_MAILER=brevo and BREVO_API_KEY.
+        'brevo' => [
+            'transport' => 'brevo',
+        ],
+
         'sendmail' => [
             'transport' => 'sendmail',
             'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
