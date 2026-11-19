@@ -147,7 +147,7 @@ class HardeningTest extends TestCase
             'weight_kg' => '58.5', 'city' => 'Butuan City']);
 
         $this->post(route('register.step1'), ['first_name' => 'Marie'] + $step1);
-        $this->get(route('register.step2'))->assertOk()->assertSee('value="AB-" selected', false);
+        $this->get(route('register.step2'))->assertOk()->assertSee('value="AB-" required checked', false);
 
         $this->post(route('register.step1'), ['role' => 'requester'] + $step1);
         $this->assertArrayNotHasKey('blood_type', session('registration'));

@@ -5,11 +5,13 @@
 @section('content')
     @if (session('submitted'))
         {{-- Design D2: shown once, right after the request is sent. --}}
-        <section class="ll-hero text-center">
-            <i class="bi bi-check-circle-fill display-5" aria-hidden="true"></i>
-            <h1 class="h4 fw-bold mt-2">Request sent</h1>
-            <p class="ll-hero-muted mb-2">Keep this reference number to track your request.</p>
-            <p class="ll-reference mb-0">{{ $bloodRequest->reference_number }}</p>
+        <section class="card card-body text-center mb-3 py-4">
+            <div class="mb-3">
+                <span class="ll-slide-icon is-green" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+            </div>
+            <h1 class="h3 fw-bold mb-1">Request sent!</h1>
+            <p class="text-secondary mb-3">Keep this reference number to track your request.</p>
+            <p class="ll-reference ll-reference-box mb-0">{{ $bloodRequest->reference_number }}</p>
         </section>
     @else
         <h1 class="h4 fw-bold">Blood request</h1>

@@ -11,17 +11,20 @@
     <form method="POST" action="{{ route('register.step2') }}" class="card card-body shadow-sm">
         @csrf
 
-        <div class="mb-3">
-            <label for="blood_type" class="form-label">Blood type</label>
-            <select id="blood_type" name="blood_type" required
-                    class="form-select @error('blood_type') is-invalid @enderror">
-                <option value="">Choose…</option>
+        {{-- Blood type tiles (design B2), the same as the SOS form. --}}
+        <fieldset class="mb-3">
+            <legend class="form-label fs-6">Blood type</legend>
+            <div class="row g-2">
                 @foreach ($bloodTypes as $type)
-                    <option value="{{ $type }}" @selected(old('blood_type', $data['blood_type'] ?? '') === $type)>{{ $type }}</option>
+                    <div class="col-3">
+                        <input type="radio" class="btn-check" name="blood_type" id="blood_type_{{ $loop->index }}"
+                               value="{{ $type }}" required @checked(old('blood_type', $data['blood_type'] ?? '') === $type)>
+                        <label class="btn btn-outline-primary w-100 fw-bold" for="blood_type_{{ $loop->index }}">{{ $type }}</label>
+                    </div>
                 @endforeach
-            </select>
-            @error('blood_type')<div class="invalid-feedback">{{ $message }}</div>@enderror
-        </div>
+            </div>
+            @error('blood_type')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
+        </fieldset>
 
         <div class="mb-3">
             <label for="birthdate" class="form-label">Birthdate</label>

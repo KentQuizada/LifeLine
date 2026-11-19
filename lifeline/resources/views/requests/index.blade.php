@@ -17,15 +17,18 @@
     @else
         <div class="list-group shadow-sm mb-3">
             @foreach ($bloodRequests as $bloodRequest)
-                <a href="{{ route('requests.show', $bloodRequest->id) }}" class="list-group-item list-group-item-action">
-                    <div class="d-flex justify-content-between align-items-start gap-2">
-                        <span class="fw-bold font-monospace">{{ $bloodRequest->reference_number }}</span>
-                        @include('partials.request-status', ['status' => $bloodRequest->status])
-                    </div>
-                    <div class="small text-secondary">
-                        {{ $bloodRequest->blood_type }} · {{ $bloodRequest->units }} {{ Str::plural('unit', $bloodRequest->units) }} · {{ $bloodRequest->hospital->name }}
-                    </div>
-                    <div class="small text-secondary">{{ $bloodRequest->created_at->format('M j, Y g:i A') }}</div>
+                <a href="{{ route('requests.show', $bloodRequest->id) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3">
+                    <span class="ll-blood" aria-hidden="true">{{ $bloodRequest->blood_type }}</span>
+                    <span class="flex-grow-1">
+                        <span class="d-flex flex-wrap justify-content-between align-items-start gap-1">
+                            <span class="fw-bold font-monospace text-nowrap">{{ $bloodRequest->reference_number }}</span>
+                            @include('partials.request-status', ['status' => $bloodRequest->status])
+                        </span>
+                        <span class="d-block small text-secondary">
+                            {{ $bloodRequest->blood_type }} · {{ $bloodRequest->units }} {{ Str::plural('unit', $bloodRequest->units) }} · {{ $bloodRequest->hospital->name }}
+                        </span>
+                        <span class="d-block small text-secondary">{{ $bloodRequest->created_at->format('M j, Y g:i A') }}</span>
+                    </span>
                 </a>
             @endforeach
         </div>

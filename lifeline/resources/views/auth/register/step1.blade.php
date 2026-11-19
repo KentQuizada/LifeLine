@@ -12,16 +12,24 @@
         @csrf
 
         <fieldset class="mb-3">
-            <legend class="form-label fs-6">I want to</legend>
-            @foreach (['donor' => 'Donate blood', 'requester' => 'Request blood'] as $value => $label)
-                <div class="form-check">
-                    <input class="form-check-input @error('role') is-invalid @enderror" type="radio" name="role"
-                           id="role_{{ $value }}" value="{{ $value }}" required
-                           @checked(old('role', $data['role'] ?? '') === $value)>
-                    <label class="form-check-label" for="role_{{ $value }}">{{ $label }}</label>
-                </div>
-            @endforeach
-            @error('role')<div class="text-danger small">{{ $message }}</div>@enderror
+            <legend class="form-label fs-6">I want to register as</legend>
+            <div class="row g-2">
+                @foreach ([
+                    'donor' => ['bi-droplet-fill', 'Blood donor', 'I can donate blood'],
+                    'requester' => ['bi-hospital', 'Requester', 'I need blood for a patient'],
+                ] as $value => [$icon, $label, $hint])
+                    <div class="col-6">
+                        <input class="btn-check" type="radio" name="role"
+                               id="role_{{ $value }}" value="{{ $value }}" required
+                               @checked(old('role', $data['role'] ?? '') === $value)>
+                        <label class="btn btn-outline-primary w-100 fw-bold ll-role" for="role_{{ $value }}">
+                            <i class="bi {{ $icon }}" aria-hidden="true"></i> {{ $label }}
+                            <small>{{ $hint }}</small>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            @error('role')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
         </fieldset>
 
         <div class="row g-2">

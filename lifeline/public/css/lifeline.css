@@ -336,7 +336,7 @@ body {
     text-transform: uppercase;
     color: #5c636a;
 }
-.ll-app legend.form-label { font-size: 0.75rem !important; } /* beats Bootstrap's fs-6 on fieldset titles */
+legend.form-label.fs-6 { font-size: 0.75rem !important; } /* beats Bootstrap's fs-6 on fieldset titles */
 .ll-app .form-control,
 .ll-app .form-select { border-radius: 12px; padding: 0.65rem 0.9rem; border-color: #e3e3e8; }
 .ll-app .form-control:focus,
@@ -362,7 +362,7 @@ body {
 .ll-hero { box-shadow: 0 10px 24px rgba(183, 28, 28, 0.18); }
 
 /* Blood type and urgency choices: grey tiles, red when picked (design B2, D1). */
-.ll-app .btn-check + .btn-outline-primary {
+.btn-check + .btn-outline-primary {
     --bs-btn-color: #33333a;
     --bs-btn-border-color: #e3e3e8;
     --bs-btn-bg: #fff;
@@ -371,7 +371,7 @@ body {
     --bs-btn-hover-border-color: var(--ll-red);
     padding: 0.6rem 0.25rem;
 }
-.ll-app .btn-check:checked + .btn-outline-primary {
+.btn-check:checked + .btn-outline-primary {
     color: #fff;
     background: var(--ll-red);
     border-color: var(--ll-red);
@@ -431,3 +431,87 @@ body {
 
 /* Profile menu rows (design E1). */
 .ll-menu-icon { border-radius: 12px; }
+
+/* ---------- Register and welcome screens (design A1-A4, B1-B3) ---------- */
+/* "STEP 1 OF 3 ... BASIC INFO" above a thin red bar. */
+.ll-steps { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.ll-steps .ll-step-now { color: var(--ll-red); }
+.ll-steps .ll-step-name { color: #8a8a93; }
+.ll-steps-bar { height: 4px; border-radius: 4px; background: #eee; }
+.ll-steps-bar > span { display: block; height: 100%; border-radius: 4px; background: var(--ll-red); }
+
+/* Role choice tiles (B1 "Blood donor" / "Requester"). */
+.ll-role {
+    display: block;
+    height: 100%;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.25;
+}
+.ll-role .bi { display: block; font-size: 1.75rem; margin-bottom: 0.35rem; color: var(--ll-red); }
+.btn-check:checked + .ll-role .bi { color: #fff; }
+.ll-role small { display: block; margin-top: 0.2rem; font-weight: 400; font-size: 0.75rem; opacity: 0.85; }
+
+/* Welcome slides: big round icon, small coloured label, large title (A2-A4). */
+.ll-slide-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    font-size: 2.6rem;
+    color: #fff;
+    background: linear-gradient(160deg, #e53935 0%, #c62828 100%);
+    box-shadow: 0 12px 28px rgba(211, 47, 47, 0.3);
+}
+.ll-slide-icon.is-green { background: linear-gradient(160deg, #43a047 0%, #2e7d32 100%); box-shadow: 0 12px 28px rgba(46, 125, 50, 0.3); }
+.ll-kicker {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: #fdecea;
+    color: #b71c1c;
+}
+.ll-kicker.is-green { background: #e8f5e9; color: #1b5e20; }
+.ll-slide-title { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.3px; line-height: 1.15; }
+.ll-guest .carousel-indicators [data-bs-target] { width: 8px; height: 8px; border-radius: 50%; background-color: #d9d9de; border: 0; opacity: 1; }
+.ll-guest .carousel-indicators .active { width: 22px; border-radius: 4px; background-color: var(--ll-red); }
+
+/* Reference number box on "Request sent!" (design D2). */
+.ll-reference-box {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    border-radius: 14px;
+    border-left: 4px solid var(--ll-red);
+    background: #fff5f5;
+    color: #8e1414;
+    font-size: 1.3rem;
+}
+
+/* Avatar in the red header: rounded square with a light border (design D3, E1). */
+.ll-hero .ll-avatar { width: 84px; height: 84px; border-radius: 26px; border: 3px solid rgba(255, 255, 255, 0.45); font-size: 1.75rem; }
+.ll-hero .badge.bg-white { padding: 0.45rem 1.1rem; }
+
+/* Red blood type tile at the start of a list row (design C1, C2). */
+.ll-blood {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: linear-gradient(160deg, #e53935 0%, #c62828 100%);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+/* Flash messages and alerts: rounder, no hard border. */
+.alert { border: 0; border-radius: 14px; }

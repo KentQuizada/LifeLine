@@ -21,10 +21,13 @@
         <div class="card shadow-sm mb-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                    <div>
-                        <div class="fw-bold">{{ $bloodRequest->blood_type }} blood · {{ $bloodRequest->units }} unit(s)</div>
-                        <div class="small text-secondary">
-                            {{ ucfirst($bloodRequest->urgency) }} · about {{ max(1, (int) round((float) $match->distance_km)) }} km away
+                    <div class="d-flex gap-3">
+                        <span class="ll-blood" aria-hidden="true">{{ $bloodRequest->blood_type }}</span>
+                        <div>
+                            <div class="fw-bold">{{ $bloodRequest->blood_type }} blood · {{ $bloodRequest->units }} unit(s)</div>
+                            <div class="small text-secondary">
+                                {{ ucfirst($bloodRequest->urgency) }} · about {{ max(1, (int) round((float) $match->distance_km)) }} km away
+                            </div>
                         </div>
                     </div>
                     @php($badge = ($match->status === 'notified' && ! $stillLooking) ? ['text-bg-secondary', 'Closed'] : $badges[$match->status])
