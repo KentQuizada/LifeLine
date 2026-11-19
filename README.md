@@ -243,7 +243,7 @@ docs/
   testing/                 test cases, results, bug log, demo script
   design/                  the team's UI design (screens A1-E1)
   deployment.md            how to put LifeLine online
-genOS/                     project notes (decisions, progress, roadmap)
+  architecture.md          how the parts fit together
 ```
 
 ## 13. Group members and responsibilities

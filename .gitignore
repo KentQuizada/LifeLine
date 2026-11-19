@@ -1,18 +1,22 @@
-# genOS Repository Gitignore
+# Only the LifeLine app and its project docs go to GitHub.
+# These stay on the team's laptops (AI tool notes, thesis drafts); see README section 12.
+/genOS/
+/.agents/
+/.cursor/
+/.claude/
+/CLAUDE.md
+/docs/superpowers/
+/docs/thesis/
+/graphify-out/
+/.worktrees/
+/.obsidian/
 
-# Ignore Obsidian workspace state
-.obsidian/workspace*
+# Laravel template leftovers not used by LifeLine
+/lifeline/.github/
+/lifeline/CHANGELOG.md
+/lifeline/.styleci.yml
 
-# Binaries
+# Build and editor clutter
 *.exe
-
-# Graphify code graph (rebuilt locally with `graphify extract . --code-only`)
-graphify-out/
-
-# Superpowers git worktrees
-.worktrees/
-
-# Python bytecode
 __pycache__/
 *.py[cod]
-
