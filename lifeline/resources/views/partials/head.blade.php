@@ -5,7 +5,7 @@
 <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
 <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
 <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
-<link rel="apple-touch-icon" href="{{ asset('icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ asset('icons/apple-touch-icon.png') }}">
 {{-- Plain-JS files send this as X-CSRF-TOKEN on /api/v1 writes (DEC-015). --}}
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'LifeLine') | LifeLine</title>
