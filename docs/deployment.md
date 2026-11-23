@@ -124,6 +124,33 @@ MAIL_FROM_ADDRESS=your.gmail@gmail.com
 MAIL_FROM_NAME=LifeLine
 ```
 
+## Vercel (a vercel.app link)
+
+Vercel runs the same Docker image (`lifeline/Dockerfile`) through its Container Runtime (beta, free Hobby
+plan). `lifeline/vercel.json` tells Vercel to build that Dockerfile instead of treating the folder as a Vite
+site. Vercel has no MySQL, so the app uses the Railway MySQL database over its public address.
+
+1. vercel.com → **Sign up with GitHub** (Hobby plan).
+2. **Add New → Project → Import** the `LifeLine` repository.
+3. **Root Directory**: `lifeline`. Framework preset: leave what Vercel picks (vercel.json decides).
+4. **Environment Variables**: the same list as step 3 above, with these differences:
+
+```
+DB_URL=        (Railway → MySQL service → Variables → MYSQL_PUBLIC_URL, the whole value)
+SESSION_DRIVER=cookie
+```
+
+   Leave out `PORT` (Vercel and the container both default to 80). Use the same `APP_KEY` and
+   `SEED_PASSWORD` as Railway so the demo accounts keep their password. Copy the MAIL_ and BREVO_ lines too.
+5. **Deploy**. When it finishes, put the vercel.app link in **APP_URL** (Settings → Environment Variables)
+   and **Redeploy**.
+
+Why `SESSION_DRIVER=cookie`: Vercel may run several copies of the container and throws away their files, so
+a login saved as a file on one copy is unknown to the next. A cookie session travels with the browser.
+
+The container stops after 5 minutes without visitors; the first visit after that takes a few seconds longer
+while it starts (and runs `migrate`, which does nothing when the tables are current).
+
 ## Updating the online system
 
 Commit and `git push`; Railway builds and restarts by itself. Data stays, because the database is a separate
