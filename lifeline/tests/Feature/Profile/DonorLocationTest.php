@@ -105,4 +105,17 @@ class DonorLocationTest extends TestCase
 
         $this->actingAs($donor->user)->get(route('home'))->assertSee('Set your approximate location');
     }
+
+    public function test_profile_does_not_claim_a_location_that_was_never_saved(): void
+    {
+        $withoutLocation = $this->donor();
+        $withLocation = $this->donor(['approx_latitude' => 8.95, 'approx_longitude' => 125.54]);
+
+        $this->actingAs($withoutLocation->user)->get(route('profile.show'))
+            ->assertSee('On, but no location set yet')
+            ->assertDontSee('On (about 1 km)');
+        $this->actingAs($withLocation->user)->get(route('profile.show'))
+            ->assertSee('On (about 1 km)')
+            ->assertDontSee('On, but no location set yet');
+    }
 }

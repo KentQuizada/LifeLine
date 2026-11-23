@@ -91,7 +91,12 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between gap-3">
                     <span class="text-secondary">Location sharing</span>
-                    <span>{{ $donor->location_sharing ? 'On (about 1 km)' : 'Off' }}</span>
+                    {{-- Sharing on without saved coordinates means the donor is never matched (Donor::scopeEligibleFor). --}}
+                    @if ($donor->location_sharing && $donor->approx_latitude === null)
+                        <a href="{{ route('profile.edit') }}#location" class="text-danger fw-semibold text-end">On, but no location set yet: set it</a>
+                    @else
+                        <span>{{ $donor->location_sharing ? 'On (about 1 km)' : 'Off' }}</span>
+                    @endif
                 </li>
             @endif
         </ul>
