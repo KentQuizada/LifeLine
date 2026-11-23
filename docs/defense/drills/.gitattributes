@@ -1,0 +1,2 @@
+# Drill patches must keep LF line endings, or git apply fails on Windows clones.
+*.patch text eol=lf
