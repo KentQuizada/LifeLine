@@ -12,7 +12,7 @@
 | 08 | Clicking the eye does nothing | F12 → Console: **ReferenceError: feild is not defined, lifeline.js:51** | `public/js/lifeline.js` line 51: `feild` must be `field`. |
 | 09 | An O+ request suggests only O+ donors: the **O- demo donor is missing** although O- can give to O+ | O- can give to everyone: check the compatibility table | `app/Models/BloodRequest.php` `COMPATIBLE_DONORS`: `'O+' => ['O+']` must be `['O+', 'O-']`. |
 | 10 | Cancel says **"This request can no longer be changed."** | Search that message → `updateStatus()` → `changeStatus()` → `TRANSITIONS` | `app/Models/BloodRequest.php` `TRANSITIONS['open']` lost `'cancelled'`. Add it back. |
-| 11 | New requests suggest the wrong donors: the available demo donor is missing, donors who switched **Available off** are suggested | Matching starts from `Donor::scopeEligibleFor()` → `scopeSearchable()` | `app/Models/Donor.php` line 69: `where('is_available', false)` must be `true`. |
+| 11 | New requests suggest the wrong donors: the available demo donor is missing, donors who switched **Available off** are suggested | Matching starts from `Donor::scopeEligibleFor()` → `scopeSearchable()` | `app/Models/Donor.php` line 70: `where('is_available', false)` must be `true`. |
 | 12 | The **reference number is blank** on the request page, no error | Search `Reference number` in the views | `resources/views/requests/show.blade.php` line 25: `reference_numbr` must be `reference_number` (a misspelled column gives empty text, not an error). |
 
 What the instructor sees when you explain: say the symptom, where you looked (error page / Console / Network /
