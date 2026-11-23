@@ -16,6 +16,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
     && printf '<Directory /var/www/html/public>\n    AllowOverride All\n</Directory>\n' > /etc/apache2/conf-available/lifeline.conf \
     && a2enconf lifeline
 
+# Debian's Apache maps /icons/ to its own sample icons, which hid public/icons (app and home-screen icons).
+RUN sed -i '/^\s*Alias \/icons\//d' /etc/apache2/mods-available/alias.conf
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
