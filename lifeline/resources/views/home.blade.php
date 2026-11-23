@@ -47,14 +47,15 @@
 
         @include('partials.donor-status')
 
+        {{-- DEC-026: donors without a location are still matched, after the donors near the hospital. --}}
         @if (! $donor->location_sharing)
-            <div class="alert alert-warning small" role="status">
-                Location sharing is off, so you do not appear in donor searches.
-                <a href="{{ route('profile.edit') }}">Change this in your profile.</a>
+            <div class="alert alert-info small" role="status">
+                Location sharing is off: you still get requests, but after donors near the hospital.
+                <a href="{{ route('profile.edit') }}#location">Share your location</a>
             </div>
         @elseif ($donor->approx_latitude === null)
-            <div class="alert alert-warning small" role="status">
-                Set your approximate location so requesters near you can find you.
+            <div class="alert alert-info small" role="status">
+                Set your approximate location so requests near you reach you first.
                 <a href="{{ route('profile.edit') }}#location">Set location</a>
             </div>
         @endif

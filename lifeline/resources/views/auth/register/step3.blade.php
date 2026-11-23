@@ -31,7 +31,7 @@
                 <input class="form-check-input" type="checkbox" name="location_sharing" id="location_sharing" value="1"
                        @checked(old('location_sharing'))>
                 <label class="form-check-label" for="location_sharing">
-                    Share my approximate location (about 1 km) so I can be matched with requests near me. You can turn this off anytime.
+                    Share my approximate location (about 1 km) so requests near me reach me first. You are matched either way, and can turn this off anytime.
                 </label>
             </div>
         @endif

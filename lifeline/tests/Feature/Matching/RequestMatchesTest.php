@@ -228,4 +228,27 @@ class RequestMatchesTest extends TestCase
         $this->actingAs($this->requester)->get(route('requests.show', $closed->id))
             ->assertDontSee('Find more donors');
     }
+
+    public function test_a_donor_without_a_location_is_listed_last_with_an_unknown_distance(): void
+    {
+        $withoutLocation = $this->donor(125.55, ['approx_latitude' => null, 'approx_longitude' => null]);
+        $near = $this->donor(125.55);
+        $bloodRequest = $this->request();
+        $bloodRequest->matchDonors();
+
+        $this->actingAs($this->requester)
+            ->getJson(route('api.requests.matches', $bloodRequest->id))
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonPath('data.0.distance_km', 1)
+            ->assertJsonPath('data.1.distance_km', null);
+
+        $this->actingAs($withoutLocation->user)->get(route('matches.index'))
+            ->assertOk()
+            ->assertSee('distance unknown');
+
+        $messages = fn (Donor $donor) => \App\Models\Notification::where('user_id', $donor->user_id)->value('message');
+        $this->assertStringNotContainsString(' km', $messages($withoutLocation));
+        $this->assertStringContainsString('about 1 km from you', $messages($near));
+    }
 }

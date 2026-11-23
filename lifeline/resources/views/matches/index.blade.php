@@ -26,7 +26,7 @@
                         <div>
                             <div class="fw-bold">{{ $bloodRequest->blood_type }} blood · {{ $bloodRequest->units }} unit(s)</div>
                             <div class="small text-secondary">
-                                {{ ucfirst($bloodRequest->urgency) }} · about {{ max(1, (int) round((float) $match->distance_km)) }} km away
+                                {{ ucfirst($bloodRequest->urgency) }} · {{ $match->distanceLabel(' away') }}
                             </div>
                         </div>
                     </div>

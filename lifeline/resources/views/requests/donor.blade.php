@@ -30,7 +30,7 @@
             </div>
             <div class="col-4">
                 <div class="ll-hero-stat">
-                    <div class="fs-5 fw-bold">{{ max(1, (int) round((float) $match->distance_km)) }} km</div>
+                    <div class="fs-5 fw-bold">{{ $match->distance_km === null ? 'Unknown' : max(1, (int) round((float) $match->distance_km)).' km' }}</div>
                     <div class="small">From hospital</div>
                 </div>
             </div>

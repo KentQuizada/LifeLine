@@ -34,10 +34,10 @@ ITE-18 Application Development · Final Project · Caraga State University
 | Accounts | Register as donor or requester in 3 steps, log in with email or mobile number, email verification, password reset |
 | Donors | Blood type, availability switch, approximate location (about 1 km), donation history; an admin verifies every new donor |
 | Emergency requests | Blood type, units, urgency, hospital; each request gets a unique reference number (`LL-YYMMDD-XXXXXX`) and a status history |
-| Donor matching | Rule-based: compatible blood type, available, verified, no donation in the last 3 months, nearest first |
+| Donor matching | Rule-based: compatible blood type, available, verified, no donation in the last 3 months, nearest first (donors who share no location are still matched, after the nearby ones) |
 | Donor answers | Donors accept or decline; contact details are shared only after a donor accepts; a donor can withdraw before donating |
 | Donor profile | The requester sees an accepted donor's profile and records the donation |
-| Donor location | Donors share an approximate location (about 1 km) from their device or the nearest hospital; used only for matching. The map screens were removed on the instructor's request (DEC-023) |
+| Donor location | Optional: donors share an approximate location (about 1 km) from their device or the nearest hospital; it only puts them ahead of donors farther away or without a location. The map screens were removed on the instructor's request (DEC-023) |
 | Notifications | In-app alerts with an unread badge that updates by itself, plus email (can be turned off) |
 | Request tracking | Anyone can track a request by reference number without logging in (no patient details shown) |
 | Admin | Dashboard with charts, donor verification and suspension, users, requests (status override with reason), hospitals, reports with CSV export |

@@ -48,7 +48,7 @@ class MatchDonorsTest extends TestCase
 
     private function matchedDonorIds(BloodRequest $bloodRequest): array
     {
-        return $bloodRequest->matches()->orderBy('distance_km')->pluck('donor_id')->all();
+        return $bloodRequest->matches()->orderByRaw('distance_km IS NULL, distance_km, donor_id')->pluck('donor_id')->all();
     }
 
     public function test_matches_compatible_donors_nearest_first(): void
@@ -68,19 +68,45 @@ class MatchDonorsTest extends TestCase
         $this->assertEqualsWithDelta(1.10, (float) $nearest->distance_km, 0.01);
     }
 
-    public function test_only_searchable_donors_with_coordinates_are_matched(): void
+    public function test_only_verified_available_donors_are_matched(): void
     {
         $eligible = $this->donor('O+');
         $this->donor('O+', 125.55, ['is_available' => false]);
         $this->donor('O+', 125.55, ['verification_status' => 'pending']);
         $this->donor('O+', 125.55, ['verification_status' => 'rejected']);
-        $this->donor('O+', 125.55, ['location_sharing' => false]);
-        $this->donor('O+', 125.55, ['approx_latitude' => null, 'approx_longitude' => null]);
         $bloodRequest = $this->request('O+');
 
         $bloodRequest->matchDonors();
 
         $this->assertSame([$eligible->id], $this->matchedDonorIds($bloodRequest));
+    }
+
+    public function test_donors_without_a_shared_location_are_matched_after_located_donors(): void
+    {
+        $far = $this->donor('O+', 125.60);
+        $sharingOff = $this->donor('O+', 125.55, ['location_sharing' => false, 'approx_latitude' => null, 'approx_longitude' => null]);
+        $noLocationYet = $this->donor('O+', 125.55, ['approx_latitude' => null, 'approx_longitude' => null]);
+        $bloodRequest = $this->request('O+');
+
+        $this->assertSame(3, $bloodRequest->matchDonors());
+
+        // DEC-026: located donors first (nearest first), then unknown distances.
+        $this->assertSame([$far->id, $sharingOff->id, $noLocationYet->id], $this->matchedDonorIds($bloodRequest));
+        $this->assertNull($bloodRequest->matches()->where('donor_id', $sharingOff->id)->value('distance_km'));
+        $this->assertNotNull($bloodRequest->matches()->where('donor_id', $far->id)->value('distance_km'));
+    }
+
+    public function test_the_match_limit_is_filled_with_located_donors_first(): void
+    {
+        config(['lifeline.match_limit' => 2]);
+        $this->donor('O+', 125.55, ['approx_latitude' => null, 'approx_longitude' => null]);
+        $near = $this->donor('O+', 125.55);
+        $farther = $this->donor('O+', 125.60);
+        $bloodRequest = $this->request('O+');
+
+        $bloodRequest->matchDonors();
+
+        $this->assertSame([$near->id, $farther->id], $this->matchedDonorIds($bloodRequest));
     }
 
     public function test_donors_who_gave_blood_within_the_interval_are_not_matched(): void

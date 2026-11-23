@@ -138,7 +138,8 @@ class EditProfileTest extends TestCase
         $this->assertFalse($donor->location_sharing);
         $this->assertNull($donor->approx_latitude);
         $this->assertNull($donor->approx_longitude);
-        $this->assertSame(0, Donor::searchable()->count());
+        // DEC-026: still matched, just without a known distance.
+        $this->assertSame(1, Donor::searchable()->count());
     }
 
     public function test_medical_info_is_validated(): void

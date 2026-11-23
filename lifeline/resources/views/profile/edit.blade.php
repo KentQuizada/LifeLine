@@ -83,7 +83,7 @@
                 <input class="form-check-input" type="checkbox" role="switch" name="location_sharing" id="location_sharing" value="1"
                        @checked($errors->any() ? old('location_sharing') : $donor->location_sharing)>
                 <label class="form-check-label" for="location_sharing">
-                    Share my approximate location (about 1 km) so I can be matched with requests near me. When this is off, you do not appear in donor searches.
+                    Share my approximate location (about 1 km) so requests near me reach me first. When this is off, you are still matched, after donors who share a location. To stop receiving requests, switch "Available to donate" off.
                 </label>
             </div>
 

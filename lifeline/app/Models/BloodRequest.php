@@ -184,7 +184,8 @@ class BloodRequest extends Model
 
     /**
      * Rule-based matching (DEC-016): adds a "notified" match for each of the nearest eligible donors
-     * this request has not matched yet, ranked by distance from the hospital (DEC-014).
+     * this request has not matched yet, ranked by distance from the hospital (DEC-014). Donors without a
+     * shared location are still candidates, with an unknown distance, after all located donors (DEC-026).
      * Returns how many matches were added. Closed requests are never matched.
      */
     public function matchDonors(): int
@@ -205,17 +206,18 @@ class BloodRequest extends Model
         // Only the columns ranking needs (DEC-004).
         $nearest = Donor::eligibleFor($this)
             ->orderBy('id')
-            ->get(['id', 'approx_latitude', 'approx_longitude'])
+            ->get(['id', 'location_sharing', 'approx_latitude', 'approx_longitude'])
             ->map(fn (Donor $donor) => [
                 'donor_id' => $donor->id,
-                'distance_km' => round(Distance::km(
+                'distance_km' => $donor->hasSharedLocation() ? round(Distance::km(
                     (float) $hospital->latitude,
                     (float) $hospital->longitude,
                     (float) $donor->approx_latitude,
                     (float) $donor->approx_longitude,
-                ), 2),
+                ), 2) : null,
             ])
-            ->sortBy('distance_km')
+            // Known distances first, nearest first; unknown distances last (stable sort keeps id order).
+            ->sortBy(fn (array $candidate) => [$candidate['distance_km'] === null ? 1 : 0, $candidate['distance_km'] ?? 0])
             ->take(config('lifeline.match_limit'));
 
         $added = 0;

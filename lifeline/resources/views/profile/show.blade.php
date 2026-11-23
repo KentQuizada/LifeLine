@@ -91,7 +91,7 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between gap-3">
                     <span class="text-secondary">Location sharing</span>
-                    {{-- Sharing on without saved coordinates means the donor is never matched (Donor::scopeEligibleFor). --}}
+                    {{-- Sharing on without saved coordinates: matched only after located donors (DEC-026). --}}
                     @if ($donor->location_sharing && $donor->approx_latitude === null)
                         <a href="{{ route('profile.edit') }}#location" class="text-danger fw-semibold text-end">On, but no location set yet: set it</a>
                     @else

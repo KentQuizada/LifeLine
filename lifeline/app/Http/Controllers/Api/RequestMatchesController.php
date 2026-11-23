@@ -21,14 +21,15 @@ class RequestMatchesController extends Controller
 
         $matches = $record->matches()
             ->with(['donor:id,user_id,blood_type', 'donor.user:id,first_name,last_name,mobile_number'])
-            ->orderBy('distance_km')
+            // Unknown distances (no shared location, DEC-026) after the known ones; MySQL sorts NULL first.
+            ->orderByRaw('distance_km IS NULL, distance_km')
             ->get();
 
         return response()->json(['data' => $matches->map(fn (DonorMatch $match) => [
             'status' => $match->status,
             'status_label' => DonorMatch::STATUS_LABELS[$match->status],
             'blood_type' => $match->donor->blood_type,
-            'distance_km' => max(1, (int) round((float) $match->distance_km)),
+            'distance_km' => $match->distance_km === null ? null : max(1, (int) round((float) $match->distance_km)),
             'donor' => $match->status === 'accepted' ? [
                 'name' => $match->donor->user->first_name.' '.$match->donor->user->last_name,
                 'mobile_number' => $match->donor->user->mobile_number,

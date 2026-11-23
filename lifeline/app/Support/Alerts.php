@@ -22,11 +22,14 @@ final class Alerts
         $request = $match->bloodRequest;
         $hospital = $request->hospital;
 
+        // No distance for a donor without a shared location (DEC-026).
+        $distance = $match->distance_km === null ? '' : ' ('.$match->distanceLabel(' from you').')';
+
         self::send(
             $match->donor->user,
             ucfirst($request->urgency)." request: {$request->blood_type} blood needed",
-            "{$hospital->name} needs {$request->units} unit(s) of {$request->blood_type} blood (about "
-                .max(1, (int) round((float) $match->distance_km)).' km from you). Open Requests for you to accept or decline.',
+            "{$hospital->name} needs {$request->units} unit(s) of {$request->blood_type} blood{$distance}. "
+                .'Open Requests for you to accept or decline.',
             $request,
         );
     }

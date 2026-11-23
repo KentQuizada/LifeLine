@@ -20,14 +20,15 @@ class SearchableDonorsTest extends TestCase
         ]);
     }
 
-    public function test_only_verified_available_location_sharing_donors_are_searchable(): void
+    public function test_only_verified_available_donors_are_searchable(): void
     {
         $visible = $this->donor();
+        // DEC-026: not sharing a location no longer hides a donor; "Available" off does.
+        $withoutLocation = $this->donor(['location_sharing' => false, 'approx_latitude' => null, 'approx_longitude' => null]);
         $this->donor(['is_available' => false]);
-        $this->donor(['location_sharing' => false]);
         $this->donor(['verification_status' => 'pending']);
         $this->donor(['verification_status' => 'rejected']);
 
-        $this->assertSame([$visible->id], Donor::searchable()->pluck('id')->all());
+        $this->assertSame([$visible->id, $withoutLocation->id], Donor::searchable()->orderBy('id')->pluck('id')->all());
     }
 }

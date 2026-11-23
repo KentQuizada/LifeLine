@@ -47,7 +47,8 @@
             const who = element('div', 'flex-grow-1');
             const name = element('div', 'fw-semibold', match.donor ? match.donor.name : 'Potential donor');
             name.append(element('span', 'visually-hidden', ', blood type ' + match.blood_type));
-            who.append(name, element('div', 'small text-secondary', 'About ' + match.distance_km + ' km away'));
+            who.append(name, element('div', 'small text-secondary',
+                match.distance_km === null ? 'Distance unknown' : 'About ' + match.distance_km + ' km away'));
             header.append(tile, who, element('span', 'badge ' + (BADGES[match.status] || 'text-bg-secondary'), match.status_label));
             item.append(header);
 

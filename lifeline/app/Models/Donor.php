@@ -60,19 +60,25 @@ class Donor extends Model
     }
 
     /**
-     * Donors that matching (M2.3) and the map (M2.4) may show: verified by an admin,
-     * available, and sharing their approximate location. Both must start from this scope.
+     * Donors that matching (M2.3) may suggest: verified by an admin and available. A shared location is
+     * optional (DEC-026): it only puts the donor ahead of donors whose distance is unknown. A donor who
+     * does not want requests switches "Available" off.
      */
     public function scopeSearchable(Builder $query): void
     {
         $query->where('verification_status', 'verified')
-            ->where('is_available', true)
-            ->where('location_sharing', true);
+            ->where('is_available', true);
+    }
+
+    /** True when matching can measure this donor's distance (sharing on and a location saved). */
+    public function hasSharedLocation(): bool
+    {
+        return $this->location_sharing && $this->approx_latitude !== null && $this->approx_longitude !== null;
     }
 
     /**
-     * Potential donors for one request (DEC-016): searchable, compatible blood type, approximate
-     * coordinates set, no donation within the configured interval, not the requester, not matched yet.
+     * Potential donors for one request (DEC-016): searchable, compatible blood type, no donation within the
+     * configured interval, not the requester, not matched yet. A location is not required (DEC-026).
      */
     public function scopeEligibleFor(Builder $query, BloodRequest $bloodRequest): void
     {
@@ -82,8 +88,6 @@ class Donor extends Model
 
         $query->searchable()
             ->whereIn('blood_type', BloodRequest::COMPATIBLE_DONORS[$bloodRequest->blood_type])
-            ->whereNotNull('approx_latitude')
-            ->whereNotNull('approx_longitude')
             ->where('user_id', '!=', $bloodRequest->requester_id)
             ->whereDoesntHave('donations', fn (Builder $donations) => $donations->where('donated_on', '>', $lastAllowedDonation))
             ->whereDoesntHave('matches', fn (Builder $matches) => $matches->where('blood_request_id', $bloodRequest->id));

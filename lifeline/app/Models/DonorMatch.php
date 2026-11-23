@@ -155,6 +155,14 @@ class DonorMatch extends Model
         });
     }
 
+    /** "about 3 km" (never "0 km"), or "distance unknown" for a donor without a shared location (DEC-026). */
+    public function distanceLabel(string $suffix = ''): string
+    {
+        return $this->distance_km === null
+            ? 'distance unknown'
+            : 'about '.max(1, (int) round((float) $this->distance_km)).' km'.$suffix;
+    }
+
     /** The donation recorded through this match, if any (same donor and request). */
     public function donation(): Builder
     {

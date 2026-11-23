@@ -91,7 +91,7 @@
                             <a href="{{ route('admin.donors.show', $match->donor) }}">
                                 {{ $match->donor->user->first_name }} {{ $match->donor->user->last_name }}
                             </a>
-                            <span class="small text-secondary">{{ $match->donor->blood_type }} · about {{ max(1, (int) round((float) $match->distance_km)) }} km</span>
+                            <span class="small text-secondary">{{ $match->donor->blood_type }} · {{ $match->distanceLabel() }}</span>
                             <span class="badge {{ $match->status === 'accepted' ? 'text-bg-success' : ($match->status === 'declined' ? 'text-bg-secondary' : 'text-bg-warning') }}">
                                 {{ \App\Models\DonorMatch::STATUS_LABELS[$match->status] }}
                             </span>

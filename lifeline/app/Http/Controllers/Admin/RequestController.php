@@ -55,7 +55,7 @@ class RequestController extends Controller
             'hospital',
             'requester',
             'history' => fn ($query) => $query->with('changedBy')->orderBy('id'),
-            'matches' => fn ($query) => $query->with('donor.user')->orderBy('distance_km'),
+            'matches' => fn ($query) => $query->with('donor.user')->orderByRaw('distance_km IS NULL, distance_km'),
         ]);
 
         return view('admin.requests.show', [
