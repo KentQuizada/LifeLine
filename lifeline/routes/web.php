@@ -50,6 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])
         ->middleware('throttle:6,1,verification-send')
         ->name('verification.send');
+    Route::put('/email/verify/address', [EmailVerificationController::class, 'updateEmail'])
+        ->middleware('throttle:6,1,verification-address')
+        ->name('verification.address');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

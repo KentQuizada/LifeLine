@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Donor;
 use App\Models\User;
+use App\Support\EmailTypo;
 use App\Support\MobileNumber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -200,7 +201,7 @@ class RegisterController extends Controller
             'role' => ['required', Rule::in(self::ROLES)],
             'first_name' => ['required', 'string', 'max:100'],
             'last_name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'string', 'email', 'max:255', EmailTypo::rule(), 'unique:users,email'],
             'mobile_number' => ['required', 'regex:/^09\d{9}$/', 'unique:users,mobile_number'],
         ];
     }

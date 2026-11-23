@@ -90,4 +90,54 @@ class EmailVerificationTest extends TestCase
 
         Notification::assertSentTo($user, VerifyEmail::class);
     }
+
+    public function test_unverified_user_can_correct_a_mistyped_email(): void
+    {
+        Notification::fake();
+        $user = User::factory()->unverified()->create(['email' => 'juan@gmail.con']);
+
+        $this->actingAs($user)
+            ->from('/email/verify')
+            ->put('/email/verify/address', ['email' => ' Juan@Gmail.com '])
+            ->assertRedirect('/email/verify')
+            ->assertSessionHas('status');
+
+        $this->assertSame('juan@gmail.com', $user->fresh()->email);
+        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+        Notification::assertSentTo($user, VerifyEmail::class);
+    }
+
+    public function test_corrected_email_must_be_free_and_not_a_typo(): void
+    {
+        Notification::fake();
+        User::factory()->create(['email' => 'taken@example.test']);
+        $user = User::factory()->unverified()->create(['email' => 'juan@gmail.con']);
+
+        $this->actingAs($user)->put('/email/verify/address', ['email' => 'taken@example.test'])
+            ->assertSessionHasErrors('email');
+        $this->actingAs($user)->put('/email/verify/address', ['email' => 'juan@gmial.com'])
+            ->assertSessionHasErrors(['email' => 'Check your email address. Did you mean juan@gmail.com?']);
+
+        $this->assertSame('juan@gmail.con', $user->fresh()->email);
+        Notification::assertNothingSent();
+    }
+
+    public function test_verified_user_cannot_change_the_email_here(): void
+    {
+        $user = User::factory()->create(['email' => 'juan@example.test']);
+
+        $this->actingAs($user)->put('/email/verify/address', ['email' => 'other@example.test'])
+            ->assertRedirect(route('home'));
+
+        $this->assertSame('juan@example.test', $user->fresh()->email);
+    }
+
+    public function test_verify_page_offers_the_spam_tip_and_the_change_form(): void
+    {
+        $user = User::factory()->unverified()->create();
+
+        $this->actingAs($user)->get('/email/verify')
+            ->assertSee('Spam')
+            ->assertSee('Wrong email address? Change it');
+    }
 }

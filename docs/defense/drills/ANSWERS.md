@@ -4,7 +4,7 @@
 |---|---|---|---|
 | 01 | Error page: **syntax error, unexpected token "try"**, `BloodRequestController.php:40` | File and line on the error page, **then look just above** | Line 40 is where PHP noticed; the mistake is on line 36: the `;` after `submit($request->user(), $details)` is missing. Add it. |
 | 02 | **Page expired, Error 419** after "Log in" (the message blames time, but the form was just opened) | 419 = CSRF token missing | `resources/views/auth/login.blade.php`: `@csrf` was removed from the form. Add `@csrf` on the line after `<form ...>`. |
-| 03 | Home shows an error: **Route [requests.create] not defined** | Search `requests.create` (Ctrl+Shift+F) | `routes/web.php` line 70: the route is named `request.create`. Rename it back to `requests.create`. |
+| 03 | Home shows an error: **Route [requests.create] not defined** | Search `requests.create` (Ctrl+Shift+F) | `routes/web.php` line 73: the route is named `request.create`. Rename it back to `requests.create`. |
 | 04 | Tracking says **"No request found"** for a real reference | F12 → Network: `/api/v1/request/track/...` is **404** | `resources/views/requests/track.blade.php` line 9: `data-api` points to `/api/v1/request/track`. It must be `/api/v1/requests/track` (see `routes/api.php`). |
 | 05 | Error: **Undefined variable $bloodRequest** in `requests/show.blade.php` | The view needs `$bloodRequest`; who sends it? | `BloodRequestController::show()` line 56 passes `'request' => $record`. Change the key back to `'bloodRequest'`. |
 | 06 | No error, but the **notes** you typed are not on the request page | The form sends notes; the database row has none | `app/Models/BloodRequest.php`: `'notes'` was removed from `$fillable`, so Laravel ignores it. Add `'notes',` back. |

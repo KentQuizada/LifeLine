@@ -160,6 +160,15 @@ class RegistrationTest extends TestCase
             ->assertSessionHasErrors('mobile_number');
     }
 
+    public function test_mistyped_email_provider_is_caught_with_a_suggestion(): void
+    {
+        $this->post('/register', $this->step1(['email' => 'Maria@Gmail.con']))
+            ->assertSessionHasErrors(['email' => 'Check your email address. Did you mean maria@gmail.com?']);
+
+        $this->post('/register', $this->step1(['email' => 'maria@gmail.com']))
+            ->assertSessionDoesntHaveErrors();
+    }
+
     public function test_invalid_mobile_number_is_rejected(): void
     {
         $this->post('/register', $this->step1(['mobile_number' => '12345']))->assertSessionHasErrors('mobile_number');
