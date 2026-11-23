@@ -115,6 +115,14 @@ final class Alerts
         );
     }
 
+    /** Reserved test domains (RFC 2606/6761) that never receive mail: *.test, example.com, *.invalid... */
+    public static function isTestAddress(string $email): bool
+    {
+        $domain = strtolower(substr(strrchr($email, '@') ?: '', 1));
+
+        return (bool) preg_match('/(^|\.)(test|example|invalid|localhost)$|(^|\.)example\.(com|net|org)$/', $domain);
+    }
+
     public static function send(User $user, string $title, string $message, ?BloodRequest $request = null): void
     {
         try {
@@ -130,6 +138,11 @@ final class Alerts
 
         // Users who turned notifications off get in-app alerts only (Notifications invariant).
         if (! $user->notifications_enabled || ! $user->hasVerifiedEmail()) {
+            return;
+        }
+
+        // Made-up demo addresses only bounce (see config/lifeline.php).
+        if (config('lifeline.skip_email_to_test_domains') && self::isTestAddress($user->email)) {
             return;
         }
 

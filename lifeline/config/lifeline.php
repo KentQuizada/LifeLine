@@ -25,4 +25,9 @@ return [
     // new accounts count as verified at sign-up. Keep it off wherever real email works.
     'auto_verify_email' => (bool) env('AUTO_VERIFY_EMAIL', false),
 
+    // Demo and sample accounts use made-up addresses (@lifeline.test, @example.com). Emailing them only
+    // bounces, and many bounces can get the Brevo account suspended, so alerts reach them in-app only.
+    // The tests turn this off (phpunit.xml) because the factories use example.com addresses.
+    'skip_email_to_test_domains' => (bool) env('SKIP_EMAIL_TO_TEST_DOMAINS', true),
+
 ];

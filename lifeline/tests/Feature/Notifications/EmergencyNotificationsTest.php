@@ -70,6 +70,29 @@ class EmergencyNotificationsTest extends TestCase
             fn (LifeLineAlert $alert) => str_contains($alert->message, $this->hospital->name));
     }
 
+    public function test_made_up_demo_addresses_get_in_app_alerts_but_no_email(): void
+    {
+        config(['lifeline.skip_email_to_test_domains' => true]);
+        $demo = $this->donor(['email' => 'donor@lifeline.test']);
+        $real = $this->donor(['email' => 'maria.santos@gmail.com']);
+
+        $this->submit();
+
+        $this->assertDatabaseHas('notifications', ['user_id' => $demo->user_id]);
+        NotificationFacade::assertNotSentTo($demo->user, LifeLineAlert::class);
+        NotificationFacade::assertSentTo($real->user, LifeLineAlert::class);
+    }
+
+    public function test_reserved_test_domains_are_recognised(): void
+    {
+        foreach (['a@lifeline.test', 'a@example.com', 'a@mail.example.org', 'a@x.invalid', 'a@localhost'] as $email) {
+            $this->assertTrue(\App\Support\Alerts::isTestAddress($email), $email);
+        }
+        foreach (['a@gmail.com', 'a@carsu.edu.ph', 'a@myexample.com', 'a@testing.ph'] as $email) {
+            $this->assertFalse(\App\Support\Alerts::isTestAddress($email), $email);
+        }
+    }
+
     public function test_donors_who_turned_notifications_off_get_in_app_alerts_only(): void
     {
         $donor = $this->donor(['notifications_enabled' => false]);
