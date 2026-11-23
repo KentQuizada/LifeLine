@@ -1,0 +1,13 @@
+diff --git a/lifeline/public/js/lifeline.js b/lifeline/public/js/lifeline.js
+index d2ec55e..947df35 100644
+--- a/lifeline/public/js/lifeline.js
++++ b/lifeline/public/js/lifeline.js
+@@ -48,7 +48,7 @@
+         if (!button) return;
+         const field = document.getElementById(button.dataset.togglePassword);
+         if (!field) return;
+-        const show = field.type === 'password';
++        const show = feild.type === 'password';
+         field.type = show ? 'text' : 'password';
+         button.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+         button.querySelector('i').className = show ? 'bi bi-eye-slash' : 'bi bi-eye';

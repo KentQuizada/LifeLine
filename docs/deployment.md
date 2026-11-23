@@ -140,6 +140,12 @@ DB_URL=        (Railway → MySQL service → Variables → MYSQL_PUBLIC_URL, th
 SESSION_DRIVER=cookie
 ```
 
+   First turn on the database's public address: Railway → MySQL → Settings → Networking → **Add Public
+   Access**, then **Deploy** the staged changes (until then the address has an empty host). Copy
+   MYSQL_PUBLIC_URL with the **eye icon** so you get the real value (`mysql://root:...@xxx.proxy.rlwy.net:PORT/railway`);
+   the Raw Editor shows the `${{...}}` template instead, which makes Laravel stop with "The database
+   configuration URL is malformed".
+
    Leave out `PORT` (Vercel and the container both default to 80). Use the same `APP_KEY` and
    `SEED_PASSWORD` as Railway so the demo accounts keep their password. Copy the MAIL_ and BREVO_ lines too.
 5. **Deploy**. When it finishes, put the vercel.app link in **APP_URL** (Settings → Environment Variables)

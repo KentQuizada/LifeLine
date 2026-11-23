@@ -1,0 +1,11 @@
+diff --git a/lifeline/resources/views/partials/head.blade.php b/lifeline/resources/views/partials/head.blade.php
+index 0b3e9db..64dfc84 100644
+--- a/lifeline/resources/views/partials/head.blade.php
++++ b/lifeline/resources/views/partials/head.blade.php
+@@ -9,5 +9,5 @@
+ <title>@yield('title', 'LifeLine') | LifeLine</title>
+ <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.min.css') }}">
+ <link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.min.css') }}">
+-<link rel="stylesheet" href="{{ asset('css/lifeline.css') }}">
++<link rel="stylesheet" href="{{ asset('css/lifline.css') }}">
+ @stack('head')

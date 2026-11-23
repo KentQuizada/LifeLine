@@ -1,0 +1,12 @@
+diff --git a/lifeline/resources/views/auth/login.blade.php b/lifeline/resources/views/auth/login.blade.php
+index d50b2bf..6f0ff17 100644
+--- a/lifeline/resources/views/auth/login.blade.php
++++ b/lifeline/resources/views/auth/login.blade.php
+@@ -10,7 +10,6 @@
+     </div>
+ 
+     <form method="POST" action="{{ route('login') }}" class="card card-body shadow-sm" data-submit-once>
+-        @csrf
+ 
+         <div class="mb-3">
+             <label for="login" class="form-label">Email or mobile number</label>

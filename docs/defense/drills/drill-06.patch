@@ -1,0 +1,12 @@
+diff --git a/lifeline/app/Models/BloodRequest.php b/lifeline/app/Models/BloodRequest.php
+index 00e3cd2..791b4f5 100644
+--- a/lifeline/app/Models/BloodRequest.php
++++ b/lifeline/app/Models/BloodRequest.php
+@@ -67,7 +67,6 @@ class BloodRequest extends Model
+         'blood_type',
+         'units',
+         'urgency',
+-        'notes',
+     ];
+ 
+     protected function casts(): array

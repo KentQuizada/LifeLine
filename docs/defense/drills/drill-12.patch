@@ -1,0 +1,13 @@
+diff --git a/lifeline/resources/views/requests/show.blade.php b/lifeline/resources/views/requests/show.blade.php
+index 8a4998d..e68d77e 100644
+--- a/lifeline/resources/views/requests/show.blade.php
++++ b/lifeline/resources/views/requests/show.blade.php
+@@ -22,7 +22,7 @@
+             <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                 <div>
+                     <div class="small text-secondary">Reference number</div>
+-                    <div class="fw-bold font-monospace">{{ $bloodRequest->reference_number }}</div>
++                    <div class="fw-bold font-monospace">{{ $bloodRequest->reference_numbr }}</div>
+                 </div>
+                 @include('partials.request-status', ['status' => $bloodRequest->status])
+             </div>

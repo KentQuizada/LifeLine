@@ -1,0 +1,13 @@
+diff --git a/lifeline/app/Http/Controllers/BloodRequestController.php b/lifeline/app/Http/Controllers/BloodRequestController.php
+index 1db8488..52d07c1 100644
+--- a/lifeline/app/Http/Controllers/BloodRequestController.php
++++ b/lifeline/app/Http/Controllers/BloodRequestController.php
+@@ -33,7 +33,7 @@ public function store(Request $request): RedirectResponse
+             'notes' => ['nullable', 'string', 'max:500'],
+         ]);
+ 
+-        $bloodRequest = BloodRequest::submit($request->user(), $details);
++        $bloodRequest = BloodRequest::submit($request->user(), $details)
+ 
+         // Rule-based matching right away (DEC-016). M2.5 notifies the matched donors.
+         // The request is already saved: if matching fails, log it and let the requester use "Find more donors".

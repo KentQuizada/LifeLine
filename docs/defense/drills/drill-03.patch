@@ -1,0 +1,13 @@
+diff --git a/lifeline/routes/web.php b/lifeline/routes/web.php
+index b031b13..b86a8ac 100644
+--- a/lifeline/routes/web.php
++++ b/lifeline/routes/web.php
+@@ -67,7 +67,7 @@
+         ->name('alerts.open');
+ 
+     Route::get('/requests', [BloodRequestController::class, 'index'])->name('requests.index');
+-    Route::get('/requests/new', [BloodRequestController::class, 'create'])->name('requests.create');
++    Route::get('/requests/new', [BloodRequestController::class, 'create'])->name('request.create');
+     // The third throttle argument gives this limit its own counter. Without it, Laravel counts every
+     // throttle:x,y route for the same user (or guest IP) together.
+     Route::post('/requests', [BloodRequestController::class, 'store'])

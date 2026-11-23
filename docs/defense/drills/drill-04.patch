@@ -1,0 +1,13 @@
+diff --git a/lifeline/resources/views/requests/track.blade.php b/lifeline/resources/views/requests/track.blade.php
+index 4747d82..f2f2be4 100644
+--- a/lifeline/resources/views/requests/track.blade.php
++++ b/lifeline/resources/views/requests/track.blade.php
+@@ -6,7 +6,7 @@
+     <h1 class="h4 fw-bold"><i class="bi bi-search text-brand" aria-hidden="true"></i> Track a request</h1>
+     <p class="text-secondary">Enter the reference number you received, for example LL-261114-ABC234.</p>
+ 
+-    <form id="track-form" class="card card-body shadow-sm mb-3" data-api="{{ url('/api/v1/requests/track') }}">
++    <form id="track-form" class="card card-body shadow-sm mb-3" data-api="{{ url('/api/v1/request/track') }}">
+         <label for="reference" class="form-label">Reference number</label>
+         <input id="reference" name="reference" type="text" required maxlength="24"
+                pattern="[Ll][Ll]-[0-9]{6}-[A-Za-z0-9]{6}" title="LL-YYMMDD-XXXXXX"

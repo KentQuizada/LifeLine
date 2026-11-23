@@ -1,0 +1,13 @@
+diff --git a/lifeline/app/Models/Donor.php b/lifeline/app/Models/Donor.php
+index e7261da..0acb465 100644
+--- a/lifeline/app/Models/Donor.php
++++ b/lifeline/app/Models/Donor.php
+@@ -66,7 +66,7 @@ public function lastDonationOn(): ?Carbon
+     public function scopeSearchable(Builder $query): void
+     {
+         $query->where('verification_status', 'verified')
+-            ->where('is_available', true)
++            ->where('is_available', false)
+             ->where('location_sharing', true);
+     }
+ 
